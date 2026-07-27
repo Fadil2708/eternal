@@ -4674,6 +4674,17 @@ textarea.input { resize: vertical; line-height: 1.6; }
     color: #C0392B;
     transform: scale(1.03);
 }
+.galeri-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    display: block;
+    transition: transform 0.3s ease;
+}
+.galeri-card:hover .galeri-img {
+    transform: scale(1.03);
+}
 .galeri-cta {
     text-align: center;
     margin-top: 20px;

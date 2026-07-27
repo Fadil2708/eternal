@@ -5,24 +5,16 @@
     </div>
     <div class="galeri-grid">
         <div class="galeri-card">
-            <div class="galeri-placeholder">
-                <i class="ti ti-photo"></i>
-            </div>
+            <img src="{{ asset('images/gallery/gedungtelkom.webp') }}" alt="Gedung Telkom Sukabumi" class="galeri-img" loading="lazy">
         </div>
         <div class="galeri-card">
-            <div class="galeri-placeholder">
-                <i class="ti ti-photo"></i>
-            </div>
+            <img src="{{ asset('images/gallery/pelatihan-umkm.jpg') }}" alt="Pelatihan UMKM Telkom Sukabumi" class="galeri-img" loading="lazy">
         </div>
         <div class="galeri-card">
-            <div class="galeri-placeholder">
-                <i class="ti ti-photo"></i>
-            </div>
+            <img src="{{ asset('images/gallery/telkom-meet-kantor.webp') }}" alt="Kegiatan Kantor Telkom Sukabumi" class="galeri-img" loading="lazy">
         </div>
         <div class="galeri-card">
-            <div class="galeri-placeholder">
-                <i class="ti ti-photo"></i>
-            </div>
+            <img src="{{ asset('images/gallery/digitalisasi-umkm.jpg') }}" alt="Digitalisasi UMKM Telkom Sukabumi" class="galeri-img" loading="lazy">
         </div>
     </div>
     <div class="galeri-cta">
