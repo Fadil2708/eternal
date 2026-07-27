@@ -5,7 +5,7 @@ namespace App\Livewire\Supervisor;
 use App\Models\SupervisorProfile;
 use Livewire\Component;
 
-class SupervisorProfileForm extends Component
+class ProfileForm extends Component
 {
     public $full_name = '';
     public $employee_id = '';
