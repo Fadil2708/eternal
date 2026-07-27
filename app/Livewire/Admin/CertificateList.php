@@ -51,7 +51,7 @@ class CertificateList extends Component
     {
         $certificates = Certificate::with(['intern.internProfile', 'issuedBy'])
             ->when($this->search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', "%{$this->search}%")
+                $p->where('full_name', 'like', '%' . $this->search . '%')
             ))
             ->when($this->filterGrade, fn($q) => $q->where('grade', $this->filterGrade))
             ->latest()

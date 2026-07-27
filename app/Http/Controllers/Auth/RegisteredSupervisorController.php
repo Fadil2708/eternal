@@ -10,7 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
+use Illuminate\Validation\Rules\Password;
 
 class RegisteredSupervisorController extends Controller
 {
@@ -18,7 +18,7 @@ class RegisteredSupervisorController extends Controller
     {
         $params = ['role' => 'supervisor'];
         if ($request->has('code')) {
-            $params['code'] = $request->query('code');
+            $params['code'] = $request->input('code');
         }
         return redirect()->route('register', $params);
     }
@@ -28,7 +28,7 @@ class RegisteredSupervisorController extends Controller
         $request->validate([
             'code' => ['required', 'string', 'size:8'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
         ]);
 
         $invite = RegistrationInvite::where('code', $request->code)->first();

@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Password;
 
 class RegisterRequest extends FormRequest
 {
@@ -12,7 +13,7 @@ class RegisterRequest extends FormRequest
     {
         return [
             'email'    => 'required|email|unique:users,email',
-            'password' => 'required|min:8|confirmed',
+            'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
         ];
     }
 }

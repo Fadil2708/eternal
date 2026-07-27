@@ -23,7 +23,7 @@ class LogbookService
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
             ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', "%{$search}%")
+                $p->where('full_name', 'like', '%' . $search . '%')
             ))
             ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
             ->latest('activity_date')
@@ -35,7 +35,7 @@ class LogbookService
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
             ->whereHas('internship', fn(Builder $q) => $q->where('supervisor_id', $supervisorId))
             ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', "%{$search}%")
+                $p->where('full_name', 'like', '%' . $search . '%')
             ))
             ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
             ->latest('activity_date')
@@ -93,7 +93,7 @@ class LogbookService
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
             ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', "%{$search}%")
+                $p->where('full_name', 'like', '%' . $search . '%')
             ))
             ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
             ->latest()
@@ -112,7 +112,7 @@ class LogbookService
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
             ->whereHas('internship', fn($q) => $q->where('supervisor_id', $supervisorId))
             ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', "%{$search}%")
+                $p->where('full_name', 'like', '%' . $search . '%')
             ))
             ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
             ->latest()

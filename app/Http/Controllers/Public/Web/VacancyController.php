@@ -18,8 +18,8 @@ class VacancyController extends Controller
 
         if ($search = $request->get('search')) {
             $query->where(function ($q) use ($search) {
-                $q->where('title', 'like', "%{$search}%")
-                  ->orWhere('division', 'like', "%{$search}%");
+                $q->where('title', 'like', '%' . $search . '%')
+                  ->orWhere('division', 'like', '%' . $search . '%');
             });
         }
 

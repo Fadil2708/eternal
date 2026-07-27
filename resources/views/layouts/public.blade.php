@@ -107,7 +107,6 @@
             <a href="{{ route('public.tentang-kami') }}"
                class="{{ request()->routeIs('public.tentang-kami*') ? 'nav-active' : '' }}">Tentang Kami</a>
 
-            {{-- Mobile-only auth buttons --}}
             <hr class="nav-mobile-hr">
             <div class="nav-mobile-auth">
                 @auth

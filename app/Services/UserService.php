@@ -12,9 +12,9 @@ class UserService
     {
         return User::with(['internProfile', 'supervisorProfile'])
             ->when($search, fn($q) => $q->where(function ($q) use ($search) {
-                $q->where('email', 'like', "%{$search}%")
-                  ->orWhereHas('internProfile', fn($p) => $p->where('full_name', 'like', "%{$search}%"))
-                  ->orWhereHas('supervisorProfile', fn($p) => $p->where('full_name', 'like', "%{$search}%"));
+                $q->where('email', 'like', '%' . $search . '%')
+                  ->orWhereHas('internProfile', fn($p) => $p->where('full_name', 'like', '%' . $search . '%'))
+                  ->orWhereHas('supervisorProfile', fn($p) => $p->where('full_name', 'like', '%' . $search . '%'));
             }))
             ->when($filterRole, fn($q) => $q->where('role', $filterRole))
             ->orderBy('created_at', 'desc')
