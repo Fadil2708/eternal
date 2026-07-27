@@ -28,7 +28,7 @@
     <div class="auth-split" x-data="{ role: '@yield('auth-init', 'intern')' }">
         <div class="auth-brand">
             <div class="auth-brand-content">
-                <picture><source srcset="{{ asset('images/TLK.webp') }}" type="image/webp"><img src="{{ asset('images/TLK.png') }}" alt="Telkom" class="brand-icon-img" width="56" height="56"></picture>
+                <picture><source srcset="{{ asset('images/TLK.webp') }}" type="image/webp"><img src="{{ asset('images/TLK.webp') }}" alt="Telkom" class="brand-icon-img" width="56" height="56"></picture>
                 <h1>Telkom Sukabumi</h1>
                 <p class="brand-sub" x-show="role === 'intern'">Mulai Perjalanan Magang & PKL Anda</p>
                 <p class="brand-sub" x-show="role === 'supervisor'" x-cloak>Bimbing Generasi Baru Indonesia</p>

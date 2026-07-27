@@ -10,7 +10,7 @@
        x-transition:enter-end="translate-x-0">
     <div class="sidebar-header">
         <a href="{{ route('dashboard') }}" class="sidebar-logo">
-            <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.png') }}" alt="Telkom Sukabumi" class="sidebar-logo-img"></picture>
+            <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.webp') }}" alt="Telkom Sukabumi" class="sidebar-logo-img"></picture>
         </a>
     </div>
 

@@ -10,7 +10,7 @@
     <div class="welcome-hero-inner">
         <div class="welcome-hero-content" data-reveal>
             <div class="hero-brand">
-                <picture><source srcset="{{ asset('images/TLK.webp') }}" type="image/webp"><img src="{{ asset('images/TLK.png') }}" alt="Telkom" class="hero-brand-logo-img" width="48" height="48"></picture>
+                <picture><source srcset="{{ asset('images/TLK.webp') }}" type="image/webp"><img src="{{ asset('images/TLK.webp') }}" alt="Telkom" class="hero-brand-logo-img" width="48" height="48"></picture>
                 <div class="hero-brand-text">
                     <div class="hero-brand-name">Telkom Sukabumi</div>
                     <div class="hero-brand-sub">Sistem Informasi Pengelolaan Magang & PKL</div>
@@ -44,7 +44,7 @@
             <div class="hero-visual-frame">
                 <picture>
                     <source srcset="{{ asset('images/gedungtelkom.webp') }}" type="image/webp">
-                    <img src="{{ asset('images/gedungtelkom.jpg') }}"
+                    <img src="{{ asset('images/gedungtelkom.webp') }}"
                          alt="Gedung Telkom Sukabumi"
                          class="hero-visual-img"
                          width="800" height="600"

@@ -19,11 +19,11 @@
     <meta property="og:description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/TLK_BIG.png') }}">
+    <meta property="og:image" content="{{ asset('images/TLK_BIG.webp') }}">
     <meta property="og:image:width" content="1583">
     <meta property="og:image:height" content="864">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ asset('images/TLK_BIG.png') }}">
+    <meta name="twitter:image" content="{{ asset('images/TLK_BIG.webp') }}">
 
     {{-- Fonts — preconnect + preload + optimized load --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,7 +89,7 @@
          @click.away="close"
          @keydown.escape.window="close">
         <a href="{{ url('/') }}" class="public-nav-logo">
-            <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.png') }}" alt="Telkom Sukabumi"></picture>
+            <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.webp') }}" alt="Telkom Sukabumi"></picture>
         </a>
 
         <button @click="toggle" class="public-nav-toggle" aria-label="Menu">
@@ -149,7 +149,7 @@
         <div class="public-footer-grid">
             <div class="public-footer-brand">
                 <div class="public-footer-logo">
-                    <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.png') }}" alt="Telkom Sukabumi" height="28"></picture>
+                    <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.webp') }}" alt="Telkom Sukabumi" height="28"></picture>
                 </div>
                 <p class="public-footer-desc">Sistem informasi terpadu untuk pendaftaran, monitoring, dan evaluasi program magang dan PKL di lingkungan Telkom Sukabumi.</p>
                 <div class="public-footer-social">
@@ -196,7 +196,7 @@
             <div class="public-footer-col">
                 <h4 class="public-footer-title">Lokasi</h4>
                 <a href="https://maps.app.goo.gl/FQyBPdFQeCeWGrug6" target="_blank" rel="noopener noreferrer" class="public-footer-map">
-                    <picture><source srcset="{{ asset('images/map-thumbnail.webp') }}" type="image/webp"><img src="{{ asset('images/map-thumbnail.png') }}" alt="Peta lokasi Telkom Sukabumi" loading="lazy"></picture>
+                    <picture><source srcset="{{ asset('images/map-thumbnail.webp') }}" type="image/webp"><img src="{{ asset('images/map-thumbnail.webp') }}" alt="Peta lokasi Telkom Sukabumi" loading="lazy"></picture>
                 </a>
             </div>
         </div>

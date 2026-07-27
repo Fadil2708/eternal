@@ -1,8 +1,8 @@
 @php
     $offerSlides = [
-        ['label' => '01. Pendaftaran Online', 'desc' => 'Daftar magang secara digital, pantau status lamaran secara real-time tanpa perlu datang ke kantor', 'image' => asset('images/pendaftaran-online.jpg'), 'imageWebp' => asset('images/pendaftaran-online.webp')],
-        ['label' => '02. Logbook & Bimbingan', 'desc' => 'Catat kegiatan harian, kirim laporan, dan dapatkan bimbingan langsung dari pembimbing lapangan', 'image' => asset('images/telkom-meet-kantor.jpg'), 'imageWebp' => asset('images/telkom-meet-kantor.webp')],
-        ['label' => '03. Sertifikat Digital', 'desc' => 'Dapatkan sertifikat resmi dengan QR code yang bisa diverifikasi secara publik kapan saja', 'image' => asset('images/sertifikat-digital.jpg'), 'imageWebp' => asset('images/sertifikat-digital.webp')],
+        ['label' => '01. Pendaftaran Online', 'desc' => 'Daftar magang secara digital, pantau status lamaran secara real-time tanpa perlu datang ke kantor', 'image' => asset('images/pendaftaran-online.webp'), 'imageWebp' => asset('images/pendaftaran-online.webp')],
+        ['label' => '02. Logbook & Bimbingan', 'desc' => 'Catat kegiatan harian, kirim laporan, dan dapatkan bimbingan langsung dari pembimbing lapangan', 'image' => asset('images/telkom-meet-kantor.webp'), 'imageWebp' => asset('images/telkom-meet-kantor.webp')],
+        ['label' => '03. Sertifikat Digital', 'desc' => 'Dapatkan sertifikat resmi dengan QR code yang bisa diverifikasi secara publik kapan saja', 'image' => asset('images/sertifikat-digital.webp'), 'imageWebp' => asset('images/sertifikat-digital.webp')],
     ];
 @endphp
 <div class="welcome-offer" id="section-offer" data-reveal
