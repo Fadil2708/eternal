@@ -22,6 +22,9 @@ WORKDIR /var/www/html
 
 COPY . .
 
+RUN php -r "file_exists('.env') || copy('.env.example', '.env');" \
+    && php -r "file_put_contents('.env', preg_replace('/^APP_KEY=.*/m', 'APP_KEY=' . 'base64:' . base64_encode(random_bytes(32)), file_get_contents('.env')));"
+
 RUN composer install --no-dev --optimize-autoloader \
     && npm install \
     && npm run build \
