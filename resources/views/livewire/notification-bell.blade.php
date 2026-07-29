@@ -25,7 +25,7 @@
         </div>
 
         <div class="topbar-notif-list">
-            @forelse($recentNotifications as $notif)
+            @forelse($notifications as $notif)
                 @php $data = $notif['data']; @endphp
                 <a href="{{ $data['url'] ?? '#' }}"
                    wire:click="markAsRead('{{ $notif['id'] }}')"
