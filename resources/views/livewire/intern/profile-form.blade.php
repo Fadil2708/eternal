@@ -29,8 +29,8 @@
                 <div class="profile-display">
                     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
                         <div class="profile-avatar">
-                            @if($photo_url)
-                                <img src="{{ $photo_url }}" alt="Foto Profil" loading="lazy" width="64" height="64">
+                            @if($existingPhoto)
+                                <img src="{{ $existingPhoto }}" alt="Foto Profil" loading="lazy" width="64" height="64">
                             @else
                                 {{ strtoupper(substr($full_name, 0, 1)) }}
                             @endif
@@ -105,8 +105,8 @@
 
                     <div class="form-section-title" style="margin-top:24px">Dokumen</div>
                     <div class="profile-docs">
-                        @if($photo_url)
-                            <a href="{{ $photo_url }}" target="_blank" class="profile-doc done">
+                        @if($existingPhoto)
+                            <a href="{{ $existingPhoto }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>Foto Profil</span>
                             </a>
@@ -116,8 +116,8 @@
                                 <span>Foto Profil</span>
                             </span>
                         @endif
-                        @if($cv_url)
-                            <a href="{{ $cv_url }}" target="_blank" class="profile-doc done">
+                        @if($existingCv)
+                            <a href="{{ $existingCv }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>CV / Resume</span>
                             </a>
@@ -127,8 +127,8 @@
                                 <span>CV / Resume</span>
                             </span>
                         @endif
-                        @if($cover_letter_url)
-                            <a href="{{ $cover_letter_url }}" target="_blank" class="profile-doc done">
+                        @if($existingCoverLetter)
+                            <a href="{{ $existingCoverLetter }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>Cover Letter</span>
                             </a>
@@ -234,7 +234,7 @@
                             <label>Foto Profil</label>
                             <input wire:model="photo" type="file" accept="image/jpg,image/jpeg,image/png" class="input">
                             @error('photo') <div class="field-error">{{ $message }}</div> @enderror
-                            @if($existing_photo_url)
+                            @if($existingPhoto)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
                                     <i class="ti ti-circle-check"></i> Foto terunggah
                                 </div>
@@ -244,7 +244,7 @@
                             <label>CV / Resume</label>
                             <input wire:model="cv" type="file" accept=".pdf" class="input">
                             @error('cv') <div class="field-error">{{ $message }}</div> @enderror
-                            @if($existing_cv_url)
+                            @if($existingCv)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
                                     <i class="ti ti-circle-check"></i> CV terunggah
                                 </div>
@@ -254,7 +254,7 @@
                             <label>Cover Letter</label>
                             <input wire:model="cover_letter" type="file" accept=".pdf" class="input">
                             @error('cover_letter') <div class="field-error">{{ $message }}</div> @enderror
-                            @if($existing_cover_letter_url)
+                            @if($existingCoverLetter)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
                                     <i class="ti ti-circle-check"></i> Cover Letter terunggah
                                 </div>
