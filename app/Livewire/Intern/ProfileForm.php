@@ -29,11 +29,14 @@ class ProfileForm extends Component
     public $existingCv = null;
     public $existingCoverLetter = null;
     public $allSkills = [];
+    public bool $isEditing = false;
+    public bool $hasProfile = false;
 
     public function mount(): void
     {
         $profile = InternProfile::where('user_id', auth()->id())->first();
         $this->allSkills = Skill::orderBy('name')->get();
+        $this->hasProfile = $profile !== null;
 
         if ($profile) {
             $this->full_name = $profile->full_name ?? '';
