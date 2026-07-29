@@ -89,17 +89,6 @@ class LogbookService
         }
     }
 
-    public function getAdminPaginatedList(string $filterStatus = '', string $search = ''): LengthAwarePaginator
-    {
-        return Logbook::with(['intern.internProfile', 'internship.vacancy'])
-            ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', '%' . $search . '%')
-            ))
-            ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
-            ->latest()
-            ->paginate(10);
-    }
-
     public function getInternPaginatedList(string $internId): LengthAwarePaginator
     {
         return Logbook::where('intern_id', $internId)
