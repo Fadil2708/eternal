@@ -14,6 +14,7 @@ class EvaluationForm extends Component
     public $completedInternships;
 
     public bool $showForm = false;
+    public bool $confirmingSave = false;
 
     public float $soft_skill_score = 0;
     public float $hard_skill_score = 0;
@@ -63,6 +64,7 @@ class EvaluationForm extends Component
     public function save(): void
     {
         $this->validate();
+        $this->confirmingSave = false;
 
         if ($this->evaluation) {
             $this->evaluation->update([
@@ -86,6 +88,11 @@ class EvaluationForm extends Component
 
         $this->evaluationService->calculateScore($this->evaluation);
         $this->dispatch('toast', message: 'Evaluasi berhasil disimpan.', type: 'success');
+    }
+
+    public function confirmSave(): void
+    {
+        $this->confirmingSave = true;
     }
 
     public function render()

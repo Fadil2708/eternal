@@ -29,6 +29,7 @@ class ProfileForm extends Component
     public $existingCv = null;
     public $existingCoverLetter = null;
     public $allSkills = [];
+    public $skillsList = [];
     public bool $isEditing = false;
     public bool $hasProfile = false;
 
@@ -52,6 +53,7 @@ class ProfileForm extends Component
             $this->existingCv = $profile->cv_url;
             $this->existingCoverLetter = $profile->cover_letter_url;
             $this->selectedSkills = $profile->skills->pluck('id')->map(fn($id) => (string) $id)->toArray();
+            $this->skillsList = $profile->skills;
         }
     }
 

@@ -13,6 +13,8 @@ class FinalReportForm extends Component
     public $title = '';
     public $file;
     public $existingReport = null;
+    public bool $hasActiveInternship = false;
+    public bool $canUpload = false;
 
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -28,6 +30,14 @@ class FinalReportForm extends Component
         if ($this->existingReport) {
             $this->title = $this->existingReport->title;
         }
+
+        $internship = \App\Models\Internship::where('intern_id', auth()->id())
+            ->whereIn('status', ['active', 'extended'])
+            ->latest()
+            ->first();
+        $this->hasActiveInternship = $internship !== null;
+        $this->canUpload = $this->hasActiveInternship
+            && (!$this->existingReport || $this->existingReport->supervisor_approval !== 'approved');
     }
 
     public function upload(): void

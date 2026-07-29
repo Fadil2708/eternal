@@ -10,6 +10,10 @@ class ReportReview extends Component
 {
     use WithPagination;
 
+    public string $filterStatus = '';
+
+    public function updatingFilterStatus(): void { $this->resetPage(); }
+
     private function baseQuery()
     {
         return FinalReport::with(['intern.internProfile', 'internship.vacancy'])
@@ -19,6 +23,7 @@ class ReportReview extends Component
     public function render()
     {
         $reports = $this->baseQuery()
+            ->when($this->filterStatus, fn($q) => $q->where('supervisor_approval', $this->filterStatus))
             ->latest('submitted_at')
             ->paginate(10);
 

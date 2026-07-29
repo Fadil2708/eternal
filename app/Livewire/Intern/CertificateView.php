@@ -10,9 +10,13 @@ class CertificateView extends Component
 {
     public $certificate = null;
     public $evaluation = null;
+    public bool $hasCompletedInternship = false;
 
     public function mount(): void
     {
+        $this->hasCompletedInternship = \App\Models\Internship::where('intern_id', auth()->id())
+            ->where('status', 'completed')->exists();
+
         $this->certificate = Certificate::with(['intern.internProfile', 'issuedBy'])
             ->where('intern_id', auth()->id())
             ->latest()

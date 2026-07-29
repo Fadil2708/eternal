@@ -9,11 +9,20 @@ class TestimonialForm extends Component
     public int $rating = 5;
     public string $content = '';
     public bool $submitted = false;
+    public bool $hasCompletedInternship = false;
+    public bool $alreadySubmitted = false;
 
     protected $rules = [
         'rating' => 'required|integer|min:1|max:5',
         'content' => 'required|string|max:1000',
     ];
+
+    public function mount(): void
+    {
+        $this->hasCompletedInternship = \App\Models\Internship::where('intern_id', auth()->id())
+            ->where('status', 'completed')->exists();
+        $this->alreadySubmitted = \App\Models\Testimonial::where('intern_id', auth()->id())->exists();
+    }
 
     public function submit(): void
     {

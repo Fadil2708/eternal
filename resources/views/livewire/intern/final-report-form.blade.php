@@ -6,27 +6,27 @@
                 <a href="{{ route('intern.vacancies') }}" class="link-brand" style="display:inline-block;margin-top:12px">Cari Lowongan</a>
             </div>
         @else
-            @if($report && $report->supervisor_approval === 'approved')
+            @if($existingReport && $existingReport->supervisor_approval === 'approved')
                 <div class="banner banner-success">
                     <div class="banner-flex">
                         <i class="ti ti-circle-check banner-icon" style="color:#16A34A"></i>
                         <div>
                             <h3 class="banner-title">Laporan Akhir Disetujui</h3>
-                            <p class="banner-desc">Judul: {{ $report->title }}</p>
+                            <p class="banner-desc">Judul: {{ $existingReport->title }}</p>
                         </div>
                     </div>
                 </div>
-            @elseif($report && $report->supervisor_approval === 'pending')
+            @elseif($existingReport && $existingReport->supervisor_approval === 'pending')
                 <div class="banner banner-warning">
                     <div class="banner-flex">
                         <i class="ti ti-clock banner-icon"></i>
                         <div>
                             <h3 class="banner-title">Laporan Sedang Direview</h3>
-                            <p class="banner-desc">Judul: {{ $report->title }} — Menunggu persetujuan pembimbing.</p>
+                            <p class="banner-desc">Judul: {{ $existingReport->title }} — Menunggu persetujuan pembimbing.</p>
                         </div>
                     </div>
                 </div>
-            @elseif($report && $report->supervisor_approval === 'rejected')
+            @elseif($existingReport && $existingReport->supervisor_approval === 'rejected')
                 <div class="banner banner-error">
                     <div class="banner-flex">
                         <i class="ti ti-alert-circle banner-icon" style="color:#DC2626"></i>
@@ -60,7 +60,7 @@
                         <div style="display:flex;align-items:center;gap:16px;margin-top:24px">
                             <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait" class="btn-save">
                                 <i wire:loading.remove class="ti ti-upload"></i>
-                                <span wire:loading.remove>{{ $report ? 'Upload Ulang' : 'Upload Laporan' }}</span>
+                                <span wire:loading.remove>{{ $existingReport ? 'Upload Ulang' : 'Upload Laporan' }}</span>
                                 <span wire:loading class="inline-flex items-center gap-1">
                                     <i class="ti ti-loader animate-spin"></i>
                                     Mengupload...

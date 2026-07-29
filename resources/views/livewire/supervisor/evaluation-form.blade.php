@@ -3,7 +3,7 @@
         @if(!$internshipId)
             <div style="display:flex;flex-direction:column;gap:16px">
                 <h3 class="text-h3" style="margin-bottom:16px">Pilih Peserta yang Akan Dinilai</h3>
-                @forelse($internships as $item)
+                @forelse($completedInternships as $item)
                 <a href="{{ route('supervisor.evaluations.show', $item->id) }}" wire:navigate
                    class="panel eval-student-item">
                     <div class="eval-student-row">

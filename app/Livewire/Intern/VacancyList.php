@@ -12,12 +12,18 @@ class VacancyList extends Component
 
     public $search = '';
     public $filterDivision = '';
+    public $divisions = [];
 
     private VacancyService $vacancyService;
 
     public function boot(VacancyService $vacancyService): void
     {
         $this->vacancyService = $vacancyService;
+    }
+
+    public function mount(): void
+    {
+        $this->divisions = \App\Models\Vacancy::where('status', 'open')->distinct()->pluck('division')->toArray();
     }
 
     public function updatingSearch(): void { $this->resetPage(); }

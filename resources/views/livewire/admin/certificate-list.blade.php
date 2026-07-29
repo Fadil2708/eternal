@@ -10,11 +10,11 @@
             <p class="page-sub">Terbitkan dan kelola sertifikat peserta magang</p>
         </div>
     </div>
-    @if($pendingInternships->isNotEmpty())
+    @if($completedInternships->isNotEmpty())
     <div style="margin-bottom:24px;padding:16px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:10px">
         <h3 style="font-size:12px;font-weight:700;color:#92400E;margin-bottom:12px">Magang Selesai — Menunggu Penerbitan Sertifikat</h3>
         <div style="display:flex;flex-direction:column;gap:8px">
-            @foreach($pendingInternships as $internship)
+            @foreach($completedInternships as $internship)
             <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;padding:12px;border-radius:8px">
                 <div style="font-size:13px">
                     <span class="font-medium">{{ $internship->intern->internProfile->full_name ?? $internship->intern->email }}</span>

@@ -11,6 +11,9 @@ class LogbookList extends Component
 {
     use WithPagination;
 
+    public string $filterStatus = '';
+    public bool $hasActiveInternship = false;
+
     private LogbookService $logbookService;
 
     public function boot(LogbookService $logbookService): void
@@ -18,10 +21,19 @@ class LogbookList extends Component
         $this->logbookService = $logbookService;
     }
 
+    public function mount(): void
+    {
+        $this->hasActiveInternship = \App\Models\Internship::where('intern_id', auth()->id())
+            ->whereIn('status', ['active', 'extended'])->exists();
+    }
+
+    public function updatingFilterStatus(): void { $this->resetPage(); }
+
     public function render()
     {
         $logbooks = Logbook::with('internship')
             ->where('intern_id', auth()->id())
+            ->when($this->filterStatus, fn($q) => $q->where('validation_status', $this->filterStatus))
             ->latest('activity_date')
             ->paginate(15);
 

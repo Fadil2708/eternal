@@ -7,12 +7,13 @@ use Livewire\Component;
 
 class EvaluationView extends Component
 {
-    public $evaluation = null;
+    public $internship = null;
 
     public function mount(): void
     {
-        $this->evaluation = Evaluation::with(['supervisor.supervisorProfile', 'internship.vacancy'])
-            ->whereHas('internship', fn($q) => $q->where('intern_id', auth()->id()))
+        $this->internship = \App\Models\Internship::with(['evaluation', 'vacancy'])
+            ->where('intern_id', auth()->id())
+            ->where('status', 'completed')
             ->latest()
             ->first();
     }
