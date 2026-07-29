@@ -11,8 +11,23 @@ class MyApplications extends Component
     use WithPagination;
 
     public string $filterStatus = '';
+    public $confirmingCancelId = null;
 
     public function updatingFilterStatus(): void { $this->resetPage(); }
+
+    public function confirmCancel(string $id): void
+    {
+        $this->confirmingCancelId = $id;
+    }
+
+    public function cancel(): void
+    {
+        $application = Application::where('intern_id', auth()->id())
+            ->findOrFail($this->confirmingCancelId);
+        $application->update(['status' => 'cancelled']);
+        $this->confirmingCancelId = null;
+        $this->dispatch('toast', message: 'Lamaran dibatalkan.', type: 'success');
+    }
 
     public function render()
     {
