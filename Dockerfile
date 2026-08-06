@@ -10,11 +10,16 @@ RUN apt-get update && apt-get install -y \
     libonig-dev \
     libxml2-dev \
     libzip-dev \
+    libzstd-dev \
+    liblz4-dev \
     nodejs \
     npm \
     && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl bcmath gd
+
+RUN pecl install redis \
+    && docker-php-ext-enable redis
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -22,8 +27,8 @@ WORKDIR /var/www/html
 
 COPY . .
 
-ARG APP_KEY=base64:placeholderplaceholderplaceholderpl
-ENV APP_KEY=$APP_KEY
+# ARG APP_KEY=base64:placeholderplaceholderplaceholderpl
+# ENV APP_KEY=$APP_KEY
 
 RUN composer install --no-dev --optimize-autoloader \
     && npm install \

@@ -1,5 +1,5 @@
-<div wire:poll.30s="refresh" x-data="{ notifOpen: false }" class="topbar-notif-wrap">
-    <button @click="notifOpen = !notifOpen; if(notifOpen) $wire.refresh()"
+<div wire:poll.30s="loadNotifications" x-data="{ notifOpen: false }" class="topbar-notif-wrap">
+    <button @click="notifOpen = !notifOpen; if(notifOpen) $wire.loadNotifications()"
             class="topbar-notif-btn"
             :class="notifOpen ? 'topbar-notif-btn-open' : ''">
         <i class="ti ti-bell"></i>

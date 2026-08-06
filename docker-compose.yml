@@ -1,57 +1,73 @@
 services:
   app:
     build: .
-    container_name: laravel-app
+    container_name: eternal-app
     ports:
-      - "8080:8080"
-    env_file:
-      - .env
+      - "8082:8080"
+    volumes:
+      - .:/var/www/html
     environment:
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_DATABASE: ${DB_DATABASE:-magang_telkom}
-      DB_USERNAME: ${DB_USERNAME:-root}
-      DB_PASSWORD: ${DB_PASSWORD:-secret}
+      DB_DATABASE: eternal_db
+      DB_USERNAME: eternal
+      DB_PASSWORD: Eternal@2026
     depends_on:
       mysql:
         condition: service_healthy
+      redis:
+        condition: service_started
     networks:
-      - laravel-network
+      - eternal-network
+      - proxy
+
+  redis:
+    image: redis:7-alpine
+    container_name: eternal-redis
+    volumes:
+      - eternal-redis-data:/data
+    networks:
+      - eternal-network
 
   mysql:
     image: mysql:8.0
-    container_name: laravel-mysql
+    container_name: eternal-mysql
     environment:
-      MYSQL_DATABASE: ${DB_DATABASE:-magang_telkom}
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_DATABASE: eternal_db
+      MYSQL_ROOT_PASSWORD: rootpassword2026
+      MYSQL_USER: eternal
+      MYSQL_PASSWORD: Eternal@2026
     volumes:
-      - mysql-data:/var/lib/mysql
+      - eternal-mysql-data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 10s
       retries: 10
     networks:
-      - laravel-network
+      - eternal-network
 
   phpmyadmin:
     image: phpmyadmin:latest
-    container_name: laravel-phpmyadmin
+    container_name: eternal-phpmyadmin
     environment:
       PMA_HOST: mysql
-      PMA_USER: ${DB_USERNAME:-root}
-      PMA_PASSWORD: ${DB_PASSWORD:-secret}
+      PMA_USER: eternal
+      PMA_PASSWORD: Eternal@2026
     ports:
-      - "8081:80"
-    networks:
-      - laravel-network
+      - "8083:80"
     depends_on:
       - mysql
+    networks:
+      - eternal-network
 
 volumes:
-  mysql-data:
+  eternal-mysql-data:
+  eternal-redis-data:
 
 networks:
-  laravel-network:
+  eternal-network:
     driver: bridge
+  proxy:
+    external: true
