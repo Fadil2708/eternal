@@ -1,0 +1,38 @@
+name: Test Production Connection
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TS_AUTHKEY }}
+
+      - name: Check Tailscale
+        run: |
+          echo "=== TAILSCALE STATUS ==="
+          tailscale status
+
+      - name: Test SSH to Production
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          script: |
+            echo "================================"
+            echo "SSH CONNECTION SUCCESS"
+            echo "================================"
+            echo "Hostname: $(hostname)"
+            echo "User: $(whoami)"
+            echo "Current directory: $(pwd)"
+            echo "Server uptime:"
+            uptime
+            echo "Production path:"
+            ls -ld /opt/docker/eternal
