@@ -18,7 +18,11 @@ jobs:
           MYSQL_DATABASE: magang_telkom_test
         ports:
           - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
 
     steps:
       - uses: actions/checkout@v4
@@ -58,7 +62,7 @@ jobs:
         run: php artisan test --parallel --recreate-databases
         env:
           DB_CONNECTION: sqlite
-          DB_DATABASE: :memory:
+          DB_DATABASE: ":memory:"
         continue-on-error: true
 
       - name: Run PHPUnit tests (MySQL)
@@ -73,6 +77,7 @@ jobs:
 
   static-analysis:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
