@@ -16,7 +16,7 @@ class EvaluationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new EvaluationService();
+        $this->service = new EvaluationService;
     }
 
     public function test_calculate_final_score_grade_a(): void

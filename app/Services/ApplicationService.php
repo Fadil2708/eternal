@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\IncompleteProfileException;
 use App\Exceptions\QuotaFullException;
 use App\Models\Application;
+use App\Models\InternProfile;
 use App\Models\Internship;
 use App\Models\User;
 use App\Models\Vacancy;
@@ -13,11 +14,11 @@ use Illuminate\Support\Facades\DB;
 class ApplicationService
 {
     public const TRANSITIONS = [
-        'submitted'           => ['under_review'],
-        'under_review'        => ['interview_scheduled', 'rejected'],
+        'submitted' => ['under_review'],
+        'under_review' => ['interview_scheduled', 'rejected'],
         'interview_scheduled' => ['accepted', 'rejected'],
-        'accepted'            => [],
-        'rejected'            => ['under_review'],
+        'accepted' => [],
+        'rejected' => ['under_review'],
     ];
 
     public function apply(User $intern, string $vacancyId): Application
@@ -34,9 +35,9 @@ class ApplicationService
             $this->ensureQuotaAvailable($vacancy, lock: true);
 
             return Application::create([
-                'intern_id'  => $intern->id,
+                'intern_id' => $intern->id,
                 'vacancy_id' => $vacancy->id,
-                'status'     => 'submitted',
+                'status' => 'submitted',
                 'applied_at' => now(),
             ]);
         });
@@ -72,13 +73,13 @@ class ApplicationService
             $application->update(['status' => 'accepted']);
 
             return Internship::create([
-                'application_id'    => $application->id,
-                'intern_id'         => $application->intern_id,
-                'vacancy_id'        => $application->vacancy_id,
-                'supervisor_id'     => null,
+                'application_id' => $application->id,
+                'intern_id' => $application->intern_id,
+                'vacancy_id' => $application->vacancy_id,
+                'supervisor_id' => null,
                 'actual_start_date' => $application->vacancy->start_date,
-                'actual_end_date'   => $application->vacancy->end_date,
-                'status'            => 'active',
+                'actual_end_date' => $application->vacancy->end_date,
+                'status' => 'active',
             ]);
         });
     }
@@ -102,7 +103,7 @@ class ApplicationService
         $current = $application->status;
         $allowed = self::TRANSITIONS[$current] ?? [];
 
-        if (!in_array($targetStatus, $allowed, true)) {
+        if (! in_array($targetStatus, $allowed, true)) {
             throw new \Exception(
                 "Tidak bisa mengubah status dari {$current} ke {$targetStatus}."
             );
@@ -112,10 +113,10 @@ class ApplicationService
     private function ensureProfileComplete(User $intern): void
     {
         $profile = $intern->internProfile;
-        $required = \App\Models\InternProfile::requiredFields();
+        $required = InternProfile::requiredFields();
 
         foreach ($required as $field) {
-            if (!$profile || empty($profile->{$field})) {
+            if (! $profile || empty($profile->{$field})) {
                 throw new IncompleteProfileException($field);
             }
         }
@@ -151,7 +152,7 @@ class ApplicationService
         $acceptedCount = $query->count();
 
         if ($acceptedCount >= $vacancy->quota) {
-            throw new QuotaFullException();
+            throw new QuotaFullException;
         }
     }
 

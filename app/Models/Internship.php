@@ -7,10 +7,13 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Internship extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'application_id', 'intern_id', 'supervisor_id', 'vacancy_id',
@@ -19,56 +22,56 @@ class Internship extends Model
 
     protected $casts = [
         'actual_start_date' => 'date',
-        'actual_end_date'   => 'date',
-        'status'            => 'string',
+        'actual_end_date' => 'date',
+        'status' => 'string',
     ];
 
-    public function application(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function application(): BelongsTo
     {
         return $this->belongsTo(Application::class);
     }
 
-    public function intern(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function intern(): BelongsTo
     {
         return $this->belongsTo(User::class, 'intern_id');
     }
 
-    public function supervisor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function supervisor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'supervisor_id');
     }
 
-    public function vacancy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function vacancy(): BelongsTo
     {
         return $this->belongsTo(Vacancy::class);
     }
 
-    public function logbooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function logbooks(): HasMany
     {
         return $this->hasMany(Logbook::class);
     }
 
-    public function approvedLogbooks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function approvedLogbooks(): HasMany
     {
         return $this->hasMany(Logbook::class)->where('validation_status', 'approved');
     }
 
-    public function finalReport(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function finalReport(): HasOne
     {
         return $this->hasOne(FinalReport::class);
     }
 
-    public function evaluation(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function evaluation(): HasOne
     {
         return $this->hasOne(Evaluation::class);
     }
 
-    public function certificate(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function certificate(): HasOne
     {
         return $this->hasOne(Certificate::class);
     }
 
-    public function testimonial(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function testimonial(): HasOne
     {
         return $this->hasOne(Testimonial::class);
     }

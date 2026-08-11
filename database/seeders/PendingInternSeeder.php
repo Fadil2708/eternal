@@ -142,7 +142,7 @@ class PendingInternSeeder extends Seeder
         $this->command->info('✅ Pending intern (Bella Safira) berhasil dibuat!');
         $this->command->info('   Email: nilai-siap@telkom-skb.com / password');
         $this->command->info('   Nama: Bella Safira');
-        $this->command->info('   Grade: ' . $evaluation->grade . ' (' . $evaluation->final_score . ')');
+        $this->command->info('   Grade: '.$evaluation->grade.' ('.$evaluation->final_score.')');
         $this->command->info('   Status: Menunggu admin menerbitkan sertifikat');
     }
 }

@@ -18,11 +18,11 @@ class EvaluationApiTest extends TestCase
             'supervisor_id' => $supervisor->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/' . $internship->id . '/evaluations', [
+        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/'.$internship->id.'/evaluations', [
             'soft_skill_score' => 85,
             'hard_skill_score' => 90,
             'attendance_score' => 80,
-            'attitude_score'   => 88,
+            'attitude_score' => 88,
         ]);
 
         $response->assertStatus(201)
@@ -40,11 +40,11 @@ class EvaluationApiTest extends TestCase
         ]);
         Evaluation::factory()->create(['internship_id' => $internship->id, 'supervisor_id' => $supervisor->id]);
 
-        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/' . $internship->id . '/evaluations', [
+        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/'.$internship->id.'/evaluations', [
             'soft_skill_score' => 85,
             'hard_skill_score' => 90,
             'attendance_score' => 80,
-            'attitude_score'   => 88,
+            'attitude_score' => 88,
         ]);
 
         $response->assertStatus(422);
@@ -59,11 +59,11 @@ class EvaluationApiTest extends TestCase
             'supervisor_id' => $supervisor->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/' . $internship->id . '/evaluations', [
+        $response = $this->actingAs($supervisor)->postJson('/api/v1/internships/'.$internship->id.'/evaluations', [
             'soft_skill_score' => 85,
             'hard_skill_score' => 90,
             'attendance_score' => 80,
-            'attitude_score'   => 88,
+            'attitude_score' => 88,
         ]);
 
         $response->assertStatus(404);
@@ -84,7 +84,7 @@ class EvaluationApiTest extends TestCase
         $evaluation->calculateFinalScore();
         $evaluation->save();
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/evaluations');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/evaluations');
 
         $response->assertStatus(200)
             ->assertJsonPath('success', true);
@@ -103,11 +103,11 @@ class EvaluationApiTest extends TestCase
             'supervisor_id' => $supervisor->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->putJson('/api/v1/evaluations/' . $evaluation->id, [
+        $response = $this->actingAs($supervisor)->putJson('/api/v1/evaluations/'.$evaluation->id, [
             'soft_skill_score' => 95,
             'hard_skill_score' => 95,
             'attendance_score' => 95,
-            'attitude_score'   => 95,
+            'attitude_score' => 95,
         ]);
 
         $response->assertStatus(200);
@@ -127,11 +127,11 @@ class EvaluationApiTest extends TestCase
             'supervisor_id' => $supervisor->id,
         ]);
 
-        $response = $this->actingAs($otherSupervisor)->putJson('/api/v1/evaluations/' . $evaluation->id, [
+        $response = $this->actingAs($otherSupervisor)->putJson('/api/v1/evaluations/'.$evaluation->id, [
             'soft_skill_score' => 95,
             'hard_skill_score' => 95,
             'attendance_score' => 95,
-            'attitude_score'   => 95,
+            'attitude_score' => 95,
         ]);
 
         $response->assertStatus(404);

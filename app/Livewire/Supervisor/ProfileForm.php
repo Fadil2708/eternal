@@ -8,9 +8,13 @@ use Livewire\Component;
 class ProfileForm extends Component
 {
     public $full_name = '';
+
     public $employee_id = '';
+
     public $division = '';
+
     public $position = '';
+
     public $phone = '';
 
     public function mount(): void

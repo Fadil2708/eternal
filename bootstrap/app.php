@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Middleware\ContentSecurityPolicy;
+use App\Http\Middleware\EnsureProfileComplete;
+use App\Http\Middleware\EnsureRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -15,12 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*');
 
         $middleware->web(append: [
-            \App\Http\Middleware\ContentSecurityPolicy::class,
+            ContentSecurityPolicy::class,
         ]);
 
         $middleware->alias([
-            'role' => \App\Http\Middleware\EnsureRole::class,
-            'profile.complete' => \App\Http\Middleware\EnsureProfileComplete::class,
+            'role' => EnsureRole::class,
+            'profile.complete' => EnsureProfileComplete::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

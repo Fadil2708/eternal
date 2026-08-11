@@ -142,7 +142,7 @@ class PendingCertificateInternSeeder extends Seeder
         $this->command->info('✅ Pending intern siap terbit berhasil dibuat!');
         $this->command->info('   Email: siap-terbit@telkom-skb.com / password');
         $this->command->info('   Nama: Aulia Rahman');
-        $this->command->info('   Grade: ' . $evaluation->grade . ' (' . $evaluation->final_score . ')');
+        $this->command->info('   Grade: '.$evaluation->grade.' ('.$evaluation->final_score.')');
         $this->command->info('   Status: Menunggu admin menerbitkan sertifikat');
     }
 }

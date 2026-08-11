@@ -6,7 +6,6 @@ use App\Models\Application;
 use App\Models\Vacancy;
 use App\Notifications\ApplicationNotification;
 use App\Services\ApplicationService;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -15,13 +14,19 @@ class ApplicationReview extends Component
     use WithPagination;
 
     public string $filterStatus = '';
+
     public string $filterVacancy = '';
+
     public ?string $selectedApplicationId = null;
 
     public bool $showReviewModal = false;
+
     public string $reviewStatus = '';
+
     public ?string $rejectionReason = null;
+
     public ?string $interviewDate = null;
+
     public ?string $adminNotes = null;
 
     private ApplicationService $applicationService;
@@ -31,8 +36,15 @@ class ApplicationReview extends Component
         $this->applicationService = $applicationService;
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
-    public function updatingFilterVacancy(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterVacancy(): void
+    {
+        $this->resetPage();
+    }
 
     public function openReview(string $id): void
     {
@@ -85,6 +97,7 @@ class ApplicationReview extends Component
             }
         } catch (\Exception $e) {
             $this->dispatch('toast', message: $e->getMessage(), type: 'error');
+
             return;
         }
 
@@ -95,8 +108,8 @@ class ApplicationReview extends Component
     public function render()
     {
         $applications = Application::with(['intern.internProfile', 'vacancy', 'internship'])
-            ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
-            ->when($this->filterVacancy, fn($q) => $q->where('vacancy_id', $this->filterVacancy))
+            ->when($this->filterStatus, fn ($q) => $q->where('status', $this->filterStatus))
+            ->when($this->filterVacancy, fn ($q) => $q->where('vacancy_id', $this->filterVacancy))
             ->orderBy('applied_at', 'desc')
             ->paginate(15);
 

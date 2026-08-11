@@ -13,13 +13,13 @@ return new class extends Migration
 
             $table->uuid('internship_id')->unique();
             $table->foreign('internship_id')
-                  ->references('id')->on('internships')
-                  ->onDelete('cascade');
+                ->references('id')->on('internships')
+                ->onDelete('cascade');
 
             $table->uuid('supervisor_id');
             $table->foreign('supervisor_id')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->decimal('soft_skill_score', 5, 2)->default(0);
             $table->decimal('hard_skill_score', 5, 2)->default(0);

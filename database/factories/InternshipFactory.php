@@ -26,12 +26,12 @@ class InternshipFactory extends Factory
 
     public function active(): static
     {
-        return $this->state(fn() => ['status' => 'active']);
+        return $this->state(fn () => ['status' => 'active']);
     }
 
     public function completed(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => 'completed',
             'actual_end_date' => now()->subDay(),
         ]);
@@ -39,7 +39,7 @@ class InternshipFactory extends Factory
 
     public function terminated(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => 'terminated',
             'actual_end_date' => now()->subDay(),
         ]);

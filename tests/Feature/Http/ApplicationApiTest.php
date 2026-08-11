@@ -4,10 +4,7 @@ namespace Tests\Feature\Http;
 
 use App\Models\Application;
 use App\Models\InternProfile;
-use App\Models\Internship;
 use App\Models\User;
-use App\Models\Vacancy;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -50,7 +47,7 @@ class ApplicationApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/applications/' . $application->id);
+        $response = $this->actingAs($intern)->getJson('/api/v1/applications/'.$application->id);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.id', $application->id);
@@ -63,7 +60,7 @@ class ApplicationApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $other->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $other->id]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/applications/' . $application->id);
+        $response = $this->actingAs($intern)->getJson('/api/v1/applications/'.$application->id);
 
         $response->assertStatus(403);
     }
@@ -75,7 +72,7 @@ class ApplicationApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($admin)->getJson('/api/v1/applications/' . $application->id);
+        $response = $this->actingAs($admin)->getJson('/api/v1/applications/'.$application->id);
 
         $response->assertStatus(200);
     }
@@ -87,7 +84,7 @@ class ApplicationApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($supervisor)->getJson('/api/v1/applications/' . $application->id);
+        $response = $this->actingAs($supervisor)->getJson('/api/v1/applications/'.$application->id);
 
         $response->assertStatus(403);
     }
@@ -124,7 +121,7 @@ class ApplicationApiTest extends TestCase
         Storage::disk('private')->put('interns/cv/test.pdf', 'fake content');
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($admin)->get('/admin/applications/' . $application->id . '/file/cv');
+        $response = $this->actingAs($admin)->get('/admin/applications/'.$application->id.'/file/cv');
 
         $response->assertStatus(200);
     }
@@ -139,7 +136,7 @@ class ApplicationApiTest extends TestCase
         ]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($admin)->get('/admin/applications/' . $application->id . '/file/cv');
+        $response = $this->actingAs($admin)->get('/admin/applications/'.$application->id.'/file/cv');
 
         $response->assertStatus(404);
     }
@@ -151,7 +148,7 @@ class ApplicationApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($admin)->get('/admin/applications/' . $application->id . '/file/invalid');
+        $response = $this->actingAs($admin)->get('/admin/applications/'.$application->id.'/file/invalid');
 
         $response->assertStatus(404);
     }

@@ -9,7 +9,7 @@ class ApplicationPolicy
 {
     public function view(User $user, Application $application): bool
     {
-        if (!$application->relationLoaded('internship')) {
+        if (! $application->relationLoaded('internship')) {
             $application->load('internship');
         }
 

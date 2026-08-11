@@ -15,7 +15,7 @@ class InternshipResource extends JsonResource
             'actual_end_date' => $this->actual_end_date?->format('Y-m-d'),
             'application' => ApplicationResource::make($this->whenLoaded('application')),
             'intern' => UserResource::make($this->whenLoaded('intern')),
-            'supervisor' => $this->whenLoaded('supervisor', fn() => UserResource::make($this->supervisor)),
+            'supervisor' => $this->whenLoaded('supervisor', fn () => UserResource::make($this->supervisor)),
             'vacancy' => VacancyResource::make($this->whenLoaded('vacancy')),
             'logbooks_count' => $this->whenCounted('logbooks'),
             'approved_logbooks_count' => $this->whenCounted('approvedLogbooks'),

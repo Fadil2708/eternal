@@ -11,9 +11,13 @@ class MyApplications extends Component
     use WithPagination;
 
     public string $filterStatus = '';
+
     public $confirmingCancelId = null;
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function confirmCancel(string $id): void
     {
@@ -33,7 +37,7 @@ class MyApplications extends Component
     {
         $applications = Application::with(['vacancy', 'internship'])
             ->where('intern_id', auth()->id())
-            ->when($this->filterStatus, fn($q) => $q->where('status', $this->filterStatus))
+            ->when($this->filterStatus, fn ($q) => $q->where('status', $this->filterStatus))
             ->orderBy('applied_at', 'desc')
             ->paginate(10);
 

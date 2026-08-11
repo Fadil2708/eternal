@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Intern;
 
+use App\Models\Internship;
 use App\Models\Logbook;
 use App\Services\LogbookService;
 use Livewire\Component;
@@ -12,6 +13,7 @@ class LogbookList extends Component
     use WithPagination;
 
     public string $filterStatus = '';
+
     public bool $hasActiveInternship = false;
 
     private LogbookService $logbookService;
@@ -23,17 +25,20 @@ class LogbookList extends Component
 
     public function mount(): void
     {
-        $this->hasActiveInternship = \App\Models\Internship::where('intern_id', auth()->id())
+        $this->hasActiveInternship = Internship::where('intern_id', auth()->id())
             ->whereIn('status', ['active', 'extended'])->exists();
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
         $logbooks = Logbook::with('internship')
             ->where('intern_id', auth()->id())
-            ->when($this->filterStatus, fn($q) => $q->where('validation_status', $this->filterStatus))
+            ->when($this->filterStatus, fn ($q) => $q->where('validation_status', $this->filterStatus))
             ->latest('activity_date')
             ->paginate(15);
 

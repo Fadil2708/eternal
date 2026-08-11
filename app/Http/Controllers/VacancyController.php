@@ -19,7 +19,7 @@ class VacancyController extends Controller
         $user = request()->user();
 
         $vacancies = Vacancy::with('creator')
-            ->when($user->isIntern(), fn($q) => $q
+            ->when($user->isIntern(), fn ($q) => $q
                 ->where('status', 'open')
                 ->whereDate('application_deadline', '>=', now()->toDateString())
             )
@@ -96,7 +96,7 @@ class VacancyController extends Controller
             'closed' => [],
         ];
 
-        if (!in_array($to, $validTransitions[$from] ?? [])) {
+        if (! in_array($to, $validTransitions[$from] ?? [])) {
             return $this->error("Tidak bisa mengubah status dari {$from} ke {$to}.", 422);
         }
 

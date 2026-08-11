@@ -1,22 +1,24 @@
 <?php
 
-$base = __DIR__ . '/../public/images';
+$base = __DIR__.'/../public/images';
 $files = [
     'TLK_BIG.png' => ['w' => 800, 'h' => 400, 'q' => 82],
-    'TLK.png'     => ['w' => 300, 'h' => 300, 'q' => 85],
+    'TLK.png' => ['w' => 300, 'h' => 300, 'q' => 85],
     'map-thumbnail.png' => ['w' => 400, 'h' => 300, 'q' => 80],
 ];
 
 foreach ($files as $name => $opts) {
-    $srcPath = $base . '/' . $name;
-    if (!file_exists($srcPath)) {
+    $srcPath = $base.'/'.$name;
+    if (! file_exists($srcPath)) {
         echo "Skip: {$name} not found\n";
+
         continue;
     }
 
     $src = imagecreatefrompng($srcPath);
-    if (!$src) {
+    if (! $src) {
         echo "Failed to load: {$name}\n";
+
         continue;
     }
 
@@ -30,7 +32,7 @@ foreach ($files as $name => $opts) {
     imagecopyresampled($dst, $src, 0, 0, 0, 0, $newW, $newH, $oldW, $oldH);
 
     $webpName = str_replace('.png', '.webp', $name);
-    $webpPath = $base . '/' . $webpName;
+    $webpPath = $base.'/'.$webpName;
     imagewebp($dst, $webpPath, $opts['q']);
 
     $origKb = round(filesize($srcPath) / 1024, 1);

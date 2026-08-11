@@ -8,11 +8,17 @@ use Livewire\Component;
 class DashboardStats extends Component
 {
     public string $applicationStatus = '-';
+
     public string $internshipStatus = '-';
+
     public bool $logbookToday = false;
+
     public int $logbookThisMonth = 0;
+
     public string $reportStatus = '-';
+
     public bool $hasCertificate = false;
+
     public string $certificateId = '';
 
     public function mount(DashboardService $dashboardService): void

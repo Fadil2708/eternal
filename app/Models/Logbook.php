@@ -7,10 +7,11 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Logbook extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'internship_id', 'intern_id', 'activity_date',
@@ -20,24 +21,23 @@ class Logbook extends Model
 
     protected $casts = [
         'activity_date' => 'date',
-        'reviewed_at'   => 'datetime',
+        'reviewed_at' => 'datetime',
         'validation_status' => 'string',
     ];
 
-    public function internship(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function internship(): BelongsTo
     {
         return $this->belongsTo(Internship::class);
     }
 
-    public function intern(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function intern(): BelongsTo
     {
         return $this->belongsTo(User::class, 'intern_id');
     }
 
     public function scopeForSupervisor(Builder $query, string $supervisorId): Builder
     {
-        return $query->whereHas('internship', fn($q) =>
-            $q->where('supervisor_id', $supervisorId)
+        return $query->whereHas('internship', fn ($q) => $q->where('supervisor_id', $supervisorId)
         );
     }
 }

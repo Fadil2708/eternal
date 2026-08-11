@@ -5,14 +5,14 @@ namespace App\Services;
 use App\Models\Internship;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Collection;
 
 class InternshipService
 {
     public function getAdminPaginatedList(string $filterStatus = ''): LengthAwarePaginator
     {
         return Internship::with(['intern.internProfile', 'supervisor.supervisorProfile', 'vacancy', 'evaluation'])
-            ->when($filterStatus, fn($q) => $q->where('status', $filterStatus))
+            ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
             ->latest()
             ->paginate(10);
     }
@@ -21,6 +21,7 @@ class InternshipService
     {
         $internship = Internship::findOrFail($id);
         $internship->update(['status' => $status]);
+
         return $internship->fresh();
     }
 
@@ -28,9 +29,14 @@ class InternshipService
     {
         $internship = Internship::findOrFail($id);
         $data = [];
-        if ($startDate) $data['actual_start_date'] = $startDate;
-        if ($endDate) $data['actual_end_date'] = $endDate;
+        if ($startDate) {
+            $data['actual_start_date'] = $startDate;
+        }
+        if ($endDate) {
+            $data['actual_end_date'] = $endDate;
+        }
         $internship->update($data);
+
         return $internship->fresh();
     }
 
@@ -38,6 +44,7 @@ class InternshipService
     {
         $internship = Internship::findOrFail($internshipId);
         $internship->update(['supervisor_id' => $supervisorId]);
+
         return $internship->fresh();
     }
 
@@ -45,7 +52,7 @@ class InternshipService
     {
         return Internship::with(['intern.internProfile', 'vacancy'])
             ->where('supervisor_id', $supervisorId)
-            ->when($filterStatus, fn($q) => $q->where('status', $filterStatus))
+            ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
             ->latest()
             ->paginate(10);
     }
@@ -54,12 +61,12 @@ class InternshipService
     {
         return Internship::with(['intern.internProfile', 'vacancy'])
             ->whereNull('supervisor_id')
-            ->when($filterStatus, fn($q) => $q->where('status', $filterStatus))
+            ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
             ->latest()
             ->paginate(10);
     }
 
-    public function getSupervisors(): \Illuminate\Support\Collection
+    public function getSupervisors(): Collection
     {
         return User::where('role', 'supervisor')
             ->where('is_active', true)

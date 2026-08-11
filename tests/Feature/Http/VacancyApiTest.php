@@ -2,8 +2,8 @@
 
 namespace Tests\Feature\Http;
 
-use App\Models\Vacancy;
 use App\Models\User;
+use App\Models\Vacancy;
 use Tests\TestCase;
 
 class VacancyApiTest extends TestCase
@@ -24,7 +24,7 @@ class VacancyApiTest extends TestCase
         $vacancy = Vacancy::factory()->open()->create();
         $user = User::factory()->intern()->create();
 
-        $response = $this->actingAs($user)->getJson('/api/v1/vacancies/' . $vacancy->id);
+        $response = $this->actingAs($user)->getJson('/api/v1/vacancies/'.$vacancy->id);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.id', $vacancy->id);
@@ -71,7 +71,7 @@ class VacancyApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $vacancy = Vacancy::factory()->create(['created_by' => $admin->id]);
 
-        $response = $this->actingAs($admin)->putJson('/api/v1/vacancies/' . $vacancy->id, [
+        $response = $this->actingAs($admin)->putJson('/api/v1/vacancies/'.$vacancy->id, [
             'title' => 'Updated Title',
             'description' => 'Updated description for the role',
             'qualifications' => 'Updated qualifications required',
@@ -91,7 +91,7 @@ class VacancyApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $vacancy = Vacancy::factory()->open()->create(['created_by' => $admin->id]);
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/vacancies/' . $vacancy->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/vacancies/'.$vacancy->id.'/status', [
             'status' => 'closed',
         ]);
 
@@ -104,7 +104,7 @@ class VacancyApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $vacancy = Vacancy::factory()->create(['created_by' => $admin->id]);
 
-        $response = $this->actingAs($admin)->deleteJson('/api/v1/vacancies/' . $vacancy->id);
+        $response = $this->actingAs($admin)->deleteJson('/api/v1/vacancies/'.$vacancy->id);
 
         $response->assertStatus(200);
         $this->assertNull(Vacancy::find($vacancy->id));

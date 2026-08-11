@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Intern;
 
-use App\Models\Evaluation;
+use App\Models\Internship;
 use Livewire\Component;
 
 class EvaluationView extends Component
@@ -11,7 +11,7 @@ class EvaluationView extends Component
 
     public function mount(): void
     {
-        $this->internship = \App\Models\Internship::with(['evaluation', 'vacancy'])
+        $this->internship = Internship::with(['evaluation', 'vacancy'])
             ->where('intern_id', auth()->id())
             ->where('status', 'completed')
             ->latest()

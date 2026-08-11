@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Skill extends Model
 {
     use Auditable;
+
     protected $fillable = ['name', 'category'];
 
     public function internProfiles(): BelongsToMany

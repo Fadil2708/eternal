@@ -96,7 +96,7 @@ class LogbookFormTest extends TestCase
 
         $date = now()->format('Y-m-d');
 
-        $logbook = \App\Models\Logbook::create([
+        $logbook = Logbook::create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
             'activity_date' => $date,
@@ -108,7 +108,7 @@ class LogbookFormTest extends TestCase
         $this->assertNotNull($logbook->id, 'Logbook should have been created');
         $this->assertEquals($internship->id, $logbook->internship_id, 'Logbook internship_id should match');
 
-        $allLogbooks = \App\Models\Logbook::where('internship_id', $internship->id)->get();
+        $allLogbooks = Logbook::where('internship_id', $internship->id)->get();
         $this->assertEquals(1, $allLogbooks->count(), 'One logbook should exist');
 
         Livewire::actingAs($intern)
@@ -118,7 +118,7 @@ class LogbookFormTest extends TestCase
             ->set('output', 'Completed module')
             ->call('save');
 
-        $count = \App\Models\Logbook::where('internship_id', $internship->id)->count();
+        $count = Logbook::where('internship_id', $internship->id)->count();
         $this->assertEquals(1, $count, 'Duplicate logbook should not be created.');
     }
 

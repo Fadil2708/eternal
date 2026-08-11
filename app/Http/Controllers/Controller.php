@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\View\View;
 
 abstract class Controller
 {
@@ -15,6 +14,7 @@ abstract class Controller
         if ($meta) {
             $response['meta'] = $meta;
         }
+
         return response()->json($response, $code);
     }
 
@@ -29,6 +29,7 @@ abstract class Controller
         if ($errors) {
             $response['errors'] = $errors;
         }
+
         return response()->json($response, $code);
     }
 

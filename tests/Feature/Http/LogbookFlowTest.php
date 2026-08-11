@@ -4,6 +4,7 @@ namespace Tests\Feature\Http;
 
 use App\Models\InternProfile;
 use App\Models\Internship;
+use App\Models\Logbook;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -15,7 +16,7 @@ class LogbookFlowTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $internship = Internship::factory()->active()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->postJson('/api/v1/internships/' . $internship->id . '/logbooks', [
+        $response = $this->actingAs($intern)->postJson('/api/v1/internships/'.$internship->id.'/logbooks', [
             'activity_date' => now()->format('Y-m-d'),
             'activities' => 'Worked on testing the new feature implementation and fixed several bugs',
             'output' => 'Test plan created and bugs documented',
@@ -29,12 +30,12 @@ class LogbookFlowTest extends TestCase
         $intern = User::factory()->intern()->create();
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $internship = Internship::factory()->active()->create(['intern_id' => $intern->id]);
-        $logbook = \App\Models\Logbook::factory()->draft()->create([
+        $logbook = Logbook::factory()->draft()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($intern)->patchJson('/api/v1/logbooks/' . $logbook->id . '/submit');
+        $response = $this->actingAs($intern)->patchJson('/api/v1/logbooks/'.$logbook->id.'/submit');
 
         $response->assertStatus(200);
         $this->assertEquals('submitted', $logbook->fresh()->validation_status);
@@ -49,12 +50,12 @@ class LogbookFlowTest extends TestCase
             'intern_id' => $intern->id,
             'supervisor_id' => $supervisor->id,
         ]);
-        $logbook = \App\Models\Logbook::factory()->submitted()->create([
+        $logbook = Logbook::factory()->submitted()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->patchJson('/api/v1/logbooks/' . $logbook->id . '/review', [
+        $response = $this->actingAs($supervisor)->patchJson('/api/v1/logbooks/'.$logbook->id.'/review', [
             'action' => 'approved',
         ]);
 
@@ -71,12 +72,12 @@ class LogbookFlowTest extends TestCase
             'intern_id' => $intern->id,
             'supervisor_id' => $supervisor->id,
         ]);
-        $logbook = \App\Models\Logbook::factory()->submitted()->create([
+        $logbook = Logbook::factory()->submitted()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->patchJson('/api/v1/logbooks/' . $logbook->id . '/review', [
+        $response = $this->actingAs($supervisor)->patchJson('/api/v1/logbooks/'.$logbook->id.'/review', [
             'action' => 'revision_requested',
             'supervisor_notes' => 'Please add more details to the activities section',
         ]);
@@ -92,12 +93,12 @@ class LogbookFlowTest extends TestCase
         $otherIntern = User::factory()->intern()->create();
         InternProfile::factory()->create(['user_id' => $otherIntern->id]);
         $internship = Internship::factory()->active()->create(['intern_id' => $otherIntern->id]);
-        $logbook = \App\Models\Logbook::factory()->draft()->create([
+        $logbook = Logbook::factory()->draft()->create([
             'internship_id' => $internship->id,
             'intern_id' => $otherIntern->id,
         ]);
 
-        $response = $this->actingAs($intern)->patchJson('/api/v1/logbooks/' . $logbook->id . '/submit');
+        $response = $this->actingAs($intern)->patchJson('/api/v1/logbooks/'.$logbook->id.'/submit');
 
         $response->assertStatus(422);
     }

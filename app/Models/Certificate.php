@@ -6,10 +6,11 @@ use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Certificate extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'internship_id', 'intern_id', 'certificate_number',
@@ -19,22 +20,22 @@ class Certificate extends Model
     ];
 
     protected $casts = [
-        'issued_at'   => 'datetime',
+        'issued_at' => 'datetime',
         'final_score' => 'decimal:2',
         'grade' => 'string',
     ];
 
-    public function internship(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function internship(): BelongsTo
     {
         return $this->belongsTo(Internship::class);
     }
 
-    public function intern(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function intern(): BelongsTo
     {
         return $this->belongsTo(User::class, 'intern_id');
     }
 
-    public function issuedBy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function issuedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'issued_by');
     }

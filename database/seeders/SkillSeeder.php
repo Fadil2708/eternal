@@ -33,13 +33,13 @@ class SkillSeeder extends Seeder
 
             ['name' => 'Microsoft Excel',   'category' => 'Office'],
             ['name' => 'Microsoft Word',    'category' => 'Office'],
-            ['name' => 'Microsoft PowerPoint','category' => 'Office'],
+            ['name' => 'Microsoft PowerPoint', 'category' => 'Office'],
             ['name' => 'Google Docs',       'category' => 'Office'],
             ['name' => 'Google Sheets',     'category' => 'Office'],
 
             ['name' => 'Cisco',             'category' => 'Networking'],
             ['name' => 'MikroTik',          'category' => 'Networking'],
-            ['name' => 'Network Configuration','category' => 'Networking'],
+            ['name' => 'Network Configuration', 'category' => 'Networking'],
             ['name' => 'TCP / IP',          'category' => 'Networking'],
 
             ['name' => 'Komunikasi',        'category' => 'Soft Skills'],
@@ -51,7 +51,7 @@ class SkillSeeder extends Seeder
             ['name' => 'Video Editing',     'category' => 'Multimedia'],
             ['name' => 'Photography',       'category' => 'Multimedia'],
             ['name' => 'Content Writing',   'category' => 'Multimedia'],
-            ['name' => 'Social Media Management','category' => 'Multimedia'],
+            ['name' => 'Social Media Management', 'category' => 'Multimedia'],
 
             ['name' => 'Digital Marketing', 'category' => 'Lainnya'],
             ['name' => 'Data Analysis',     'category' => 'Lainnya'],

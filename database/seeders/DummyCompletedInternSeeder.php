@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\GenerateCertificatePdfJob;
 use App\Models\Application;
 use App\Models\Evaluation;
 use App\Models\FinalReport;
@@ -11,7 +12,6 @@ use App\Models\Logbook;
 use App\Models\SupervisorProfile;
 use App\Models\User;
 use App\Models\Vacancy;
-use App\Jobs\GenerateCertificatePdfJob;
 use App\Services\CertificateService;
 use Illuminate\Database\Seeder;
 
@@ -142,7 +142,7 @@ class DummyCompletedInternSeeder extends Seeder
         $evaluation->calculateFinalScore();
         $evaluation->save();
 
-        if (!$internship->certificate()->exists()) {
+        if (! $internship->certificate()->exists()) {
             $internship->load('evaluation');
             $certificate = app(CertificateService::class)->issue($internship, $admin->id);
             dispatch(new GenerateCertificatePdfJob($certificate));
@@ -152,8 +152,8 @@ class DummyCompletedInternSeeder extends Seeder
         $this->command->info('✅ Dummy intern lulus berhasil dibuat!');
         $this->command->info('   Email: dummy-lulus@telkom-skb.com / password');
         $this->command->info('   Nama: Dimas Prasetyo');
-        $this->command->info('   Grade: ' . $evaluation->grade . ' (' . $evaluation->final_score . ')');
-        $this->command->info('   Logbook: ' . count($activities) . ' entry approved');
-        $this->command->info('   QR Token: ' . $internship->certificate->qr_code_token);
+        $this->command->info('   Grade: '.$evaluation->grade.' ('.$evaluation->final_score.')');
+        $this->command->info('   Logbook: '.count($activities).' entry approved');
+        $this->command->info('   QR Token: '.$internship->certificate->qr_code_token);
     }
 }

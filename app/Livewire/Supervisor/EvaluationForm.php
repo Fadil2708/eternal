@@ -9,17 +9,25 @@ use Livewire\Component;
 class EvaluationForm extends Component
 {
     public ?string $internshipId = null;
+
     public $internship;
+
     public $evaluation;
+
     public $completedInternships;
 
     public bool $showForm = false;
+
     public bool $confirmingSave = false;
 
     public float $soft_skill_score = 0;
+
     public float $hard_skill_score = 0;
+
     public float $attendance_score = 0;
+
     public float $attitude_score = 0;
+
     public string $remarks = '';
 
     private EvaluationService $evaluationService;

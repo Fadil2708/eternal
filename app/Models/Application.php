@@ -7,10 +7,12 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Application extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'intern_id', 'vacancy_id', 'status',
@@ -20,21 +22,21 @@ class Application extends Model
 
     protected $casts = [
         'interview_date' => 'datetime',
-        'applied_at'     => 'datetime',
-        'status'         => 'string',
+        'applied_at' => 'datetime',
+        'status' => 'string',
     ];
 
-    public function intern(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function intern(): BelongsTo
     {
         return $this->belongsTo(User::class, 'intern_id');
     }
 
-    public function vacancy(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function vacancy(): BelongsTo
     {
         return $this->belongsTo(Vacancy::class);
     }
 
-    public function internship(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function internship(): HasOne
     {
         return $this->hasOne(Internship::class);
     }

@@ -11,6 +11,7 @@ class TestimonialList extends Component
     use WithPagination;
 
     public $filterStatus = '';
+
     public $confirmingToggleId = null;
 
     private TestimonialService $testimonialService;
@@ -20,7 +21,10 @@ class TestimonialList extends Component
         $this->testimonialService = $testimonialService;
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function confirmToggle(string $id): void
     {
@@ -38,6 +42,7 @@ class TestimonialList extends Component
     public function render()
     {
         $testimonials = $this->testimonialService->getPaginatedList($this->filterStatus);
+
         return view('livewire.admin.testimonial-list', compact('testimonials'));
     }
 }

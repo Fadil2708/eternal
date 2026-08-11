@@ -2,9 +2,10 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\Application;
 use App\Models\InternProfile;
-use App\Models\Vacancy;
 use App\Models\User;
+use App\Models\Vacancy;
 use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
@@ -60,12 +61,12 @@ class ApplicationFlowTest extends TestCase
     {
         $intern = User::factory()->intern()->create();
         $vacancy = Vacancy::factory()->open()->create();
-        $application = \App\Models\Application::factory()->submitted()->create([
+        $application = Application::factory()->submitted()->create([
             'intern_id' => $intern->id,
             'vacancy_id' => $vacancy->id,
         ]);
 
-        $response = $this->actingAs($intern)->patchJson('/api/v1/applications/' . $application->id . '/cancel');
+        $response = $this->actingAs($intern)->patchJson('/api/v1/applications/'.$application->id.'/cancel');
 
         $response->assertStatus(200);
         $this->assertEquals('cancelled', $application->fresh()->status);
@@ -74,9 +75,9 @@ class ApplicationFlowTest extends TestCase
     public function test_intern_cannot_cancel_non_submitted_application(): void
     {
         $intern = User::factory()->intern()->create();
-        $application = \App\Models\Application::factory()->underReview()->create(['intern_id' => $intern->id]);
+        $application = Application::factory()->underReview()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->patchJson('/api/v1/applications/' . $application->id . '/cancel');
+        $response = $this->actingAs($intern)->patchJson('/api/v1/applications/'.$application->id.'/cancel');
 
         $response->assertStatus(422);
     }
@@ -92,11 +93,11 @@ class ApplicationFlowTest extends TestCase
             'institution_name' => 'Univ',
             'major' => 'CS',
             'student_id' => 'STU-001',
-            'cv_url' => 'interns/' . $intern->id . '/cv/cv.pdf',
+            'cv_url' => 'interns/'.$intern->id.'/cv/cv.pdf',
         ]);
-        Storage::disk('private')->put('interns/' . $intern->id . '/cv/cv.pdf', 'pdf-content');
+        Storage::disk('private')->put('interns/'.$intern->id.'/cv/cv.pdf', 'pdf-content');
 
-        $application = \App\Models\Application::factory()->submitted()->create([
+        $application = Application::factory()->submitted()->create([
             'intern_id' => $intern->id,
         ]);
 
@@ -115,9 +116,9 @@ class ApplicationFlowTest extends TestCase
         $intern = User::factory()->intern()->create();
         InternProfile::factory()->create([
             'user_id' => $intern->id,
-            'cv_url' => 'interns/' . $intern->id . '/cv/cv.pdf',
+            'cv_url' => 'interns/'.$intern->id.'/cv/cv.pdf',
         ]);
-        Storage::disk('private')->put('interns/' . $intern->id . '/cv/cv.pdf', 'pdf-content');
+        Storage::disk('private')->put('interns/'.$intern->id.'/cv/cv.pdf', 'pdf-content');
 
         $response = $this->actingAs($intern)->get(route('profile.file', 'cv'));
 
@@ -138,9 +139,9 @@ class ApplicationFlowTest extends TestCase
     public function test_admin_can_update_status(): void
     {
         $admin = User::factory()->admin()->create();
-        $application = \App\Models\Application::factory()->submitted()->create();
+        $application = Application::factory()->submitted()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/' . $application->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/'.$application->id.'/status', [
             'status' => 'under_review',
         ]);
 
@@ -151,9 +152,9 @@ class ApplicationFlowTest extends TestCase
     public function test_admin_can_accept_application(): void
     {
         $admin = User::factory()->admin()->create();
-        $application = \App\Models\Application::factory()->interviewScheduled()->create();
+        $application = Application::factory()->interviewScheduled()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/' . $application->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/'.$application->id.'/status', [
             'status' => 'accepted',
         ]);
 
@@ -164,9 +165,9 @@ class ApplicationFlowTest extends TestCase
     public function test_admin_can_reject_application(): void
     {
         $admin = User::factory()->admin()->create();
-        $application = \App\Models\Application::factory()->underReview()->create();
+        $application = Application::factory()->underReview()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/' . $application->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/applications/'.$application->id.'/status', [
             'status' => 'rejected',
             'rejection_reason' => 'Not qualified',
         ]);

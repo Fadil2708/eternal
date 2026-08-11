@@ -9,7 +9,7 @@ class EvaluationPolicy
 {
     public function view(User $user, Evaluation $evaluation): bool
     {
-        if (!$evaluation->relationLoaded('internship')) {
+        if (! $evaluation->relationLoaded('internship')) {
             $evaluation->load('internship');
         }
 
@@ -28,7 +28,7 @@ class EvaluationPolicy
 
     public function update(User $user, Evaluation $evaluation): bool
     {
-        if (!$evaluation->relationLoaded('internship')) {
+        if (! $evaluation->relationLoaded('internship')) {
             $evaluation->load('internship');
         }
 

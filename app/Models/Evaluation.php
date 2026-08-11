@@ -6,10 +6,11 @@ use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Evaluation extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'internship_id', 'supervisor_id',
@@ -19,21 +20,21 @@ class Evaluation extends Model
     ];
 
     protected $casts = [
-        'evaluated_at'      => 'datetime',
-        'soft_skill_score'  => 'decimal:2',
-        'hard_skill_score'  => 'decimal:2',
-        'attendance_score'  => 'decimal:2',
-        'attitude_score'    => 'decimal:2',
-        'final_score'       => 'decimal:2',
-        'grade'             => 'string',
+        'evaluated_at' => 'datetime',
+        'soft_skill_score' => 'decimal:2',
+        'hard_skill_score' => 'decimal:2',
+        'attendance_score' => 'decimal:2',
+        'attitude_score' => 'decimal:2',
+        'final_score' => 'decimal:2',
+        'grade' => 'string',
     ];
 
-    public function internship(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function internship(): BelongsTo
     {
         return $this->belongsTo(Internship::class);
     }
 
-    public function supervisor(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function supervisor(): BelongsTo
     {
         return $this->belongsTo(User::class, 'supervisor_id');
     }
@@ -41,18 +42,18 @@ class Evaluation extends Model
     public function calculateFinalScore(): void
     {
         $this->final_score = round(
-            ($this->soft_skill_score  * 0.25) +
-            ($this->hard_skill_score  * 0.35) +
-            ($this->attendance_score  * 0.20) +
-            ($this->attitude_score    * 0.20),
+            ($this->soft_skill_score * 0.25) +
+            ($this->hard_skill_score * 0.35) +
+            ($this->attendance_score * 0.20) +
+            ($this->attitude_score * 0.20),
             2
         );
 
-        $this->grade = match(true) {
+        $this->grade = match (true) {
             $this->final_score >= 85 => 'A',
             $this->final_score >= 70 => 'B',
             $this->final_score >= 55 => 'C',
-            default                  => 'D',
+            default => 'D',
         };
     }
 }

@@ -49,8 +49,7 @@ class EvaluationController extends Controller
 
     public function update(string $id, StoreEvaluationRequest $request): JsonResponse
     {
-        $evaluation = Evaluation::whereHas('internship', fn($q) =>
-            $q->where('supervisor_id', $request->user()->id)
+        $evaluation = Evaluation::whereHas('internship', fn ($q) => $q->where('supervisor_id', $request->user()->id)
         )->findOrFail($id);
 
         if ($evaluation->evaluated_at || $evaluation->internship->certificate) {

@@ -19,11 +19,15 @@ class EvaluationList extends Component
         $this->evaluationService = $evaluationService;
     }
 
-    public function updatingFilterGrade(): void { $this->resetPage(); }
+    public function updatingFilterGrade(): void
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
         $evaluations = $this->evaluationService->getAdminPaginatedList($this->filterGrade);
+
         return view('livewire.admin.evaluation-list', compact('evaluations'));
     }
 }

@@ -13,23 +13,23 @@ return new class extends Migration
 
             $table->uuid('application_id')->unique();
             $table->foreign('application_id')
-                  ->references('id')->on('applications')
-                  ->onDelete('restrict');
+                ->references('id')->on('applications')
+                ->onDelete('restrict');
 
             $table->uuid('intern_id');
             $table->foreign('intern_id')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->uuid('supervisor_id')->nullable();
             $table->foreign('supervisor_id')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->uuid('vacancy_id');
             $table->foreign('vacancy_id')
-                  ->references('id')->on('vacancies')
-                  ->onDelete('restrict');
+                ->references('id')->on('vacancies')
+                ->onDelete('restrict');
 
             $table->date('actual_start_date')->nullable();
             $table->date('actual_end_date')->nullable();

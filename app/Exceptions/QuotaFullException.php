@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class QuotaFullException extends Exception
 {
@@ -11,7 +12,7 @@ class QuotaFullException extends Exception
         parent::__construct('Kuota lowongan sudah penuh.', 422);
     }
 
-    public function render(): \Illuminate\Http\JsonResponse
+    public function render(): JsonResponse
     {
         return response()->json([
             'success' => false,

@@ -11,12 +11,12 @@ class UserService
     public function getPaginatedList(string $search = '', string $filterRole = ''): LengthAwarePaginator
     {
         return User::with(['internProfile', 'supervisorProfile'])
-            ->when($search, fn($q) => $q->where(function ($q) use ($search) {
-                $q->where('email', 'like', '%' . $search . '%')
-                  ->orWhereHas('internProfile', fn($p) => $p->where('full_name', 'like', '%' . $search . '%'))
-                  ->orWhereHas('supervisorProfile', fn($p) => $p->where('full_name', 'like', '%' . $search . '%'));
+            ->when($search, fn ($q) => $q->where(function ($q) use ($search) {
+                $q->where('email', 'like', '%'.$search.'%')
+                    ->orWhereHas('internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%'))
+                    ->orWhereHas('supervisorProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%'));
             }))
-            ->when($filterRole, fn($q) => $q->where('role', $filterRole))
+            ->when($filterRole, fn ($q) => $q->where('role', $filterRole))
             ->orderBy('created_at', 'desc')
             ->paginate(10);
     }
@@ -24,6 +24,7 @@ class UserService
     public function create(array $data): User
     {
         $data['password'] = Hash::make($data['password']);
+
         return User::create($data);
     }
 
@@ -39,7 +40,8 @@ class UserService
 
     public function toggleActive(User $user): bool
     {
-        $user->update(['is_active' => !$user->is_active]);
+        $user->update(['is_active' => ! $user->is_active]);
+
         return $user->is_active;
     }
 }

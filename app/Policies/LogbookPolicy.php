@@ -9,7 +9,7 @@ class LogbookPolicy
 {
     public function view(User $user, Logbook $logbook): bool
     {
-        if (!$logbook->relationLoaded('internship')) {
+        if (! $logbook->relationLoaded('internship')) {
             $logbook->load('internship');
         }
 
@@ -28,7 +28,7 @@ class LogbookPolicy
 
     public function update(User $user, Logbook $logbook): bool
     {
-        if (!$logbook->relationLoaded('internship')) {
+        if (! $logbook->relationLoaded('internship')) {
             $logbook->load('internship');
         }
 

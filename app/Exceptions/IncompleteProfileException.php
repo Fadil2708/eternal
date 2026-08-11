@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\JsonResponse;
 
 class IncompleteProfileException extends Exception
 {
@@ -15,7 +16,7 @@ class IncompleteProfileException extends Exception
         parent::__construct($message, 422);
     }
 
-    public function render(): \Illuminate\Http\JsonResponse
+    public function render(): JsonResponse
     {
         return response()->json([
             'success' => false,

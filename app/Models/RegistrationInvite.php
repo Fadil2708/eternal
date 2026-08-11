@@ -5,11 +5,12 @@ namespace App\Models;
 use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 class RegistrationInvite extends Model
 {
-    use HasUuid, Auditable;
+    use Auditable, HasUuid;
 
     protected $fillable = [
         'code', 'role', 'email', 'used_at', 'expires_at', 'created_by',
@@ -20,15 +21,15 @@ class RegistrationInvite extends Model
         'expires_at' => 'datetime',
     ];
 
-    public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
     public function isValid(): bool
     {
-        return !$this->used_at
-            && (!$this->expires_at || $this->expires_at->isFuture());
+        return ! $this->used_at
+            && (! $this->expires_at || $this->expires_at->isFuture());
     }
 
     public function markAsUsed(?string $email = null): void

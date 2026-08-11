@@ -22,17 +22,17 @@ class LogbookFactory extends Factory
 
     public function draft(): static
     {
-        return $this->state(fn() => ['validation_status' => 'draft']);
+        return $this->state(fn () => ['validation_status' => 'draft']);
     }
 
     public function submitted(): static
     {
-        return $this->state(fn() => ['validation_status' => 'submitted']);
+        return $this->state(fn () => ['validation_status' => 'submitted']);
     }
 
     public function approved(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'validation_status' => 'approved',
             'reviewed_at' => now(),
         ]);
@@ -40,7 +40,7 @@ class LogbookFactory extends Factory
 
     public function revisionRequested(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'validation_status' => 'revision_requested',
             'supervisor_notes' => fake()->sentence(),
             'reviewed_at' => now(),

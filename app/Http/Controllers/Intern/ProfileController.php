@@ -31,7 +31,7 @@ class ProfileController extends Controller
             $url = $this->fileUploadService->uploadProfilePhoto(
                 $request->file('photo_url'), $user->id
             );
-            if (!$url) {
+            if (! $url) {
                 return $this->error('Gagal mengupload foto profil.', 500);
             }
             $data['photo_url'] = $url;
@@ -44,7 +44,7 @@ class ProfileController extends Controller
             $url = $this->fileUploadService->uploadCv(
                 $request->file('cv_url'), $user->id
             );
-            if (!$url) {
+            if (! $url) {
                 return $this->error('Gagal mengupload CV.', 500);
             }
             $data['cv_url'] = $url;
@@ -57,7 +57,7 @@ class ProfileController extends Controller
             $url = $this->fileUploadService->uploadCoverLetter(
                 $request->file('cover_letter_url'), $user->id
             );
-            if (!$url) {
+            if (! $url) {
                 return $this->error('Gagal mengupload cover letter.', 500);
             }
             $data['cover_letter_url'] = $url;

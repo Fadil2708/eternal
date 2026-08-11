@@ -6,10 +6,11 @@ use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FinalReport extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'internship_id', 'intern_id', 'title',
@@ -18,18 +19,18 @@ class FinalReport extends Model
     ];
 
     protected $casts = [
-        'submitted_at'        => 'datetime',
-        'approved_at'         => 'datetime',
+        'submitted_at' => 'datetime',
+        'approved_at' => 'datetime',
         'supervisor_approval' => 'string',
-        'file_size_kb'        => 'integer',
+        'file_size_kb' => 'integer',
     ];
 
-    public function internship(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function internship(): BelongsTo
     {
         return $this->belongsTo(Internship::class);
     }
 
-    public function intern(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function intern(): BelongsTo
     {
         return $this->belongsTo(User::class, 'intern_id');
     }

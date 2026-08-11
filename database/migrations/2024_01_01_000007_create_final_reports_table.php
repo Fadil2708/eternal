@@ -13,13 +13,13 @@ return new class extends Migration
 
             $table->uuid('internship_id')->unique();
             $table->foreign('internship_id')
-                  ->references('id')->on('internships')
-                  ->onDelete('cascade');
+                ->references('id')->on('internships')
+                ->onDelete('cascade');
 
             $table->uuid('intern_id');
             $table->foreign('intern_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->string('title', 500);
             $table->string('file_url', 500);
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamp('submitted_at')->nullable();
 
             $table->enum('supervisor_approval', ['pending', 'approved', 'rejected'])
-                  ->default('pending');
+                ->default('pending');
 
             $table->timestamp('approved_at')->nullable();
 

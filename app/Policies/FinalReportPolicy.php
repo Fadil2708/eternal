@@ -9,7 +9,7 @@ class FinalReportPolicy
 {
     public function view(User $user, FinalReport $report): bool
     {
-        if (!$report->relationLoaded('internship')) {
+        if (! $report->relationLoaded('internship')) {
             $report->load('internship');
         }
 

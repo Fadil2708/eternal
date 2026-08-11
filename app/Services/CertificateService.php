@@ -15,11 +15,11 @@ class CertificateService
             throw new \Exception('Sertifikat hanya bisa diterbitkan untuk magang yang sudah selesai.');
         }
 
-        if (!$internship->relationLoaded('evaluation')) {
+        if (! $internship->relationLoaded('evaluation')) {
             $internship->load('evaluation');
         }
 
-        if (!$internship->evaluation) {
+        if (! $internship->evaluation) {
             throw new \Exception('Penilaian belum diisi oleh pembimbing.');
         }
 

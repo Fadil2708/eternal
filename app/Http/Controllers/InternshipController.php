@@ -19,7 +19,7 @@ class InternshipController extends Controller
             'supervisor.supervisorProfile',
             'vacancy',
             'application',
-            'logbooks' => fn($q) => $q->latest()->take(10),
+            'logbooks' => fn ($q) => $q->latest()->take(10),
             'finalReport',
             'evaluation',
             'certificate',

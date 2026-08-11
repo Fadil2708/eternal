@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\RegistrationInvite;
 use App\Services\InviteService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -31,6 +30,7 @@ class InviteList extends Component
     public function render()
     {
         $invites = $this->inviteService->getPaginatedList();
+
         return view('livewire.admin.invite-list', compact('invites'));
     }
 }

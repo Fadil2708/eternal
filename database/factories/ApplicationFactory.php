@@ -20,17 +20,17 @@ class ApplicationFactory extends Factory
 
     public function submitted(): static
     {
-        return $this->state(fn() => ['status' => 'submitted']);
+        return $this->state(fn () => ['status' => 'submitted']);
     }
 
     public function underReview(): static
     {
-        return $this->state(fn() => ['status' => 'under_review']);
+        return $this->state(fn () => ['status' => 'under_review']);
     }
 
     public function interviewScheduled(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => 'interview_scheduled',
             'interview_date' => now()->addDays(3),
         ]);
@@ -38,12 +38,12 @@ class ApplicationFactory extends Factory
 
     public function accepted(): static
     {
-        return $this->state(fn() => ['status' => 'accepted']);
+        return $this->state(fn () => ['status' => 'accepted']);
     }
 
     public function rejected(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'status' => 'rejected',
             'rejection_reason' => fake()->sentence(),
         ]);
@@ -51,6 +51,6 @@ class ApplicationFactory extends Factory
 
     public function cancelled(): static
     {
-        return $this->state(fn() => ['status' => 'cancelled']);
+        return $this->state(fn () => ['status' => 'cancelled']);
     }
 }

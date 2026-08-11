@@ -20,6 +20,7 @@ class RegisteredSupervisorController extends Controller
         if ($request->has('code')) {
             $params['code'] = $request->input('code');
         }
+
         return redirect()->route('register', $params);
     }
 
@@ -27,13 +28,13 @@ class RegisteredSupervisorController extends Controller
     {
         $request->validate([
             'code' => ['required', 'string', 'size:8'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:' . User::class],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
         ]);
 
         $invite = RegistrationInvite::where('code', $request->code)->first();
 
-        if (!$invite || !$invite->isValid()) {
+        if (! $invite || ! $invite->isValid()) {
             return back()->withErrors(['code' => 'Kode undangan tidak valid atau sudah kadaluarsa.'])->withInput();
         }
 

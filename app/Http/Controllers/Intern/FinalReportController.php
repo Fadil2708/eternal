@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Intern;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\FinalReport\StoreFinalReportRequest;
 use App\Http\Resources\FinalReportResource;
-use App\Models\Internship;
 use App\Models\FinalReport;
+use App\Models\Internship;
 use App\Services\FileUploadService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
@@ -36,7 +36,7 @@ class FinalReportController extends Controller
             $internshipId
         );
 
-        if (!$fileUrl) {
+        if (! $fileUrl) {
             return $this->error('Gagal mengupload file. Silakan coba lagi.', 500);
         }
 

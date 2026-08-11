@@ -12,8 +12,11 @@ class FaqList extends Component
     use WithPagination;
 
     public $editingId = null;
+
     public $question = '';
+
     public $answer = '';
+
     public $sort_order = 0;
 
     private FaqService $faqService;
@@ -104,6 +107,7 @@ class FaqList extends Component
     public function render()
     {
         $faqs = $this->faqService->getPaginatedList();
+
         return view('livewire.admin.faq-list', compact('faqs'));
     }
 }

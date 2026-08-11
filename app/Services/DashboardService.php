@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Application;
 use App\Models\Certificate;
+use App\Models\Evaluation;
 use App\Models\FinalReport;
 use App\Models\Internship;
 use App\Models\Logbook;
@@ -103,15 +104,15 @@ class DashboardService
             ->whereIn('status', ['active', 'extended'])
             ->count();
 
-        $pendingLogbooks = Logbook::whereHas('internship', fn($q) => $q->where('supervisor_id', $userId))
+        $pendingLogbooks = Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId))
             ->where('validation_status', 'submitted')
             ->count();
 
-        $pendingReports = FinalReport::whereHas('internship', fn($q) => $q->where('supervisor_id', $userId))
+        $pendingReports = FinalReport::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId))
             ->where('supervisor_approval', 'pending')
             ->count();
 
-        $pendingEvaluations = \App\Models\Evaluation::where('supervisor_id', $userId)
+        $pendingEvaluations = Evaluation::where('supervisor_id', $userId)
             ->whereNull('evaluated_at')
             ->count();
 

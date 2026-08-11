@@ -75,7 +75,7 @@ class InternshipApiTest extends TestCase
         $intern = User::factory()->intern()->create();
         $internship = Internship::factory()->active()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id);
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.id', $internship->id);
@@ -87,7 +87,7 @@ class InternshipApiTest extends TestCase
         $supervisor = User::factory()->supervisor()->create();
         $internship = Internship::factory()->active()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/' . $internship->id . '/supervisor', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/'.$internship->id.'/supervisor', [
             'supervisor_id' => $supervisor->id,
         ]);
 
@@ -101,7 +101,7 @@ class InternshipApiTest extends TestCase
         $intern = User::factory()->intern()->create();
         $internship = Internship::factory()->active()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/' . $internship->id . '/supervisor', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/'.$internship->id.'/supervisor', [
             'supervisor_id' => $intern->id,
         ]);
 
@@ -113,7 +113,7 @@ class InternshipApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $internship = Internship::factory()->active()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/' . $internship->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/'.$internship->id.'/status', [
             'status' => 'completed',
         ]);
 
@@ -126,7 +126,7 @@ class InternshipApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $internship = Internship::factory()->completed()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/' . $internship->id . '/status', [
+        $response = $this->actingAs($admin)->patchJson('/api/v1/internships/'.$internship->id.'/status', [
             'status' => 'terminated',
         ]);
 
@@ -139,7 +139,7 @@ class InternshipApiTest extends TestCase
         $internship = Internship::factory()->active()->create(['intern_id' => $intern->id]);
         $supervisor = User::factory()->supervisor()->create();
 
-        $response = $this->actingAs($intern)->patchJson('/api/v1/internships/' . $internship->id . '/supervisor', [
+        $response = $this->actingAs($intern)->patchJson('/api/v1/internships/'.$internship->id.'/supervisor', [
             'supervisor_id' => $supervisor->id,
         ]);
 

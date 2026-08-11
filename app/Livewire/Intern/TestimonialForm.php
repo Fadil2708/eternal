@@ -2,14 +2,20 @@
 
 namespace App\Livewire\Intern;
 
+use App\Models\Internship;
+use App\Models\Testimonial;
 use Livewire\Component;
 
 class TestimonialForm extends Component
 {
     public int $rating = 5;
+
     public string $content = '';
+
     public bool $submitted = false;
+
     public bool $hasCompletedInternship = false;
+
     public bool $alreadySubmitted = false;
 
     protected $rules = [
@@ -19,21 +25,21 @@ class TestimonialForm extends Component
 
     public function mount(): void
     {
-        $this->hasCompletedInternship = \App\Models\Internship::where('intern_id', auth()->id())
+        $this->hasCompletedInternship = Internship::where('intern_id', auth()->id())
             ->where('status', 'completed')->exists();
-        $this->alreadySubmitted = \App\Models\Testimonial::where('intern_id', auth()->id())->exists();
+        $this->alreadySubmitted = Testimonial::where('intern_id', auth()->id())->exists();
     }
 
     public function submit(): void
     {
         $this->validate();
 
-        $internship = \App\Models\Internship::where('intern_id', auth()->id())
+        $internship = Internship::where('intern_id', auth()->id())
             ->where('status', 'completed')
             ->latest()
             ->firstOrFail();
 
-        \App\Models\Testimonial::create([
+        Testimonial::create([
             'intern_id' => auth()->id(),
             'internship_id' => $internship->id,
             'rating' => $this->rating,

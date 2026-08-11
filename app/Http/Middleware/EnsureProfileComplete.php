@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\InternProfile;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +13,7 @@ class EnsureProfileComplete
     {
         $user = $request->user();
 
-        if (!$user) {
+        if (! $user) {
             return $next($request);
         }
 
@@ -20,10 +21,10 @@ class EnsureProfileComplete
             $user->load('internProfile');
             $profile = $user->internProfile;
 
-            $required = \App\Models\InternProfile::requiredFields();
+            $required = InternProfile::requiredFields();
 
             foreach ($required as $field) {
-                if (!$profile || empty($profile->{$field})) {
+                if (! $profile || empty($profile->{$field})) {
                     if ($request->expectsJson()) {
                         return response()->json([
                             'success' => false,

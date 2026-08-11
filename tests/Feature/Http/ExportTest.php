@@ -17,6 +17,7 @@ use Tests\TestCase;
 class ExportTest extends TestCase
 {
     private User $admin;
+
     private Vacancy $vacancy;
 
     protected function setUp(): void

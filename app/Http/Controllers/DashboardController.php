@@ -21,9 +21,9 @@ class DashboardController extends Controller
         $user = auth()->user();
 
         return match ($user->role) {
-            'admin' => $this->success(Cache::remember('dashboard.stats.admin', 60, fn() => $this->adminStats())),
-            'supervisor' => $this->success(Cache::remember('dashboard.stats.supervisor.' . $user->id, 60, fn() => $this->supervisorStats())),
-            'intern' => $this->success(Cache::remember('dashboard.stats.intern.' . $user->id, 60, fn() => $this->internStats())),
+            'admin' => $this->success(Cache::remember('dashboard.stats.admin', 60, fn () => $this->adminStats())),
+            'supervisor' => $this->success(Cache::remember('dashboard.stats.supervisor.'.$user->id, 60, fn () => $this->supervisorStats())),
+            'intern' => $this->success(Cache::remember('dashboard.stats.intern.'.$user->id, 60, fn () => $this->internStats())),
             default => $this->error('Role tidak dikenal.', 403),
         };
     }
@@ -49,11 +49,9 @@ class DashboardController extends Controller
             'peserta_aktif' => Internship::where('supervisor_id', $userId)
                 ->where('status', 'active')
                 ->count(),
-            'logbook_pending_review' => Logbook::whereHas('internship', fn($q) =>
-                $q->where('supervisor_id', $userId)
+            'logbook_pending_review' => Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId)
             )->where('validation_status', 'submitted')->count(),
-            'laporan_pending_approval' => FinalReport::whereHas('internship', fn($q) =>
-                $q->where('supervisor_id', $userId)
+            'laporan_pending_approval' => FinalReport::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId)
             )->where('supervisor_approval', 'pending')->count(),
         ];
     }
@@ -72,8 +70,7 @@ class DashboardController extends Controller
             'logbook_hari_ini' => Logbook::where('intern_id', $userId)
                 ->whereDate('activity_date', today())
                 ->exists(),
-            'status_laporan_akhir' => FinalReport::whereHas('internship', fn($q) =>
-                $q->where('intern_id', $userId)
+            'status_laporan_akhir' => FinalReport::whereHas('internship', fn ($q) => $q->where('intern_id', $userId)
             )->first()?->supervisor_approval,
             'ada_sertifikat' => Certificate::where('intern_id', $userId)->exists(),
         ];

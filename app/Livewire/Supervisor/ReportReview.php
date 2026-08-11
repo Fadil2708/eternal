@@ -12,18 +12,21 @@ class ReportReview extends Component
 
     public string $filterStatus = '';
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     private function baseQuery()
     {
         return FinalReport::with(['intern.internProfile', 'internship.vacancy'])
-            ->whereHas('internship', fn($q) => $q->where('supervisor_id', auth()->id()));
+            ->whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()));
     }
 
     public function render()
     {
         $reports = $this->baseQuery()
-            ->when($this->filterStatus, fn($q) => $q->where('supervisor_approval', $this->filterStatus))
+            ->when($this->filterStatus, fn ($q) => $q->where('supervisor_approval', $this->filterStatus))
             ->latest('submitted_at')
             ->paginate(10);
 

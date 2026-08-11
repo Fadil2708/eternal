@@ -18,7 +18,7 @@ class CertificateAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(200);
     }
@@ -33,7 +33,7 @@ class CertificateAccessTest extends TestCase
             'intern_id' => $other->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(403);
     }
@@ -51,7 +51,7 @@ class CertificateAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(200);
     }
@@ -66,7 +66,7 @@ class CertificateAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($admin)->getJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($admin)->getJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(200);
     }
@@ -81,7 +81,7 @@ class CertificateAccessTest extends TestCase
             'certificate_file_url' => null,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/certificates/' . $certificate->id . '/download');
+        $response = $this->actingAs($intern)->getJson('/api/v1/certificates/'.$certificate->id.'/download');
 
         $response->assertStatus(404);
     }
@@ -96,7 +96,7 @@ class CertificateAccessTest extends TestCase
             'intern_id' => $other->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/certificates/' . $certificate->id . '/download');
+        $response = $this->actingAs($intern)->getJson('/api/v1/certificates/'.$certificate->id.'/download');
 
         $response->assertStatus(404);
     }

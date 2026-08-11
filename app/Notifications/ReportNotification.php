@@ -25,7 +25,7 @@ class ReportNotification extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         $data = [
-            'intern_name'  => $this->report->intern->internProfile?->full_name ?? $this->report->intern->email,
+            'intern_name' => $this->report->intern->internProfile?->full_name ?? $this->report->intern->email,
             'report_title' => $this->report->title,
         ];
 
@@ -37,21 +37,21 @@ class ReportNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable): array
     {
         return [
-            'type'       => "report.{$this->type}",
-            'title'      => $this->getTitle(),
-            'body'       => $this->getBody(),
-            'url'        => route('intern.reports'),
+            'type' => "report.{$this->type}",
+            'title' => $this->getTitle(),
+            'body' => $this->getBody(),
+            'url' => route('intern.reports'),
             'model_type' => 'final_report',
-            'model_id'   => $this->report->id,
+            'model_id' => $this->report->id,
         ];
     }
 
     public function toArray($notifiable): array
     {
         return [
-            'type'  => $this->type,
+            'type' => $this->type,
             'title' => $this->getTitle(),
-            'body'  => $this->getBody(),
+            'body' => $this->getBody(),
         ];
     }
 
@@ -82,6 +82,7 @@ class ReportNotification extends Notification implements ShouldQueue
     private function getBody(): string
     {
         $title = $this->report->title;
+
         return match ($this->type) {
             'approved' => "Laporan \"{$title}\" telah disetujui.",
             'rejected' => "Laporan \"{$title}\" perlu diperbaiki.",

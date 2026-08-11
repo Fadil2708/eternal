@@ -4,6 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Exceptions\IncompleteProfileException;
 use App\Exceptions\QuotaFullException;
+use App\Models\Application;
 use App\Models\InternProfile;
 use App\Models\User;
 use App\Models\Vacancy;
@@ -17,7 +18,7 @@ class ApplicationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new ApplicationService();
+        $this->service = new ApplicationService;
     }
 
     public function test_apply_success(): void
@@ -143,7 +144,7 @@ class ApplicationServiceTest extends TestCase
             'cv_url' => 'interns/cv/test.pdf',
         ]);
 
-        \App\Models\Application::factory()->accepted()->create([
+        Application::factory()->accepted()->create([
             'intern_id' => $firstIntern->id,
             'vacancy_id' => $vacancy->id,
         ]);
@@ -155,7 +156,7 @@ class ApplicationServiceTest extends TestCase
 
     public function test_accept_creates_internship(): void
     {
-        $application = \App\Models\Application::factory()->interviewScheduled()->create();
+        $application = Application::factory()->interviewScheduled()->create();
 
         $internship = $this->service->accept($application);
 
@@ -169,7 +170,7 @@ class ApplicationServiceTest extends TestCase
 
     public function test_reject_updates_status_and_reason(): void
     {
-        $application = \App\Models\Application::factory()->underReview()->create();
+        $application = Application::factory()->underReview()->create();
         $reason = 'Tidak memenuhi kualifikasi';
 
         $this->service->reject($application, $reason);
@@ -181,7 +182,7 @@ class ApplicationServiceTest extends TestCase
 
     public function test_cancel_success(): void
     {
-        $application = \App\Models\Application::factory()->submitted()->create();
+        $application = Application::factory()->submitted()->create();
 
         $this->service->cancel($application);
 
@@ -190,7 +191,7 @@ class ApplicationServiceTest extends TestCase
 
     public function test_cancel_throws_on_non_submitted(): void
     {
-        $application = \App\Models\Application::factory()->underReview()->create();
+        $application = Application::factory()->underReview()->create();
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage('Hanya lamaran dengan status submitted');

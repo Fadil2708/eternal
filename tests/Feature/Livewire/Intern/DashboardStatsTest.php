@@ -3,7 +3,6 @@
 namespace Tests\Feature\Livewire\Intern;
 
 use App\Livewire\Intern\DashboardStats;
-use App\Models\Application;
 use App\Models\InternProfile;
 use App\Models\Internship;
 use App\Models\Logbook;

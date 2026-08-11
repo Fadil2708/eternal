@@ -23,12 +23,12 @@ class FinalReportFactory extends Factory
 
     public function pending(): static
     {
-        return $this->state(fn() => ['supervisor_approval' => 'pending']);
+        return $this->state(fn () => ['supervisor_approval' => 'pending']);
     }
 
     public function approved(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'supervisor_approval' => 'approved',
             'approved_at' => now(),
         ]);
@@ -36,6 +36,6 @@ class FinalReportFactory extends Factory
 
     public function rejected(): static
     {
-        return $this->state(fn() => ['supervisor_approval' => 'rejected']);
+        return $this->state(fn () => ['supervisor_approval' => 'rejected']);
     }
 }

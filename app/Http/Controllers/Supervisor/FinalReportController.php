@@ -21,8 +21,7 @@ class FinalReportController extends Controller
             'notes' => 'nullable|string',
         ]);
 
-        $report = FinalReport::whereHas('internship', fn($q) =>
-            $q->where('supervisor_id', auth()->id())
+        $report = FinalReport::whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id())
         )->findOrFail($id);
 
         if ($report->supervisor_approval !== 'pending') {

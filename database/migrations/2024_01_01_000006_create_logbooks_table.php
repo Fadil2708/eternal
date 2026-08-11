@@ -13,13 +13,13 @@ return new class extends Migration
 
             $table->uuid('internship_id');
             $table->foreign('internship_id')
-                  ->references('id')->on('internships')
-                  ->onDelete('cascade');
+                ->references('id')->on('internships')
+                ->onDelete('cascade');
 
             $table->uuid('intern_id');
             $table->foreign('intern_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->date('activity_date');
             $table->text('activities');

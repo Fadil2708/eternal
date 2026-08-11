@@ -11,10 +11,15 @@ use Livewire\Component;
 class LogbookForm extends Component
 {
     public ?string $logbookId = null;
+
     public string $activity_date = '';
+
     public string $activities = '';
+
     public string $output = '';
+
     public bool $hasActiveInternship = false;
+
     public string $validationStatus = 'draft';
 
     private LogbookService $logbookService;
@@ -91,8 +96,8 @@ class LogbookForm extends Component
 
             $this->resetForm();
         } catch (\Exception $e) {
-            Log::error('Logbook save failed: ' . $e->getMessage());
-            $this->dispatch('toast', message: 'Gagal menyimpan logbook: ' . $e->getMessage(), type: 'error');
+            Log::error('Logbook save failed: '.$e->getMessage());
+            $this->dispatch('toast', message: 'Gagal menyimpan logbook: '.$e->getMessage(), type: 'error');
         }
     }
 

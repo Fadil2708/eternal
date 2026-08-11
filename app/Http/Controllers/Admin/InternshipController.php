@@ -51,7 +51,7 @@ class InternshipController extends Controller
             return $this->error('User yang dipilih bukan seorang supervisor.', 422);
         }
 
-        if (!$supervisor->is_active) {
+        if (! $supervisor->is_active) {
             return $this->error('Supervisor yang dipilih tidak aktif.', 422);
         }
 

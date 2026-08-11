@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Faq extends Model
 {
     use Auditable;
+
     protected $fillable = ['question', 'answer', 'sort_order', 'is_active'];
 
     protected function casts(): array

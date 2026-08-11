@@ -18,7 +18,7 @@ class ReportAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/reports');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/reports');
 
         $response->assertStatus(200)
             ->assertJsonPath('success', true);
@@ -34,7 +34,7 @@ class ReportAccessTest extends TestCase
             'intern_id' => $other->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/reports');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/reports');
 
         $response->assertStatus(403);
     }
@@ -52,7 +52,7 @@ class ReportAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/' . $internship->id . '/reports');
+        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/'.$internship->id.'/reports');
 
         $response->assertStatus(200);
     }
@@ -67,7 +67,7 @@ class ReportAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($admin)->getJson('/api/v1/internships/' . $internship->id . '/reports');
+        $response = $this->actingAs($admin)->getJson('/api/v1/internships/'.$internship->id.'/reports');
 
         $response->assertStatus(200);
     }

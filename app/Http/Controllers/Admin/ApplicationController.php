@@ -99,7 +99,7 @@ class ApplicationController extends Controller
         $application = Application::with('intern.internProfile')->findOrFail($id);
         $profile = $application->intern?->internProfile;
 
-        if (!$profile) {
+        if (! $profile) {
             abort(404, 'Profil intern tidak ditemukan.');
         }
 
@@ -110,17 +110,17 @@ class ApplicationController extends Controller
             default => null,
         };
 
-        if (!$field || !$profile->{$field}) {
+        if (! $field || ! $profile->{$field}) {
             abort(404, 'File tidak ditemukan.');
         }
 
         $disk = Storage::disk(config('filesystems.private_disk'));
 
-        if (!$disk->exists($profile->{$field})) {
+        if (! $disk->exists($profile->{$field})) {
             $disk = Storage::disk('public');
         }
 
-        if (!$disk->exists($profile->{$field})) {
+        if (! $disk->exists($profile->{$field})) {
             abort(404, 'File tidak ditemukan di penyimpanan.');
         }
 

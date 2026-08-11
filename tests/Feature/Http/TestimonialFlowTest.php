@@ -4,6 +4,7 @@ namespace Tests\Feature\Http;
 
 use App\Models\InternProfile;
 use App\Models\Internship;
+use App\Models\Testimonial;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -15,7 +16,7 @@ class TestimonialFlowTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $internship = Internship::factory()->completed()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->postJson('/api/v1/internships/' . $internship->id . '/testimonials', [
+        $response = $this->actingAs($intern)->postJson('/api/v1/internships/'.$internship->id.'/testimonials', [
             'rating' => 5,
             'content' => 'Great internship experience!',
         ]);
@@ -33,7 +34,7 @@ class TestimonialFlowTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $internship = Internship::factory()->completed()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->postJson('/api/v1/internships/' . $internship->id . '/testimonials', [
+        $response = $this->actingAs($intern)->postJson('/api/v1/internships/'.$internship->id.'/testimonials', [
             'rating' => 10,
             'content' => 'Great experience!',
         ]);
@@ -44,9 +45,9 @@ class TestimonialFlowTest extends TestCase
     public function test_admin_can_toggle_publish(): void
     {
         $admin = User::factory()->admin()->create();
-        $testimonial = \App\Models\Testimonial::factory()->unpublished()->create();
+        $testimonial = Testimonial::factory()->unpublished()->create();
 
-        $response = $this->actingAs($admin)->patchJson('/api/v1/testimonials/' . $testimonial->id . '/publish');
+        $response = $this->actingAs($admin)->patchJson('/api/v1/testimonials/'.$testimonial->id.'/publish');
 
         $response->assertStatus(200);
         $this->assertTrue($testimonial->fresh()->is_published);
@@ -54,8 +55,8 @@ class TestimonialFlowTest extends TestCase
 
     public function test_public_can_view_published_testimonials(): void
     {
-        \App\Models\Testimonial::factory(3)->published()->create();
-        \App\Models\Testimonial::factory()->unpublished()->create();
+        Testimonial::factory(3)->published()->create();
+        Testimonial::factory()->unpublished()->create();
 
         $response = $this->getJson('/api/v1/testimonials');
 

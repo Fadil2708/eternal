@@ -32,14 +32,14 @@ class LogbookNotification extends Notification implements ShouldQueue
             $supervisor = $this->logbook->internship?->supervisor;
             $data = [
                 'supervisor_name' => $supervisor?->supervisorProfile?->full_name ?? $supervisor?->email ?? 'Pembimbing',
-                'intern_name'     => $this->logbook->intern->internProfile?->full_name ?? $this->logbook->intern->email,
-                'activity_date'   => $activityDate,
+                'intern_name' => $this->logbook->intern->internProfile?->full_name ?? $this->logbook->intern->email,
+                'activity_date' => $activityDate,
             ];
         } else {
             $data = [
-                'intern_name'     => $this->logbook->intern->internProfile?->full_name ?? $this->logbook->intern->email,
-                'activity_date'   => $activityDate,
-                'supervisor_notes'=> $this->logbook->supervisor_notes,
+                'intern_name' => $this->logbook->intern->internProfile?->full_name ?? $this->logbook->intern->email,
+                'activity_date' => $activityDate,
+                'supervisor_notes' => $this->logbook->supervisor_notes,
             ];
         }
 
@@ -51,48 +51,48 @@ class LogbookNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable): array
     {
         return [
-            'type'       => "logbook.{$this->type}",
-            'title'      => $this->getTitle(),
-            'body'       => $this->getBody(),
-            'url'        => $this->getUrl(),
+            'type' => "logbook.{$this->type}",
+            'title' => $this->getTitle(),
+            'body' => $this->getBody(),
+            'url' => $this->getUrl(),
             'model_type' => 'logbook',
-            'model_id'   => $this->logbook->id,
+            'model_id' => $this->logbook->id,
         ];
     }
 
     public function toArray($notifiable): array
     {
         return [
-            'type'  => $this->type,
+            'type' => $this->type,
             'title' => $this->getTitle(),
-            'body'  => $this->getBody(),
+            'body' => $this->getBody(),
         ];
     }
 
     private function getView(): string
     {
         return match ($this->type) {
-            'approved'          => 'emails.logbook.approved',
-            'revision_requested'=> 'emails.logbook.revision-requested',
-            'new_submission'    => 'emails.logbook.new-submission',
+            'approved' => 'emails.logbook.approved',
+            'revision_requested' => 'emails.logbook.revision-requested',
+            'new_submission' => 'emails.logbook.new-submission',
         };
     }
 
     private function getSubject(): string
     {
         return match ($this->type) {
-            'approved'           => 'Logbook Disetujui',
+            'approved' => 'Logbook Disetujui',
             'revision_requested' => 'Logbook Perlu Revisi',
-            'new_submission'     => 'Logbook Baru dari Peserta',
+            'new_submission' => 'Logbook Baru dari Peserta',
         };
     }
 
     private function getTitle(): string
     {
         return match ($this->type) {
-            'approved'           => 'Logbook Disetujui',
+            'approved' => 'Logbook Disetujui',
             'revision_requested' => 'Logbook Perlu Revisi',
-            'new_submission'     => 'Logbook Baru Perlu Review',
+            'new_submission' => 'Logbook Baru Perlu Review',
         };
     }
 
@@ -102,9 +102,9 @@ class LogbookNotification extends Notification implements ShouldQueue
         $internName = $this->logbook->intern->internProfile?->full_name ?? $this->logbook->intern->email;
 
         return match ($this->type) {
-            'approved'           => "Logbook tanggal {$date} telah disetujui.",
+            'approved' => "Logbook tanggal {$date} telah disetujui.",
             'revision_requested' => "Logbook tanggal {$date} perlu direvisi.",
-            'new_submission'     => "{$internName} mengirimkan logbook baru untuk direview.",
+            'new_submission' => "{$internName} mengirimkan logbook baru untuk direview.",
         };
     }
 
@@ -112,7 +112,7 @@ class LogbookNotification extends Notification implements ShouldQueue
     {
         return match ($this->type) {
             'approved', 'revision_requested' => route('intern.logbooks'),
-            'new_submission'                 => route('supervisor.logbooks'),
+            'new_submission' => route('supervisor.logbooks'),
         };
     }
 }

@@ -25,10 +25,10 @@ class AuthController extends Controller
     {
         $user = DB::transaction(function () use ($request) {
             $user = User::create([
-                'id'       => (string) Str::uuid(),
-                'email'    => $request->email,
+                'id' => (string) Str::uuid(),
+                'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role'     => 'intern',
+                'role' => 'intern',
                 'is_active' => true,
             ]);
 
@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         return $this->success([
             'token' => $token,
-            'user'  => new UserResource($user),
+            'user' => new UserResource($user),
         ], 'Registrasi berhasil.', 201);
     }
 
@@ -54,11 +54,11 @@ class AuthController extends Controller
 
         $user = $request->user()->load('internProfile', 'supervisorProfile');
 
-        if (!$user->is_active) {
+        if (! $user->is_active) {
             return $this->error('Akun Anda telah dinonaktifkan.', 403);
         }
 
-        if (!$user->hasVerifiedEmail()) {
+        if (! $user->hasVerifiedEmail()) {
             return $this->error('Silakan verifikasi email Anda terlebih dahulu.', 403);
         }
 
@@ -66,7 +66,7 @@ class AuthController extends Controller
 
         return $this->success([
             'token' => $token,
-            'user'  => new UserResource($user),
+            'user' => new UserResource($user),
         ], 'Login berhasil.');
     }
 

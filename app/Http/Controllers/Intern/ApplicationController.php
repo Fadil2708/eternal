@@ -19,7 +19,7 @@ class ApplicationController extends Controller
     public function show(string $id): View
     {
         $application = Application::with([
-            'vacancy', 'intern.internProfile', 'internship'
+            'vacancy', 'intern.internProfile', 'internship',
         ])->findOrFail($id);
 
         abort_if($application->intern_id !== auth()->id(), 403);
@@ -33,9 +33,11 @@ class ApplicationController extends Controller
 
         try {
             $application = $service->apply(auth()->user(), $request->vacancy_id);
+
             return $this->created(new ApplicationResource($application), 'Lamaran berhasil dikirim');
         } catch (\Exception $e) {
             Log::warning("[API] ApplicationController::store: {$e->getMessage()}");
+
             return $this->error($e->getMessage(), 422);
         }
     }
@@ -58,9 +60,11 @@ class ApplicationController extends Controller
 
         try {
             $service->cancel($application);
+
             return $this->success(null, 'Lamaran berhasil dibatalkan');
         } catch (\Exception $e) {
             Log::warning("[API] ApplicationController::cancel: {$e->getMessage()}");
+
             return $this->error($e->getMessage(), 422);
         }
     }

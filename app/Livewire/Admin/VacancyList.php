@@ -11,8 +11,11 @@ class VacancyList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $filterStatus = '';
+
     public $sortField = 'created_at';
+
     public $sortDirection = 'desc';
 
     private VacancyService $vacancyService;
@@ -22,8 +25,15 @@ class VacancyList extends Component
         $this->vacancyService = $vacancyService;
     }
 
-    public function updatingSearch(): void { $this->resetPage(); }
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function sortBy(string $field): void
     {

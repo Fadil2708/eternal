@@ -17,7 +17,7 @@ class CertificateServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new CertificateService();
+        $this->service = new CertificateService;
     }
 
     private function createEvaluationWithGrade(Internship $internship, array $scores = []): Evaluation
@@ -51,7 +51,7 @@ class CertificateServiceTest extends TestCase
         $this->assertEquals($internship->id, $certificate->internship_id);
         $this->assertEquals($internship->intern_id, $certificate->intern_id);
         $this->assertEquals($admin->id, $certificate->issued_by);
-        $this->assertStringContainsString('CERT/TELKOM-SKB/' . now()->year, $certificate->certificate_number);
+        $this->assertStringContainsString('CERT/TELKOM-SKB/'.now()->year, $certificate->certificate_number);
         $this->assertEquals(64, strlen($certificate->qr_code_token));
         $this->assertStringContainsString('/api/v1/verify/', $certificate->qr_code_url);
         $this->assertNotNull($certificate->issued_at);

@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Models\AuditLog;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Auth;
 
 trait Auditable
@@ -38,7 +39,7 @@ trait Auditable
         ]);
     }
 
-    public function auditLogs(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function auditLogs(): MorphMany
     {
         return $this->morphMany(AuditLog::class, 'auditable');
     }

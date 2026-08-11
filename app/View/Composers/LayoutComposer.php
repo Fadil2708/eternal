@@ -10,7 +10,7 @@ class LayoutComposer
     public function compose(View $view): void
     {
         $path = str_replace('\\', '/', $view->getPath());
-        if (!str_ends_with($path, 'layouts/app.blade.php')) {
+        if (! str_ends_with($path, 'layouts/app.blade.php')) {
             return;
         }
 
@@ -18,7 +18,7 @@ class LayoutComposer
         $user = auth()->user();
 
         if ($user && $user->isIntern()) {
-            $showStrip = !Cache::remember(
+            $showStrip = ! Cache::remember(
                 "profile_complete_{$user->id}",
                 300,
                 fn () => $user->internProfile?->isComplete() ?? false

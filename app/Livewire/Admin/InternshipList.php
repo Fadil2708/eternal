@@ -2,6 +2,8 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Internship;
+use App\Services\EvaluationService;
 use App\Services\InternshipService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -11,25 +13,35 @@ class InternshipList extends Component
     use WithPagination;
 
     public $filterStatus = '';
+
     public $confirmingAction = null;
+
     public $actionType = '';
+
     public $confirmingLockId = null;
 
     public $editingInternshipId = null;
+
     public $showDatesModal = false;
+
     public $actual_start_date = '';
+
     public $actual_end_date = '';
 
     private InternshipService $internshipService;
-    private \App\Services\EvaluationService $evaluationService;
 
-    public function boot(InternshipService $internshipService, \App\Services\EvaluationService $evaluationService): void
+    private EvaluationService $evaluationService;
+
+    public function boot(InternshipService $internshipService, EvaluationService $evaluationService): void
     {
         $this->internshipService = $internshipService;
         $this->evaluationService = $evaluationService;
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function confirmAction(string $id, string $type): void
     {
@@ -62,9 +74,9 @@ class InternshipList extends Component
     public function lockEvaluation(): void
     {
         try {
-            $internship = \App\Models\Internship::with('evaluation')->findOrFail($this->confirmingLockId);
+            $internship = Internship::with('evaluation')->findOrFail($this->confirmingLockId);
 
-            if (!$internship->evaluation) {
+            if (! $internship->evaluation) {
                 throw new \Exception('Penilaian belum dibuat untuk magang ini.');
             }
 
@@ -78,7 +90,7 @@ class InternshipList extends Component
 
     public function editDates(string $id): void
     {
-        $internship = \App\Models\Internship::findOrFail($id);
+        $internship = Internship::findOrFail($id);
         $this->editingInternshipId = $id;
         $this->actual_start_date = $internship->actual_start_date?->format('Y-m-d') ?? '';
         $this->actual_end_date = $internship->actual_end_date?->format('Y-m-d') ?? '';
@@ -106,6 +118,7 @@ class InternshipList extends Component
     public function render()
     {
         $internships = $this->internshipService->getAdminPaginatedList($this->filterStatus);
+
         return view('livewire.admin.internship-list', compact('internships'));
     }
 }

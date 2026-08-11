@@ -11,6 +11,7 @@ class LogbookList extends Component
     use WithPagination;
 
     public $filterStatus = '';
+
     public $search = '';
 
     private LogbookService $logbookService;
@@ -20,12 +21,20 @@ class LogbookList extends Component
         $this->logbookService = $logbookService;
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
-    public function updatingSearch(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
 
     public function render()
     {
         $logbooks = $this->logbookService->getAdminPaginatedList($this->search, $this->filterStatus);
+
         return view('livewire.admin.logbook-list', compact('logbooks'));
     }
 }

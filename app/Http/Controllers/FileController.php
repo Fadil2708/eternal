@@ -24,7 +24,7 @@ class FileController extends Controller
             abort(404);
         }
 
-        if (!str_starts_with($fullPath, $diskRoot)) {
+        if (! str_starts_with($fullPath, $diskRoot)) {
             abort(403, 'Invalid file path.');
         }
 
@@ -45,12 +45,12 @@ class FileController extends Controller
 
         if ($type === 'reports') {
             $internship = Internship::with(['intern', 'supervisor'])->find($ownerId);
-            if (!$internship) {
+            if (! $internship) {
                 abort(404);
             }
             $isSupervisor = $internship->supervisor_id !== null && $internship->supervisor_id === $user->id;
             $isIntern = $internship->intern_id === $user->id;
-            if (!$isSupervisor && !$isIntern) {
+            if (! $isSupervisor && ! $isIntern) {
                 abort(403, 'You do not have access to this file.');
             }
         } elseif ($user->id !== $ownerId) {

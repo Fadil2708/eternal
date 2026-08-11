@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Faq;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Collection;
 
 class FaqService
 {
@@ -20,6 +21,7 @@ class FaqService
     public function update(Faq $faq, array $data): Faq
     {
         $faq->update($data);
+
         return $faq->fresh();
     }
 
@@ -30,11 +32,12 @@ class FaqService
 
     public function toggleActive(Faq $faq): bool
     {
-        $faq->update(['is_active' => !$faq->is_active]);
+        $faq->update(['is_active' => ! $faq->is_active]);
+
         return $faq->is_active;
     }
 
-    public function getActiveFaqs(): \Illuminate\Support\Collection
+    public function getActiveFaqs(): Collection
     {
         return Faq::active()->orderBy('sort_order')->get();
     }

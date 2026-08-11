@@ -27,7 +27,7 @@ class UserController extends Controller
             'Daftar pengguna.',
             meta: [
                 'current_page' => $users->currentPage(),
-                'total'        => $users->total(),
+                'total' => $users->total(),
             ]
         );
     }
@@ -36,10 +36,10 @@ class UserController extends Controller
     {
         $user = DB::transaction(function () use ($request) {
             $user = User::create([
-                'id'        => (string) Str::uuid(),
-                'email'     => $request->email,
-                'password'  => Hash::make($request->password),
-                'role'      => $request->role,
+                'id' => (string) Str::uuid(),
+                'email' => $request->email,
+                'password' => Hash::make($request->password),
+                'role' => $request->role,
                 'is_active' => $request->boolean('is_active', true),
             ]);
 

@@ -13,7 +13,7 @@ class CertificateFactory extends Factory
         return [
             'internship_id' => Internship::factory(),
             'intern_id' => User::factory()->intern(),
-            'certificate_number' => 'CERT/TELKOM-SKB/' . now()->year . '/' . fake()->unique()->numerify('####'),
+            'certificate_number' => 'CERT/TELKOM-SKB/'.now()->year.'/'.fake()->unique()->numerify('####'),
             'issued_by' => User::factory()->admin(),
             'final_score' => fake()->randomFloat(2, 55, 100),
             'grade' => fake()->randomElement(['A', 'B', 'C', 'D']),

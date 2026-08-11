@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::table('registration_invites', function (Blueprint $table) {
             $table->foreign('created_by')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
             $table->index('created_by');
         });
 

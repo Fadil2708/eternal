@@ -26,6 +26,7 @@ class SkillService
     public function update(Skill $skill, array $data): Skill
     {
         $skill->update($data);
+
         return $skill;
     }
 

@@ -14,7 +14,9 @@ class CertificateList extends Component
     use WithPagination;
 
     public $search = '';
+
     public $filterGrade = '';
+
     public $confirmingIssueId = null;
 
     private CertificateService $certificateService;
@@ -24,8 +26,15 @@ class CertificateList extends Component
         $this->certificateService = $certificateService;
     }
 
-    public function updatingSearch(): void { $this->resetPage(); }
-    public function updatingFilterGrade(): void { $this->resetPage(); }
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingFilterGrade(): void
+    {
+        $this->resetPage();
+    }
 
     public function confirmIssue(string $id): void
     {
@@ -50,10 +59,9 @@ class CertificateList extends Component
     public function render()
     {
         $certificates = Certificate::with(['intern.internProfile', 'issuedBy'])
-            ->when($this->search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', '%' . $this->search . '%')
+            ->when($this->search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$this->search.'%')
             ))
-            ->when($this->filterGrade, fn($q) => $q->where('grade', $this->filterGrade))
+            ->when($this->filterGrade, fn ($q) => $q->where('grade', $this->filterGrade))
             ->latest()
             ->paginate(10);
 

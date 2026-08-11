@@ -7,6 +7,7 @@ use App\Models\InternProfile;
 use App\Models\Internship;
 use App\Models\Logbook;
 use App\Models\User;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Livewire\Livewire;
 use Tests\TestCase;
 
@@ -78,7 +79,7 @@ class LogbookListTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
+        $this->expectException(ModelNotFoundException::class);
 
         Livewire::actingAs($intern)
             ->test(LogbookList::class)

@@ -13,13 +13,13 @@ return new class extends Migration
 
             $table->uuid('intern_id');
             $table->foreign('intern_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+                ->references('id')->on('users')
+                ->onDelete('cascade');
 
             $table->uuid('vacancy_id');
             $table->foreign('vacancy_id')
-                  ->references('id')->on('vacancies')
-                  ->onDelete('cascade');
+                ->references('id')->on('vacancies')
+                ->onDelete('cascade');
 
             $table->enum('status', [
                 'submitted',

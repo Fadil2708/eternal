@@ -3,8 +3,6 @@
 namespace Tests\Feature\Livewire\Admin;
 
 use App\Livewire\Admin\TestimonialList;
-use App\Models\InternProfile;
-use App\Models\Internship;
 use App\Models\Testimonial;
 use App\Models\User;
 use Livewire\Livewire;

@@ -2,11 +2,15 @@
 
 namespace App\Models;
 
+use App\Notifications\ResetPassword;
+use App\Notifications\VerifyEmail;
 use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Auth\MustVerifyEmail as MustVerifyEmailTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
@@ -16,8 +20,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
+    use Auditable, HasApiTokens, HasFactory, HasUuid, Notifiable;
     use MustVerifyEmailTrait;
-    use HasApiTokens, HasFactory, HasUuid, Notifiable, Auditable;
 
     protected $fillable = [
         'email',
@@ -41,44 +45,44 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function internProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function internProfile(): HasOne
     {
         return $this->hasOne(InternProfile::class, 'user_id');
     }
 
-    public function supervisorProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function supervisorProfile(): HasOne
     {
         return $this->hasOne(SupervisorProfile::class, 'user_id');
     }
 
-    public function vacancies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function vacancies(): HasMany
     {
         return $this->hasMany(Vacancy::class, 'created_by');
     }
 
-    public function applications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function applications(): HasMany
     {
         return $this->hasMany(Application::class, 'intern_id');
     }
 
-    public function supervisedInternships(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function supervisedInternships(): HasMany
     {
         return $this->hasMany(Internship::class, 'supervisor_id');
     }
 
-    public function internships(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function internships(): HasMany
     {
         return $this->hasMany(Internship::class, 'intern_id');
     }
 
     public function sendEmailVerificationNotification(): void
     {
-        $this->notify(new \App\Notifications\VerifyEmail);
+        $this->notify(new VerifyEmail);
     }
 
     public function sendPasswordResetNotification($token): void
     {
-        $this->notify(new \App\Notifications\ResetPassword($token));
+        $this->notify(new ResetPassword($token));
     }
 
     public function delete(): ?bool
@@ -98,7 +102,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
     private function anonymize(): self
     {
-        $this->email = 'deleted-' . Str::uuid() . '@removed';
+        $this->email = 'deleted-'.Str::uuid().'@removed';
         $this->email_verified_at = null;
         $this->remember_token = null;
 

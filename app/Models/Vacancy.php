@@ -7,11 +7,12 @@ use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vacancy extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'created_by', 'title', 'division', 'description', 'qualifications',
@@ -19,11 +20,11 @@ class Vacancy extends Model
     ];
 
     protected $casts = [
-        'start_date'           => 'date',
-        'end_date'             => 'date',
+        'start_date' => 'date',
+        'end_date' => 'date',
         'application_deadline' => 'date',
-        'status'               => 'string',
-        'quota'                => 'integer',
+        'status' => 'string',
+        'quota' => 'integer',
     ];
 
     protected static function booted(): void
@@ -34,17 +35,20 @@ class Vacancy extends Model
         });
     }
 
-    public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function applications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function applications(): HasMany
     {
         return $this->hasMany(Application::class);
     }
 
-    public function isOpen(): bool { return $this->status === 'open'; }
+    public function isOpen(): bool
+    {
+        return $this->status === 'open';
+    }
 
     public function scopeOpen(Builder $query): Builder
     {

@@ -15,7 +15,7 @@ class TestimonialController extends Controller
     public function togglePublish(string $id): JsonResponse
     {
         $testimonial = Testimonial::findOrFail($id);
-        $testimonial->update(['is_published' => !$testimonial->is_published]);
+        $testimonial->update(['is_published' => ! $testimonial->is_published]);
 
         $status = $testimonial->fresh()->is_published ? 'ditayangkan' : 'disembunyikan';
 

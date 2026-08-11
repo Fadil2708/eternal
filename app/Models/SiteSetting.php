@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Cache;
 class SiteSetting extends Model
 {
     use Auditable;
+
     protected $fillable = ['key', 'value'];
 
     protected static function booted(): void

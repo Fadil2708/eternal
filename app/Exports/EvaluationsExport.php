@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class EvaluationsExport implements FromQuery, WithHeadings, WithMapping, WithChunkReading
+class EvaluationsExport implements FromQuery, WithChunkReading, WithHeadings, WithMapping
 {
     public function query()
     {

@@ -14,12 +14,12 @@ class ProfileApiTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
 
         $response = $this->actingAs($intern)->putJson('/api/v1/profile/intern', [
-            'full_name'        => 'John Doe Updated',
-            'phone'            => '08123456789',
+            'full_name' => 'John Doe Updated',
+            'phone' => '08123456789',
             'institution_name' => 'Test University',
             'institution_type' => 'university',
-            'major'            => 'Computer Science',
-            'student_id'       => 'STD12345',
+            'major' => 'Computer Science',
+            'student_id' => 'STD12345',
         ]);
 
         $response->assertStatus(200)

@@ -3,13 +3,13 @@
 namespace Tests\Feature\Jobs;
 
 use App\Jobs\SendCertificateNotificationJob;
+use App\Models\Application;
 use App\Models\Certificate;
-use App\Models\User;
+use App\Models\Evaluation;
 use App\Models\InternProfile;
 use App\Models\Internship;
-use App\Models\Evaluation;
+use App\Models\User;
 use App\Models\Vacancy;
-use App\Models\Application;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -63,6 +63,7 @@ class SendCertificateNotificationJobTest extends TestCase
             'internship_id' => $internship->id,
             'supervisor_id' => $supervisor->id,
         ]);
+
         return Certificate::factory()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,

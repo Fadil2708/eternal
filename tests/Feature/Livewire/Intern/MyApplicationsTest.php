@@ -4,8 +4,8 @@ namespace Tests\Feature\Livewire\Intern;
 
 use App\Livewire\Intern\MyApplications;
 use App\Models\Application;
-use App\Models\Vacancy;
 use App\Models\User;
+use App\Models\Vacancy;
 use Livewire\Livewire;
 use Tests\TestCase;
 

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\FinalReport;
 use App\Models\InternProfile;
 use App\Models\Internship;
 use App\Models\User;
@@ -18,7 +19,7 @@ class ReportFlowTest extends TestCase
 
         $file = UploadedFile::fake()->create('report.pdf', 200);
 
-        $response = $this->actingAs($intern)->post('/api/v1/internships/' . $internship->id . '/reports', [
+        $response = $this->actingAs($intern)->post('/api/v1/internships/'.$internship->id.'/reports', [
             'title' => 'Final Report',
             'file_url' => $file,
         ]);
@@ -32,7 +33,7 @@ class ReportFlowTest extends TestCase
         InternProfile::factory()->create(['user_id' => $intern->id]);
         $internship = Internship::factory()->active()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->postJson('/api/v1/internships/' . $internship->id . '/reports', [
+        $response = $this->actingAs($intern)->postJson('/api/v1/internships/'.$internship->id.'/reports', [
             'title' => 'Final Report',
         ]);
 
@@ -48,12 +49,12 @@ class ReportFlowTest extends TestCase
             'intern_id' => $intern->id,
             'supervisor_id' => $supervisor->id,
         ]);
-        $report = \App\Models\FinalReport::factory()->pending()->create([
+        $report = FinalReport::factory()->pending()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->patchJson('/api/v1/reports/' . $report->id . '/review', [
+        $response = $this->actingAs($supervisor)->patchJson('/api/v1/reports/'.$report->id.'/review', [
             'action' => 'approved',
         ]);
 
@@ -70,12 +71,12 @@ class ReportFlowTest extends TestCase
             'intern_id' => $intern->id,
             'supervisor_id' => $supervisor->id,
         ]);
-        $report = \App\Models\FinalReport::factory()->pending()->create([
+        $report = FinalReport::factory()->pending()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->patchJson('/api/v1/reports/' . $report->id . '/review', [
+        $response = $this->actingAs($supervisor)->patchJson('/api/v1/reports/'.$report->id.'/review', [
             'action' => 'rejected',
         ]);
 

@@ -6,11 +6,12 @@ use App\Traits\Auditable;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class InternProfile extends Model
 {
-    use HasFactory, HasUuid, Auditable;
+    use Auditable, HasFactory, HasUuid;
 
     protected $fillable = [
         'user_id', 'full_name', 'gender', 'phone', 'address', 'date_of_birth',
@@ -19,12 +20,12 @@ class InternProfile extends Model
     ];
 
     protected $casts = [
-        'date_of_birth'   => 'date',
+        'date_of_birth' => 'date',
         'institution_type' => 'string',
-        'gender'          => 'string',
+        'gender' => 'string',
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -41,11 +42,11 @@ class InternProfile extends Model
 
     public function isComplete(): bool
     {
-        return !empty($this->full_name)
-            && !empty($this->phone)
-            && !empty($this->student_id)
-            && !empty($this->institution_name)
-            && !empty($this->major)
-            && !empty($this->cv_url);
+        return ! empty($this->full_name)
+            && ! empty($this->phone)
+            && ! empty($this->student_id)
+            && ! empty($this->institution_name)
+            && ! empty($this->major)
+            && ! empty($this->cv_url);
     }
 }

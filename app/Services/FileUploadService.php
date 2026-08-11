@@ -24,7 +24,7 @@ class FileUploadService
     private function validateFile(UploadedFile $file): void
     {
         $extension = strtolower($file->getClientOriginalExtension());
-        if (!in_array($extension, self::ALLOWED_EXTENSIONS, true)) {
+        if (! in_array($extension, self::ALLOWED_EXTENSIONS, true)) {
             throw new \InvalidArgumentException("File extension .{$extension} is not allowed.");
         }
 
@@ -37,7 +37,7 @@ class FileUploadService
             $detectedMime = $file->getMimeType();
         }
 
-        if (!in_array($detectedMime, self::ALLOWED_MIMES, true)) {
+        if (! in_array($detectedMime, self::ALLOWED_MIMES, true)) {
             throw new \InvalidArgumentException("File type {$detectedMime} is not allowed.");
         }
     }
@@ -46,9 +46,11 @@ class FileUploadService
     {
         try {
             $this->validateFile($file);
+
             return $file->store($path, 'private');
         } catch (\Throwable $e) {
             Log::error("[FileUpload] {$context} failed: {$e->getMessage()}");
+
             return null;
         }
     }
@@ -87,6 +89,7 @@ class FileUploadService
         } catch (\Throwable $e) {
             Log::error("[FileUpload] Delete failed for path {$path}: {$e->getMessage()}");
         }
+
         return false;
     }
 }

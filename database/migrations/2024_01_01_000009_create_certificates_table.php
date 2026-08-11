@@ -13,20 +13,20 @@ return new class extends Migration
 
             $table->uuid('internship_id')->unique();
             $table->foreign('internship_id')
-                  ->references('id')->on('internships')
-                  ->onDelete('restrict');
+                ->references('id')->on('internships')
+                ->onDelete('restrict');
 
             $table->uuid('intern_id');
             $table->foreign('intern_id')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->string('certificate_number', 100)->unique();
 
             $table->uuid('issued_by');
             $table->foreign('issued_by')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->decimal('final_score', 5, 2);
             $table->enum('grade', ['A', 'B', 'C', 'D']);

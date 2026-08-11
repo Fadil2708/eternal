@@ -12,6 +12,7 @@ trait ApiResponse
         if ($meta) {
             $response['meta'] = $meta;
         }
+
         return response()->json($response, $code);
     }
 
@@ -26,6 +27,7 @@ trait ApiResponse
         if ($errors) {
             $response['errors'] = $errors;
         }
+
         return response()->json($response, $code);
     }
 }

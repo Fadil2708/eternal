@@ -18,7 +18,7 @@ class LogbookAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/logbooks');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/logbooks');
 
         $response->assertStatus(200)
             ->assertJsonStructure(['success', 'data']);
@@ -30,7 +30,7 @@ class LogbookAccessTest extends TestCase
         $other = User::factory()->intern()->create();
         $internship = Internship::factory()->active()->create(['intern_id' => $other->id]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/internships/' . $internship->id . '/logbooks');
+        $response = $this->actingAs($intern)->getJson('/api/v1/internships/'.$internship->id.'/logbooks');
 
         $response->assertStatus(403);
     }
@@ -48,7 +48,7 @@ class LogbookAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/' . $internship->id . '/logbooks');
+        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/'.$internship->id.'/logbooks');
 
         $response->assertStatus(200);
     }
@@ -63,7 +63,7 @@ class LogbookAccessTest extends TestCase
             'supervisor_id' => $otherSupervisor->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/' . $internship->id . '/logbooks');
+        $response = $this->actingAs($supervisor)->getJson('/api/v1/internships/'.$internship->id.'/logbooks');
 
         $response->assertStatus(403);
     }
@@ -77,7 +77,7 @@ class LogbookAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/logbooks/' . $logbook->id);
+        $response = $this->actingAs($intern)->getJson('/api/v1/logbooks/'.$logbook->id);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.id', $logbook->id);
@@ -93,7 +93,7 @@ class LogbookAccessTest extends TestCase
             'intern_id' => $other->id,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/logbooks/' . $logbook->id);
+        $response = $this->actingAs($intern)->getJson('/api/v1/logbooks/'.$logbook->id);
 
         $response->assertStatus(403);
     }
@@ -108,7 +108,7 @@ class LogbookAccessTest extends TestCase
             'validation_status' => 'draft',
         ]);
 
-        $response = $this->actingAs($intern)->putJson('/api/v1/logbooks/' . $logbook->id, [
+        $response = $this->actingAs($intern)->putJson('/api/v1/logbooks/'.$logbook->id, [
             'activities' => 'Updated activity description that is long enough to pass validation',
             'output' => 'Output result',
             'activity_date' => now()->format('Y-m-d'),
@@ -130,7 +130,7 @@ class LogbookAccessTest extends TestCase
             'intern_id' => $intern->id,
         ]);
 
-        $response = $this->actingAs($supervisor)->putJson('/api/v1/logbooks/' . $logbook->id, [
+        $response = $this->actingAs($supervisor)->putJson('/api/v1/logbooks/'.$logbook->id, [
             'activities' => 'Should fail description that is long enough to pass validation',
             'output' => 'Should fail',
             'activity_date' => now()->format('Y-m-d'),

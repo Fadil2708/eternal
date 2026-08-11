@@ -24,7 +24,7 @@ class InternProfileFactory extends Factory
 
     public function complete(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'cv_url' => 'interns/cv/test.pdf',
             'cover_letter_url' => 'interns/cover-letter/test.pdf',
             'photo_url' => 'interns/photo/test.jpg',
@@ -33,7 +33,7 @@ class InternProfileFactory extends Factory
 
     public function minimal(): static
     {
-        return $this->state(fn(array $attributes) => [
+        return $this->state(fn (array $attributes) => [
             'cv_url' => null,
             'cover_letter_url' => null,
             'photo_url' => null,

@@ -3,6 +3,7 @@
 namespace App\Livewire\Intern;
 
 use App\Models\FinalReport;
+use App\Models\Internship;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -11,9 +12,13 @@ class FinalReportForm extends Component
     use WithFileUploads;
 
     public $title = '';
+
     public $file;
+
     public $existingReport = null;
+
     public bool $hasActiveInternship = false;
+
     public bool $canUpload = false;
 
     protected $rules = [
@@ -31,20 +36,20 @@ class FinalReportForm extends Component
             $this->title = $this->existingReport->title;
         }
 
-        $internship = \App\Models\Internship::where('intern_id', auth()->id())
+        $internship = Internship::where('intern_id', auth()->id())
             ->whereIn('status', ['active', 'extended'])
             ->latest()
             ->first();
         $this->hasActiveInternship = $internship !== null;
         $this->canUpload = $this->hasActiveInternship
-            && (!$this->existingReport || $this->existingReport->supervisor_approval !== 'approved');
+            && (! $this->existingReport || $this->existingReport->supervisor_approval !== 'approved');
     }
 
     public function upload(): void
     {
         $this->validate();
 
-        $internship = \App\Models\Internship::where('intern_id', auth()->id())
+        $internship = Internship::where('intern_id', auth()->id())
             ->where('status', 'active')
             ->firstOrFail();
 

@@ -19,7 +19,10 @@ class SupervisorMapping extends Component
         $this->internshipService = $internshipService;
     }
 
-    public function updatingFilterStatus(): void { $this->resetPage(); }
+    public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
 
     public function assignSupervisor(string $internshipId, string $supervisorId): void
     {
@@ -31,6 +34,7 @@ class SupervisorMapping extends Component
     {
         $internships = $this->internshipService->getSupervisorMappedList($this->filterStatus);
         $supervisors = $this->internshipService->getSupervisors();
+
         return view('livewire.admin.supervisor-mapping', compact('internships', 'supervisors'));
     }
 }

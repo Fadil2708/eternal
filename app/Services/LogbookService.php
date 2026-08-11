@@ -2,30 +2,27 @@
 
 namespace App\Services;
 
-use App\Models\FinalReport;
 use App\Models\Internship;
 use App\Models\Logbook;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\DB;
 
 class LogbookService
 {
     private const TRANSITIONS = [
-        'draft'              => ['submitted'],
-        'submitted'          => ['approved', 'revision_requested'],
+        'draft' => ['submitted'],
+        'submitted' => ['approved', 'revision_requested'],
         'revision_requested' => ['submitted'],
-        'approved'           => [],
+        'approved' => [],
     ];
 
     public function getAdminPaginatedList(string $search = '', string $filterStatus = ''): LengthAwarePaginator
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
-            ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', '%' . $search . '%')
+            ->when($search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%')
             ))
-            ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
+            ->when($filterStatus, fn ($q) => $q->where('validation_status', $filterStatus))
             ->latest('activity_date')
             ->paginate(15);
     }
@@ -33,11 +30,10 @@ class LogbookService
     public function getSupervisorPaginatedList(string $supervisorId, string $filterStatus = '', string $search = ''): LengthAwarePaginator
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
-            ->whereHas('internship', fn(Builder $q) => $q->where('supervisor_id', $supervisorId))
-            ->when($search, fn($q) => $q->whereHas('intern.internProfile', fn($p) =>
-                $p->where('full_name', 'like', '%' . $search . '%')
+            ->whereHas('internship', fn (Builder $q) => $q->where('supervisor_id', $supervisorId))
+            ->when($search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%')
             ))
-            ->when($filterStatus, fn($q) => $q->where('validation_status', $filterStatus))
+            ->when($filterStatus, fn ($q) => $q->where('validation_status', $filterStatus))
             ->latest('activity_date')
             ->paginate(15);
     }
@@ -62,7 +58,7 @@ class LogbookService
         }
 
         $allowedStates = ['draft', 'revision_requested'];
-        if (!in_array($logbook->validation_status, $allowedStates)) {
+        if (! in_array($logbook->validation_status, $allowedStates)) {
             throw new \Exception('Logbook sudah tidak bisa diedit.');
         }
 
@@ -75,7 +71,7 @@ class LogbookService
             throw new \Exception('Unauthorized.');
         }
 
-        if (!in_array('submitted', self::TRANSITIONS[$logbook->validation_status] ?? [])) {
+        if (! in_array('submitted', self::TRANSITIONS[$logbook->validation_status] ?? [])) {
             throw new \Exception('Logbook sudah tidak bisa dikirim.');
         }
 
@@ -88,17 +84,17 @@ class LogbookService
             throw new \Exception('Unauthorized.');
         }
 
-        if (!in_array($action, ['approved', 'revision_requested'])) {
+        if (! in_array($action, ['approved', 'revision_requested'])) {
             throw new \Exception('Aksi review tidak valid.');
         }
 
-        if (!in_array($action, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
+        if (! in_array($action, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
             throw new \Exception('Logbook sudah tidak bisa direview.');
         }
 
         $logbook->update([
             'validation_status' => $action,
-            'supervisor_notes'  => $notes,
+            'supervisor_notes' => $notes,
         ]);
 
         return $logbook;
@@ -106,7 +102,7 @@ class LogbookService
 
     public function validateTransition(Logbook $logbook, string $newStatus): void
     {
-        if (!in_array($newStatus, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
+        if (! in_array($newStatus, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
             throw new \Exception('Status transisi tidak valid.');
         }
     }

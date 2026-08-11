@@ -5,10 +5,10 @@ namespace Tests\Unit\Services;
 use App\Models\Application;
 use App\Models\Certificate;
 use App\Models\FinalReport;
+use App\Models\InternProfile;
 use App\Models\Internship;
 use App\Models\Logbook;
 use App\Models\User;
-use App\Models\Vacancy;
 use App\Services\NotificationService;
 use Tests\TestCase;
 
@@ -19,13 +19,13 @@ class NotificationServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new NotificationService();
+        $this->service = new NotificationService;
     }
 
     public function test_send_application_submitted(): void
     {
         $intern = User::factory()->intern()->create();
-        \App\Models\InternProfile::factory()->create(['user_id' => $intern->id]);
+        InternProfile::factory()->create(['user_id' => $intern->id]);
         $application = Application::factory()->submitted()->create(['intern_id' => $intern->id]);
 
         $result = $this->service->sendApplicationSubmitted($application);
@@ -104,7 +104,7 @@ class NotificationServiceTest extends TestCase
     public function test_send_report_rejected(): void
     {
         $intern = User::factory()->intern()->create();
-        \App\Models\InternProfile::factory()->create(['user_id' => $intern->id]);
+        InternProfile::factory()->create(['user_id' => $intern->id]);
         $report = FinalReport::factory()->rejected()->create(['intern_id' => $intern->id]);
 
         $result = $this->service->sendReportRejected($report);

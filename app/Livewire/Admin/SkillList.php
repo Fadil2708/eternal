@@ -12,8 +12,11 @@ class SkillList extends Component
     use WithPagination;
 
     public $editingId = null;
+
     public $name = '';
+
     public $category = '';
+
     public $search = '';
 
     private SkillService $skillService;

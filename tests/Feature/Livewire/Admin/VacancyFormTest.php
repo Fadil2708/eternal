@@ -3,8 +3,8 @@
 namespace Tests\Feature\Livewire\Admin;
 
 use App\Livewire\Admin\VacancyForm;
-use App\Models\Vacancy;
 use App\Models\User;
+use App\Models\Vacancy;
 use Livewire\Livewire;
 use Tests\TestCase;
 

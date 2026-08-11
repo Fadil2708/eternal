@@ -3,7 +3,6 @@
 namespace Tests\Feature\Http;
 
 use App\Models\Application;
-use App\Models\Certificate;
 use App\Models\FinalReport;
 use App\Models\Internship;
 use App\Models\Logbook;

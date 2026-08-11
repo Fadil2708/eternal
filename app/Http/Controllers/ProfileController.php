@@ -8,6 +8,7 @@ use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
@@ -21,9 +22,9 @@ class ProfileController extends Controller
     public function show(Request $request): JsonResponse
     {
         $user = $request->user()->load(['internProfile', 'supervisorProfile']);
+
         return $this->success(new UserResource($user), 'Profil Anda');
     }
-
 
     /**
      * Display the user's profile form.
@@ -51,7 +52,7 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
-    public function photo(Request $request): StreamedResponse|\Illuminate\Http\Response
+    public function photo(Request $request): StreamedResponse|Response
     {
         $user = $request->user();
 
@@ -59,7 +60,7 @@ class ProfileController extends Controller
             $path = $user->internProfile->photo_url;
             $disk = Storage::disk(config('filesystems.private_disk'));
 
-            if (!$disk->exists($path)) {
+            if (! $disk->exists($path)) {
                 $disk = Storage::disk('public');
             }
 
@@ -84,29 +85,29 @@ SVG;
      * Serve the authenticated intern's own profile documents
      * (private disk has no public URL).
      */
-    public function file(Request $request, string $type): StreamedResponse|\Illuminate\Http\Response
+    public function file(Request $request, string $type): StreamedResponse|Response
     {
         $user = $request->user();
 
         $field = match ($type) {
-            'photo'        => 'photo_url',
-            'cv'           => 'cv_url',
+            'photo' => 'photo_url',
+            'cv' => 'cv_url',
             'cover-letter' => 'cover_letter_url',
-            default        => null,
+            default => null,
         };
 
-        if (!$user->isIntern() || !$field || !$user->internProfile?->{$field}) {
+        if (! $user->isIntern() || ! $field || ! $user->internProfile?->{$field}) {
             abort(404, 'File tidak ditemukan.');
         }
 
         $path = $user->internProfile->{$field};
         $disk = Storage::disk(config('filesystems.private_disk'));
 
-        if (!$disk->exists($path)) {
+        if (! $disk->exists($path)) {
             $disk = Storage::disk('public');
         }
 
-        if (!$disk->exists($path)) {
+        if (! $disk->exists($path)) {
             abort(404, 'File tidak ditemukan di penyimpanan.');
         }
 

@@ -25,16 +25,16 @@ class VacancyFactory extends Factory
 
     public function open(): static
     {
-        return $this->state(fn(array $attributes) => ['status' => 'open']);
+        return $this->state(fn (array $attributes) => ['status' => 'open']);
     }
 
     public function closed(): static
     {
-        return $this->state(fn(array $attributes) => ['status' => 'closed']);
+        return $this->state(fn (array $attributes) => ['status' => 'closed']);
     }
 
     public function draft(): static
     {
-        return $this->state(fn(array $attributes) => ['status' => 'draft']);
+        return $this->state(fn (array $attributes) => ['status' => 'draft']);
     }
 }

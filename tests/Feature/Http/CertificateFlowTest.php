@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http;
 
+use App\Models\Certificate;
 use App\Models\Evaluation;
 use App\Models\Internship;
 use App\Models\User;
@@ -22,7 +23,7 @@ class CertificateFlowTest extends TestCase
         $internship->evaluation->calculateFinalScore();
         $internship->evaluation->save();
 
-        $response = $this->actingAs($admin)->postJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($admin)->postJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(201)
             ->assertJsonStructure(['success', 'data' => ['certificate_number', 'grade']]);
@@ -33,16 +34,16 @@ class CertificateFlowTest extends TestCase
         $intern = User::factory()->intern()->create();
         $internship = Internship::factory()->completed()->create(['intern_id' => $intern->id]);
 
-        $response = $this->actingAs($intern)->postJson('/api/v1/internships/' . $internship->id . '/certificates');
+        $response = $this->actingAs($intern)->postJson('/api/v1/internships/'.$internship->id.'/certificates');
 
         $response->assertStatus(403);
     }
 
     public function test_public_verify_valid_token(): void
     {
-        $certificate = \App\Models\Certificate::factory()->create();
+        $certificate = Certificate::factory()->create();
 
-        $response = $this->getJson('/api/v1/verify/' . $certificate->qr_code_token);
+        $response = $this->getJson('/api/v1/verify/'.$certificate->qr_code_token);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.nomor_sertifikat', $certificate->certificate_number);

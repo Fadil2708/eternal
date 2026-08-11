@@ -14,7 +14,7 @@ class FileUploadServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->service = new FileUploadService();
+        $this->service = new FileUploadService;
         Storage::fake('private');
     }
 

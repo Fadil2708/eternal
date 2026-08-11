@@ -9,7 +9,7 @@ class CertificatePolicy
 {
     public function view(User $user, Certificate $certificate): bool
     {
-        if (!$certificate->relationLoaded('internship')) {
+        if (! $certificate->relationLoaded('internship')) {
             $certificate->load('internship');
         }
 

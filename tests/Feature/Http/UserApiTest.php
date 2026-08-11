@@ -87,7 +87,7 @@ class UserApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $intern = User::factory()->intern()->create();
 
-        $response = $this->actingAs($admin)->getJson('/api/v1/users/' . $intern->id);
+        $response = $this->actingAs($admin)->getJson('/api/v1/users/'.$intern->id);
 
         $response->assertStatus(200)
             ->assertJsonPath('data.id', $intern->id);
@@ -98,7 +98,7 @@ class UserApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $user = User::factory()->create(['email' => 'old@test.com']);
 
-        $response = $this->actingAs($admin)->putJson('/api/v1/users/' . $user->id, [
+        $response = $this->actingAs($admin)->putJson('/api/v1/users/'.$user->id, [
             'email' => 'updated@test.com',
             'is_active' => false,
         ]);
@@ -112,7 +112,7 @@ class UserApiTest extends TestCase
         $admin = User::factory()->admin()->create();
         $user = User::factory()->create(['is_active' => true]);
 
-        $response = $this->actingAs($admin)->deleteJson('/api/v1/users/' . $user->id);
+        $response = $this->actingAs($admin)->deleteJson('/api/v1/users/'.$user->id);
 
         $response->assertStatus(200);
         $this->assertDatabaseHas('users', ['id' => $user->id, 'is_active' => false]);

@@ -31,12 +31,12 @@ class EvaluationFactory extends Factory
             default => [],
         };
 
-        return $this->state(fn() => $scores);
+        return $this->state(fn () => $scores);
     }
 
     public function locked(): static
     {
-        return $this->state(fn() => [
+        return $this->state(fn () => [
             'final_score' => fake()->randomFloat(2, 55, 100),
             'grade' => fake()->randomElement(['A', 'B', 'C', 'D']),
             'evaluated_at' => now(),

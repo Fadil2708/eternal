@@ -17,7 +17,7 @@ class InternshipController extends Controller
     public function index(): View
     {
         $internship = Internship::with([
-            'vacancy', 'supervisor.supervisorProfile'
+            'vacancy', 'supervisor.supervisorProfile',
         ])->where('intern_id', auth()->id())->first();
 
         return view('intern.internship.index', compact('internship'));
@@ -26,7 +26,7 @@ class InternshipController extends Controller
     public function myInternship(Request $request): JsonResponse
     {
         $internship = Internship::with([
-            'vacancy', 'supervisor.supervisorProfile'
+            'vacancy', 'supervisor.supervisorProfile',
         ])->where('intern_id', $request->user()->id)->first();
 
         return $this->success(

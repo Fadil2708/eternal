@@ -1,51 +1,55 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\ApplicationController;
 use App\Http\Controllers\Admin\CertificateController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\Intern\InternshipController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Public\Web\CertificateVerifyController;
+use App\Http\Controllers\Public\Web\TestimonialController;
+use App\Http\Controllers\Public\Web\VacancyController;
+use App\Http\Controllers\Supervisor\DashboardController;
+use App\Http\Controllers\Supervisor\InternController;
+use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\ApplicationReview;
 use App\Livewire\Admin\CertificateList;
-use App\Livewire\Admin\DashboardStats as AdminDashboardStats;
-use App\Livewire\Admin\InternshipList;
-use App\Livewire\Admin\LogbookList as AdminLogbookList;
-use App\Livewire\Admin\SupervisorMapping;
 use App\Livewire\Admin\EvaluationList;
-use App\Livewire\Admin\ReportList;
-use App\Livewire\Admin\UserList;
-use App\Livewire\Admin\UserForm;
-use App\Livewire\Admin\InviteList;
-use App\Livewire\Admin\TestimonialList;
 use App\Livewire\Admin\FaqList;
+use App\Livewire\Admin\InternshipList;
+use App\Livewire\Admin\InviteList;
+use App\Livewire\Admin\LogbookList as AdminLogbookList;
+use App\Livewire\Admin\ReportList;
 use App\Livewire\Admin\SkillList;
+use App\Livewire\Admin\SupervisorMapping;
+use App\Livewire\Admin\TestimonialList;
+use App\Livewire\Admin\UserForm;
+use App\Livewire\Admin\UserList;
 use App\Livewire\Admin\VacancyForm;
 use App\Livewire\Admin\VacancyList;
 use App\Livewire\Intern\ApplicationForm;
 use App\Livewire\Intern\CertificateView;
+use App\Livewire\Intern\EvaluationView;
 use App\Livewire\Intern\FinalReportForm;
 use App\Livewire\Intern\LogbookForm;
 use App\Livewire\Intern\LogbookList;
 use App\Livewire\Intern\MyApplications;
 use App\Livewire\Intern\ProfileForm;
-use App\Livewire\Intern\EvaluationView;
 use App\Livewire\Intern\TestimonialForm;
 use App\Livewire\Intern\VacancyList as InternVacancyList;
-use App\Livewire\Supervisor\DashboardStats as SupervisorDashboardStats;
 use App\Livewire\Supervisor\EvaluationForm;
 use App\Livewire\Supervisor\LogbookReview;
-use App\Livewire\Supervisor\ProfileForm as SupervisorProfileForm;
 use App\Livewire\Supervisor\MyInterns;
+use App\Livewire\Supervisor\ProfileForm as SupervisorProfileForm;
 use App\Livewire\Supervisor\ReportReview;
 use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\WelcomeController;
 
 Route::get('/', WelcomeController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', function () {
-        return redirect()->route(auth()->user()->role . '.dashboard');
+        return redirect()->route(auth()->user()->role.'.dashboard');
     })->name('dashboard');
 
     Route::prefix('admin')->middleware('role:admin')->name('admin.')->group(function () {
@@ -83,11 +87,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     });
 
     Route::prefix('supervisor')->middleware('role:supervisor')->name('supervisor.')->group(function () {
-        Route::get('/dashboard', [\App\Http\Controllers\Supervisor\DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         Route::get('/profile', SupervisorProfileForm::class)->name('profile');
         Route::get('/interns', MyInterns::class)->name('interns.index');
-        Route::get('/interns/{internship}', [\App\Http\Controllers\Supervisor\InternController::class, 'show'])->name('interns.show');
+        Route::get('/interns/{internship}', [InternController::class, 'show'])->name('interns.show');
         Route::get('/logbooks', LogbookReview::class)->name('logbooks');
         Route::get('/reports', ReportReview::class)->name('reports');
         Route::get('/evaluations', EvaluationForm::class)->name('evaluations.create');
@@ -101,15 +105,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/vacancies', InternVacancyList::class)->name('vacancies');
         Route::get('/applications/create/{vacancyId}', ApplicationForm::class)->middleware('profile.complete')->name('applications.create');
         Route::get('/applications', MyApplications::class)->name('applications');
-        Route::get('/applications/{application}', [\App\Http\Controllers\Intern\ApplicationController::class, 'show'])->name('applications.show');
-        Route::get('/internship', [\App\Http\Controllers\Intern\InternshipController::class, 'index'])->name('internship');
+        Route::get('/applications/{application}', [App\Http\Controllers\Intern\ApplicationController::class, 'show'])->name('applications.show');
+        Route::get('/internship', [InternshipController::class, 'index'])->name('internship');
         Route::get('/logbooks', LogbookList::class)->name('logbooks');
         Route::get('/logbooks/create', LogbookForm::class)->name('logbooks.create');
         Route::get('/logbooks/{id}/edit', LogbookForm::class)->name('logbooks.edit');
         Route::get('/reports', FinalReportForm::class)->name('reports');
         Route::get('/evaluation', EvaluationView::class)->name('evaluation');
         Route::get('/certificate', CertificateView::class)->name('certificate');
-        Route::get('/certificates/{id}/download', [\App\Http\Controllers\Intern\CertificateController::class, 'download'])->name('certificates.download');
+        Route::get('/certificates/{id}/download', [App\Http\Controllers\Intern\CertificateController::class, 'download'])->name('certificates.download');
         Route::get('/testimonials/create', TestimonialForm::class)->name('testimonials.create');
     });
 
@@ -125,22 +129,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile/file/{type}', [ProfileController::class, 'file'])->name('profile.file');
 
     // ─── Private file serving ───────────────────────────
-    Route::get('/private/{path}', [App\Http\Controllers\FileController::class, 'serve'])
+    Route::get('/private/{path}', [FileController::class, 'serve'])
         ->where('path', '.*')
         ->name('private.serve');
 });
 
 // ─── Public Pages ─────────────────────────────────────
-Route::get('/verify/{token}', [\App\Http\Controllers\Public\Web\CertificateVerifyController::class, 'show'])
+Route::get('/verify/{token}', [CertificateVerifyController::class, 'show'])
     ->name('public.verify');
 
-Route::get('/vacancies', [\App\Http\Controllers\Public\Web\VacancyController::class, 'index'])
+Route::get('/vacancies', [VacancyController::class, 'index'])
     ->name('public.vacancies');
 
-Route::get('/vacancies/{vacancy}', [\App\Http\Controllers\Public\Web\VacancyController::class, 'show'])
+Route::get('/vacancies/{vacancy}', [VacancyController::class, 'show'])
     ->name('public.vacancies.show');
 
-Route::get('/testimonials', [\App\Http\Controllers\Public\Web\TestimonialController::class, 'index'])
+Route::get('/testimonials', [TestimonialController::class, 'index'])
     ->name('public.testimonials');
 
 Route::view('/tentang-kami', 'pages.tentang-kami')->name('public.tentang-kami');

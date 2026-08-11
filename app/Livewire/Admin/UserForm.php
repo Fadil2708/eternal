@@ -9,10 +9,15 @@ use Livewire\Component;
 class UserForm extends Component
 {
     public ?User $user = null;
+
     public $email = '';
+
     public $role = 'intern';
+
     public $password = '';
+
     public $password_confirmation = '';
+
     public $is_active = true;
 
     public bool $isEditing = false;
@@ -46,7 +51,7 @@ class UserForm extends Component
     {
         if ($this->isEditing) {
             $this->validateOnly($propertyName, [
-                'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+                'email' => 'required|email|max:255|unique:users,email,'.$this->user->id,
                 'role' => 'required|in:admin,supervisor,intern',
                 'password' => 'nullable|min:8|confirmed',
                 'is_active' => 'boolean',
@@ -60,7 +65,7 @@ class UserForm extends Component
     {
         if ($this->isEditing) {
             $this->validate([
-                'email' => 'required|email|max:255|unique:users,email,' . $this->user->id,
+                'email' => 'required|email|max:255|unique:users,email,'.$this->user->id,
                 'role' => 'required|in:admin,supervisor,intern',
                 'password' => 'nullable|min:8|confirmed',
                 'is_active' => 'boolean',

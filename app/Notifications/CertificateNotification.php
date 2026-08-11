@@ -25,7 +25,7 @@ class CertificateNotification extends Notification implements ShouldQueue
     public function toMail($notifiable): MailMessage
     {
         $data = [
-            'intern_name'        => $this->certificate->intern->internProfile?->full_name ?? $this->certificate->intern->email,
+            'intern_name' => $this->certificate->intern->internProfile?->full_name ?? $this->certificate->intern->email,
             'certificate_number' => $this->certificate->certificate_number,
         ];
 
@@ -37,21 +37,21 @@ class CertificateNotification extends Notification implements ShouldQueue
     public function toDatabase($notifiable): array
     {
         return [
-            'type'       => "certificate.{$this->type}",
-            'title'      => $this->getTitle(),
-            'body'       => $this->getBody(),
-            'url'        => route('intern.certificate'),
+            'type' => "certificate.{$this->type}",
+            'title' => $this->getTitle(),
+            'body' => $this->getBody(),
+            'url' => route('intern.certificate'),
             'model_type' => 'certificate',
-            'model_id'   => $this->certificate->id,
+            'model_id' => $this->certificate->id,
         ];
     }
 
     public function toArray($notifiable): array
     {
         return [
-            'type'  => $this->type,
+            'type' => $this->type,
             'title' => $this->getTitle(),
-            'body'  => $this->getBody(),
+            'body' => $this->getBody(),
         ];
     }
 
@@ -73,6 +73,7 @@ class CertificateNotification extends Notification implements ShouldQueue
     private function getBody(): string
     {
         $num = $this->certificate->certificate_number;
+
         return "Sertifikat ({$num}) telah diterbitkan. Silakan unduh di aplikasi.";
     }
 }

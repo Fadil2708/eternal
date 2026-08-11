@@ -21,11 +21,11 @@ class TestimonialFactory extends Factory
 
     public function published(): static
     {
-        return $this->state(fn() => ['is_published' => true]);
+        return $this->state(fn () => ['is_published' => true]);
     }
 
     public function unpublished(): static
     {
-        return $this->state(fn() => ['is_published' => false]);
+        return $this->state(fn () => ['is_published' => false]);
     }
 }

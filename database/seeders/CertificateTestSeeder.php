@@ -150,7 +150,7 @@ class CertificateTestSeeder extends Seeder
         $evaluation->save();
 
         // ─── 9. Certificate ─────────────────────────────────────────
-        if (!$internship->certificate()->exists()) {
+        if (! $internship->certificate()->exists()) {
             $internship->load('evaluation');
             app(CertificateService::class)->issue($internship, $admin->id);
         }
@@ -158,7 +158,7 @@ class CertificateTestSeeder extends Seeder
         $this->command->info('✅ Data tes sertifikat berhasil dibuat!');
         $this->command->info('   Intern: test-cert@telkom-skb.com / password');
         $this->command->info('   Nama: Rina Amelia');
-        $this->command->info('   Grade: ' . $evaluation->grade . ' (' . $evaluation->final_score . ')');
-        $this->command->info('   QR Token: ' . $internship->certificate->qr_code_token);
+        $this->command->info('   Grade: '.$evaluation->grade.' ('.$evaluation->final_score.')');
+        $this->command->info('   QR Token: '.$internship->certificate->qr_code_token);
     }
 }

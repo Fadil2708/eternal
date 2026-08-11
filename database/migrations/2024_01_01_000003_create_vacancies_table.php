@@ -12,8 +12,8 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('created_by');
             $table->foreign('created_by')
-                  ->references('id')->on('users')
-                  ->onDelete('restrict');
+                ->references('id')->on('users')
+                ->onDelete('restrict');
 
             $table->string('title', 255);
             $table->string('division', 255)->nullable();

@@ -6,15 +6,18 @@ use App\Models\Application;
 use App\Models\Vacancy;
 use App\Notifications\ApplicationNotification;
 use App\Services\ApplicationService;
-use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class ApplicationForm extends Component
 {
     public ?Vacancy $vacancy = null;
+
     public bool $hasApplied = false;
+
     public bool $profileComplete = false;
+
     public ?string $applicationStatus = null;
+
     public ?string $errorMessage = null;
 
     private ApplicationService $applicationService;
@@ -50,8 +53,9 @@ class ApplicationForm extends Component
 
     public function apply(): void
     {
-        if (!$this->profileComplete) {
+        if (! $this->profileComplete) {
             $this->errorMessage = 'Lengkapi profil Anda sebelum mendaftar.';
+
             return;
         }
 

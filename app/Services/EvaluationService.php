@@ -50,7 +50,7 @@ class EvaluationService
             $finalScore >= 75 => 'B',
             $finalScore >= 60 => 'C',
             $finalScore >= 45 => 'D',
-            default           => 'E',
+            default => 'E',
         };
     }
 
@@ -75,7 +75,7 @@ class EvaluationService
     public function getAdminPaginatedList(string $filterGrade = ''): LengthAwarePaginator
     {
         return Evaluation::with(['internship.intern.internProfile', 'internship.vacancy', 'supervisor.supervisorProfile'])
-            ->when($filterGrade, fn($q) => $q->where('grade', $filterGrade))
+            ->when($filterGrade, fn ($q) => $q->where('grade', $filterGrade))
             ->latest()
             ->paginate(10);
     }

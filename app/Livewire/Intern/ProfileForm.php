@@ -7,37 +7,51 @@ use App\Models\Skill;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Livewire\Component;
-use Livewire\WithFileUploads;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
+use Livewire\WithFileUploads;
 
 class ProfileForm extends Component
 {
     use WithFileUploads;
 
     public $full_name = '';
+
     public $gender = '';
+
     public $phone = '';
+
     public $address = '';
+
     public $date_of_birth = '';
+
     public $institution_name = '';
+
     public $institution_type = '';
+
     public $major = '';
+
     public $student_id = '';
 
     public ?TemporaryUploadedFile $photo = null;
+
     public ?TemporaryUploadedFile $cv = null;
+
     public ?TemporaryUploadedFile $cover_letter = null;
 
     public $selectedSkills = [];
 
     public $existingPhoto = null;
+
     public $existingCv = null;
+
     public $existingCoverLetter = null;
 
     public $allSkills = [];
+
     public $skillsList = [];
 
     public bool $isEditing = false;
+
     public bool $hasProfile = false;
 
     public function mount(): void
@@ -265,8 +279,9 @@ class ProfileForm extends Component
     {
         $profile = InternProfile::where('user_id', auth()->id())->first();
 
-        if (!$profile) {
+        if (! $profile) {
             $this->isEditing = false;
+
             return;
         }
 
