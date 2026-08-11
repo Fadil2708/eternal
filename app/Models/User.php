@@ -89,6 +89,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
             if ($this->internProfile?->photo_url) {
                 Storage::disk(config('filesystems.private_disk'))->delete($this->internProfile->photo_url);
+                Storage::disk('public')->delete($this->internProfile->photo_url);
             }
         });
 

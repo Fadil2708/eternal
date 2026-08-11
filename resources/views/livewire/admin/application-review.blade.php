@@ -190,11 +190,11 @@
                             @if($profile && $profile->cover_letter_url)
                                 <a href="{{ route('admin.applications.file', [$selectedApplicationId, 'cover-letter']) }}" target="_blank"
                                    class="file-btn success">
-                                    <i class="ti ti-mail"></i> Lihat Cover Letter
+                                    <i class="ti ti-mail"></i> Lihat Surat Permohonan
                                 </a>
                             @else
                                 <span class="file-btn disabled">
-                                    <i class="ti ti-mail-x"></i> Cover Letter tidak tersedia
+                                    <i class="ti ti-mail-x"></i> Surat Permohonan tidak tersedia
                                 </span>
                             @endif
                         </div>

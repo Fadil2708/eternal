@@ -87,6 +87,7 @@ class EvaluationForm extends Component
         }
 
         $this->evaluationService->calculateScore($this->evaluation);
+        $this->evaluation->save();
         $this->dispatch('toast', message: 'Evaluasi berhasil disimpan.', type: 'success');
     }
 

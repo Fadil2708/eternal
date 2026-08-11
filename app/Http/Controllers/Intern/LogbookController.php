@@ -45,8 +45,8 @@ class LogbookController extends Controller
         try {
             $logbook = $this->logbookService->update(
                 $logbook,
-                $request->user(),
-                $request->validated()
+                $request->validated(),
+                $request->user()
             );
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 422);

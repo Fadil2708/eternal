@@ -48,7 +48,7 @@
                 </div>
                 <a href="{{ route('profile.edit') }}" class="topbar-dropdown-item">
                     <i class="ti ti-user"></i>
-                    Profil
+                    Kelola Akun
                 </a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

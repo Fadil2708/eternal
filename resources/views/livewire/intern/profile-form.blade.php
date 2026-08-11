@@ -130,12 +130,12 @@
                         @if($existingCoverLetter)
                             <a href="{{ route('profile.file', 'cover-letter') }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
-                                <span>Cover Letter</span>
+                                <span>Surat Permohonan</span>
                             </a>
                         @else
                             <span class="profile-doc">
                                 <i class="ti ti-circle-x"></i>
-                                <span>Cover Letter</span>
+                                <span>Surat Permohonan</span>
                             </span>
                         @endif
                     </div>
@@ -210,20 +210,34 @@
                                             <i class="ti ti-x"></i>
                                         </span>
                                     </template>
-                                    <span x-show="!selected.length" class="skill-placeholder">Cari & pilih keahlian...</span>
+                                    <span x-show="!selected.length" class="skill-placeholder">Pilih keahlian Anda...</span>
                                 </div>
                                 <div x-show="open" class="skill-dropdown" x-cloak>
                                     <input type="text" x-model="search" placeholder="Cari keahlian..." class="skill-search-input" @click.stop>
-                                    <div class="skill-options" x-show="search.length > 0">
+                                    <div x-show="!search.length" class="skill-options">
+                                        <div class="skill-category-title">Keahlian Populer</div>
+                                        <template x-for="s in allSkills.slice(0, 5)" :key="s.id">
+                                            <label class="skill-option">
+                                                <input type="checkbox" :value="s.id" x-model="selected" @change="sync($event)">
+                                                <span x-text="s.name"></span>
+                                                <span class="skill-popular-badge">Populer</span>
+                                                <i class="ti ti-check skill-check" x-show="selected.includes(String(s.id))"></i>
+                                            </label>
+                                        </template>
+                                    </div>
+                                    <div x-show="search.length > 0" class="skill-options">
+                                        <div class="skill-category-title">Semua Keahlian</div>
                                         @foreach($allSkills->flatten() as $skill)
-                                        <label class="skill-option" x-show="'{{ strtolower($skill->name) }}'.startsWith(search.toLowerCase())">
+                                        <label class="skill-option" x-show="'{{ strtolower($skill->name) }}'.includes(search.toLowerCase())">
                                             <input type="checkbox" :value="{{ $skill->id }}" x-model="selected" @change="sync($event)">
                                             <span>{{ $skill->name }}</span>
+                                            <i class="ti ti-check skill-check" x-show="selected.includes('{{ $skill->id }}')"></i>
                                         </label>
                                         @endforeach
                                     </div>
                                 </div>
                             </div>
+                            <p class="skill-hint">Klik kolom untuk membuka daftar keahlian, pilih sesuai bidang Anda</p>
                             @error('selectedSkills') <div class="field-error">{{ $message }}</div> @enderror
                         </div>
                     </div>
@@ -232,7 +246,26 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="field">
                             <label>Foto Profil</label>
-                            <input wire:model="photo" type="file" accept="image/jpg,image/jpeg,image/png" class="input">
+                            <input
+                                wire:model="photo"
+                                type="file"
+                                accept="image/jpeg,image/png"
+                                class="input"
+                            >
+                            <div wire:loading wire:target="photo" style="font-size:11px;color:#2563EB;margin-top:5px">
+                                <i class="ti ti-loader"></i> Mengupload foto...
+                            </div>
+
+                            @if($photo)
+                                <div style="font-size:11px;color:#16A34A;margin-top:5px">
+                                    <i class="ti ti-circle-check"></i>
+                                    {{ $photo->getClientOriginalName() }}
+                                </div>
+                            @endif
+
+                            @error('photo')
+                                <div class="field-error">{{ $message }}</div>
+                            @enderror
                             @error('photo') <div class="field-error">{{ $message }}</div> @enderror
                             @if($existingPhoto)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
@@ -242,7 +275,13 @@
                         </div>
                         <div class="field">
                             <label>CV / Resume</label>
-                            <input wire:model="cv" type="file" accept=".pdf" class="input">
+                            <input
+                                wire:key="profile-cv-upload"
+                                wire:model="cv"
+                                type="file"
+                                accept=".pdf"
+                                class="input"
+                            >
                             @error('cv') <div class="field-error">{{ $message }}</div> @enderror
                             @if($existingCv)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
@@ -251,12 +290,18 @@
                             @endif
                         </div>
                         <div class="field md:col-span-2">
-                            <label>Cover Letter</label>
-                            <input wire:model="cover_letter" type="file" accept=".pdf" class="input">
+                            <label>Surat Permohonan</label>
+                            <input
+                                wire:key="profile-cover-letter-upload"
+                                wire:model="cover_letter"
+                                type="file"
+                                accept=".pdf"
+                                class="input"
+                            >
                             @error('cover_letter') <div class="field-error">{{ $message }}</div> @enderror
                             @if($existingCoverLetter)
                                 <div style="font-size:11px;color:#16A34A;margin-top:4px">
-                                    <i class="ti ti-circle-check"></i> Cover Letter terunggah
+                                    <i class="ti ti-circle-check"></i> Surat Permohonan terunggah
                                 </div>
                             @endif
                         </div>

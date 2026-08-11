@@ -1940,6 +1940,28 @@
         margin: 0;
         flex-shrink: 0;
     }
+    .skill-popular-badge {
+        font-size: 9px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .4px;
+        color: #fff;
+        background: #C0392B;
+        border-radius: 999px;
+        padding: 2px 7px;
+        flex-shrink: 0;
+    }
+    .skill-check {
+        margin-left: auto;
+        color: #16A34A;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
+    .skill-hint {
+        margin-top: 5px;
+        font-size: 11.5px;
+        color: #A8A5A0;
+    }
 
     /* ===== ROLE CHIP ===== */
     .role-chip {

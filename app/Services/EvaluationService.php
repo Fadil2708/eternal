@@ -52,9 +52,6 @@ class EvaluationService
             $finalScore >= 45 => 'D',
             default           => 'E',
         };
-
-        $evaluation->evaluated_at = now();
-        $evaluation->save();
     }
 
     public function isLocked(Evaluation $evaluation): bool
@@ -96,6 +93,8 @@ class EvaluationService
         $evaluation = Evaluation::findOrFail($id);
         $evaluation->update($data);
         $this->calculateScore($evaluation);
+        $evaluation->save();
+
         return $evaluation->fresh();
     }
 }

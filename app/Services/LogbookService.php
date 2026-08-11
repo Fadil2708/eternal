@@ -82,6 +82,28 @@ class LogbookService
         $logbook->update(['validation_status' => 'submitted']);
     }
 
+    public function review(Logbook $logbook, User $supervisor, string $action, ?string $notes): Logbook
+    {
+        if ($logbook->internship?->supervisor_id !== $supervisor->id) {
+            throw new \Exception('Unauthorized.');
+        }
+
+        if (!in_array($action, ['approved', 'revision_requested'])) {
+            throw new \Exception('Aksi review tidak valid.');
+        }
+
+        if (!in_array($action, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
+            throw new \Exception('Logbook sudah tidak bisa direview.');
+        }
+
+        $logbook->update([
+            'validation_status' => $action,
+            'supervisor_notes'  => $notes,
+        ]);
+
+        return $logbook;
+    }
+
     public function validateTransition(Logbook $logbook, string $newStatus): void
     {
         if (!in_array($newStatus, self::TRANSITIONS[$logbook->validation_status] ?? [])) {
