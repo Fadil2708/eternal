@@ -5,6 +5,7 @@ namespace Tests\Feature\Http;
 use App\Models\InternProfile;
 use App\Models\Vacancy;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ApplicationFlowTest extends TestCase
@@ -78,6 +79,60 @@ class ApplicationFlowTest extends TestCase
         $response = $this->actingAs($intern)->patchJson('/api/v1/applications/' . $application->id . '/cancel');
 
         $response->assertStatus(422);
+    }
+
+    public function test_admin_can_download_cv_via_web_profile_upload(): void
+    {
+        Storage::fake('private');
+
+        $intern = User::factory()->intern()->create();
+        InternProfile::factory()->complete()->create([
+            'user_id' => $intern->id,
+            'full_name' => 'Test',
+            'institution_name' => 'Univ',
+            'major' => 'CS',
+            'student_id' => 'STU-001',
+            'cv_url' => 'interns/' . $intern->id . '/cv/cv.pdf',
+        ]);
+        Storage::disk('private')->put('interns/' . $intern->id . '/cv/cv.pdf', 'pdf-content');
+
+        $application = \App\Models\Application::factory()->submitted()->create([
+            'intern_id' => $intern->id,
+        ]);
+
+        $admin = User::factory()->admin()->create();
+
+        $response = $this->actingAs($admin)
+            ->get(route('admin.applications.file', [$application->id, 'cv']));
+
+        $response->assertOk();
+    }
+
+    public function test_intern_can_download_own_profile_file(): void
+    {
+        Storage::fake('private');
+
+        $intern = User::factory()->intern()->create();
+        InternProfile::factory()->create([
+            'user_id' => $intern->id,
+            'cv_url' => 'interns/' . $intern->id . '/cv/cv.pdf',
+        ]);
+        Storage::disk('private')->put('interns/' . $intern->id . '/cv/cv.pdf', 'pdf-content');
+
+        $response = $this->actingAs($intern)->get(route('profile.file', 'cv'));
+
+        $response->assertOk();
+        $this->assertSame('pdf-content', $response->streamedContent());
+    }
+
+    public function test_intern_without_file_gets_404_from_profile_file(): void
+    {
+        $intern = User::factory()->intern()->create();
+        InternProfile::factory()->create(['user_id' => $intern->id]);
+
+        $response = $this->actingAs($intern)->get(route('profile.file', 'cv'));
+
+        $response->assertNotFound();
     }
 
     public function test_admin_can_update_status(): void

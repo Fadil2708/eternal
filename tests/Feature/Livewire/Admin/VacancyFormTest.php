@@ -28,7 +28,7 @@ class VacancyFormTest extends TestCase
             ->set('end_date', $endDate)
             ->set('application_deadline', $deadline)
             ->call('save')
-            ->assertDispatched('vacancy-saved');
+            ->assertDispatched('toast');
 
         $this->assertDatabaseHas('vacancies', ['title' => 'Software Engineer Intern']);
     }
@@ -51,7 +51,7 @@ class VacancyFormTest extends TestCase
             ->set('end_date', $endDate)
             ->set('application_deadline', $deadline)
             ->call('save')
-            ->assertDispatched('vacancy-saved');
+            ->assertDispatched('toast');
 
         $this->assertEquals('Updated Title', $vacancy->fresh()->title);
     }
@@ -77,5 +77,31 @@ class VacancyFormTest extends TestCase
             ->set('quota', 0)
             ->call('save')
             ->assertHasErrors(['quota']);
+    }
+
+    public function test_description_is_sanitized_on_save(): void
+    {
+        $admin = User::factory()->admin()->create();
+        $tomorrow = now()->addDay()->format('Y-m-d');
+        $endDate = now()->addMonths(3)->format('Y-m-d');
+        $deadline = now()->format('Y-m-d');
+
+        Livewire::actingAs($admin)
+            ->test(VacancyForm::class)
+            ->set('title', 'Sanitized Intern')
+            ->set('division', 'IT')
+            ->set('description', '<script>alert(1)</script><p onclick="x()">Halo <b>dunia</b></p>')
+            ->set('qualifications', 'Tekun')
+            ->set('quota', 2)
+            ->set('start_date', $tomorrow)
+            ->set('end_date', $endDate)
+            ->set('application_deadline', $deadline)
+            ->call('save');
+
+        $vacancy = Vacancy::where('title', 'Sanitized Intern')->firstOrFail();
+        $this->assertStringNotContainsString('script', $vacancy->description);
+        $this->assertStringNotContainsString('onclick', $vacancy->description);
+        $this->assertStringContainsString('Halo', $vacancy->description);
+        $this->assertStringContainsString('<b>dunia</b>', $vacancy->description);
     }
 }

@@ -37,12 +37,12 @@
 
             <section class="vac-section">
                 <h3>Deskripsi</h3>
-                <div class="vac-text">{!! nl2br(e($vacancy->description)) !!}</div>
+                <div class="vac-text">{!! clean($vacancy->description) !!}</div>
             </section>
 
             <section class="vac-section">
                 <h3>Kualifikasi</h3>
-                <div class="vac-text">{!! nl2br(e($vacancy->qualifications)) !!}</div>
+                <div class="vac-text">{!! clean($vacancy->qualifications) !!}</div>
             </section>
 
             @if($vacancy->creator)

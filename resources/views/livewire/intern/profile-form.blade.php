@@ -30,7 +30,7 @@
                     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
                         <div class="profile-avatar">
                             @if($existingPhoto)
-                                <img src="{{ $existingPhoto }}" alt="Foto Profil" loading="lazy" width="64" height="64">
+                                <img src="{{ route('profile.file', 'photo') }}" alt="Foto Profil" loading="lazy" width="64" height="64">
                             @else
                                 {{ strtoupper(substr($full_name, 0, 1)) }}
                             @endif
@@ -106,7 +106,7 @@
                     <div class="form-section-title" style="margin-top:24px">Dokumen</div>
                     <div class="profile-docs">
                         @if($existingPhoto)
-                            <a href="{{ $existingPhoto }}" target="_blank" class="profile-doc done">
+                            <a href="{{ route('profile.file', 'photo') }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>Foto Profil</span>
                             </a>
@@ -117,7 +117,7 @@
                             </span>
                         @endif
                         @if($existingCv)
-                            <a href="{{ $existingCv }}" target="_blank" class="profile-doc done">
+                            <a href="{{ route('profile.file', 'cv') }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>CV / Resume</span>
                             </a>
@@ -128,7 +128,7 @@
                             </span>
                         @endif
                         @if($existingCoverLetter)
-                            <a href="{{ $existingCoverLetter }}" target="_blank" class="profile-doc done">
+                            <a href="{{ route('profile.file', 'cover-letter') }}" target="_blank" class="profile-doc done">
                                 <i class="ti ti-circle-check"></i>
                                 <span>Cover Letter</span>
                             </a>

@@ -26,6 +26,14 @@ class Vacancy extends Model
         'quota'                => 'integer',
     ];
 
+    protected static function booted(): void
+    {
+        static::saving(function (self $vacancy) {
+            $vacancy->description = clean($vacancy->description);
+            $vacancy->qualifications = clean($vacancy->qualifications);
+        });
+    }
+
     public function creator(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');

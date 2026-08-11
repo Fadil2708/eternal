@@ -12,12 +12,12 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@telkom-skb.com'],
+            ['email' => 'admin@eternal.skb-prime.web.id'],
             ['password' => bcrypt('password'), 'role' => 'admin', 'email_verified_at' => now()],
         );
 
         $supervisor1 = User::firstOrCreate(
-            ['email' => 'supervisor1@telkom-skb.com'],
+            ['email' => 'supervisor1@eternal.skb-prime.web.id'],
             ['password' => bcrypt('password'), 'role' => 'supervisor', 'email_verified_at' => now()],
         );
         SupervisorProfile::firstOrCreate(
@@ -26,7 +26,7 @@ class UserSeeder extends Seeder
         );
 
         $supervisor2 = User::firstOrCreate(
-            ['email' => 'supervisor2@telkom-skb.com'],
+            ['email' => 'supervisor2@eternal.skb-prime.web.id'],
             ['password' => bcrypt('password'), 'role' => 'supervisor', 'email_verified_at' => now()],
         );
         SupervisorProfile::firstOrCreate(

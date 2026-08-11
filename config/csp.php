@@ -43,6 +43,12 @@ return [
         ],
         'form-action' => ["'self'"],
         'base-uri' => ["'self'"],
+        'frame-src' => [
+            "'self'",
+            'https://www.google.com',
+            'https://maps.google.com',
+            'https://www.openstreetmap.org',
+        ],
         'frame-ancestors' => ["'none'"],
     ],
 ];

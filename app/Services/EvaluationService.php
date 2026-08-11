@@ -8,14 +8,6 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class EvaluationService
 {
-    public function getAdminPaginatedList(string $filterGrade = ''): LengthAwarePaginator
-    {
-        return Evaluation::with(['intern.internProfile', 'internship.vacancy', 'supervisor.supervisorProfile'])
-            ->when($filterGrade, fn($q) => $q->where('grade', $filterGrade))
-            ->latest()
-            ->paginate(10);
-    }
-
     public function getSupervisorEvaluations(string $supervisorId, ?string $internshipId = null): array
     {
         $evaluation = null;
@@ -63,6 +55,24 @@ class EvaluationService
 
         $evaluation->evaluated_at = now();
         $evaluation->save();
+    }
+
+    public function isLocked(Evaluation $evaluation): bool
+    {
+        if ($evaluation->evaluated_at !== null) {
+            return true;
+        }
+
+        return $evaluation->internship?->certificate !== null;
+    }
+
+    public function lock(Evaluation $evaluation): void
+    {
+        if ($this->isLocked($evaluation)) {
+            throw new \Exception('Penilaian sudah terkunci.');
+        }
+
+        $evaluation->update(['evaluated_at' => now()]);
     }
 
     public function getAdminPaginatedList(string $filterGrade = ''): LengthAwarePaginator

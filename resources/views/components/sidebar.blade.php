@@ -39,6 +39,7 @@
             <div class="sb-nav-section">Lainnya</div>
             <x-sidebar-item :route="'admin.invites*'" :icon="'ti-link'" :label="'Undangan'" />
             <x-sidebar-item :route="'admin.faq*'" :icon="'ti-question-mark'" :label="'FAQ'" />
+            <x-sidebar-item :route="'admin.skills*'" :icon="'ti-tool'" :label="'Keahlian'" />
             <x-sidebar-item :route="'admin.testimonials*'" :icon="'ti-message-star'" :label="'Testimoni'" />
 
         @elseif($role === 'supervisor')

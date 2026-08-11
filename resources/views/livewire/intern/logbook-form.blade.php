@@ -17,7 +17,7 @@
                     </div>
                 @endif
 
-                <form wire:submit="save">
+                <form wire:submit="saveAsDraft">
                     <div class="field">
                         <label>Tanggal Kegiatan <span class="required">*</span></label>
                         <input wire:model="activity_date" type="date" max="{{ date('Y-m-d') }}" class="input">

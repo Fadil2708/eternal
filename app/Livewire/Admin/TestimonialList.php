@@ -27,7 +27,7 @@ class TestimonialList extends Component
         $this->confirmingToggleId = $id;
     }
 
-    public function togglePublished(): void
+    public function togglePublish(): void
     {
         $testimonial = $this->testimonialService->togglePublished($this->confirmingToggleId);
         $status = $testimonial->is_published ? 'dipublikasikan' : 'ditangguhkan';

@@ -7,6 +7,51 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Deployment & Database Safety
+
+> Aplikasi ini berjalan dengan Docker Compose. **Data MySQL tersimpan di volume
+> `eternal_eternal-mysql-data`.** JANGAN hapus volume ini.
+
+### Update Aman (WAJIB pakai script)
+
+```bash
+./deploy/deploy.sh
+```
+
+Script ini otomatis:
+1. Backup database → `backup/eternal_YYYYMMDD_HHMMSS.sql.gz` (rotasi simpan 7 terakhir)
+2. Mencatat jumlah data sebelum deploy
+3. Build & start ulang container
+4. Jalankan migrasi (`migrate --force`)
+5. Verifikasi: jika data tiba-tiba kosong → **ALARM & deploy dibatalkan**
+
+Backup manual kapan saja:
+
+```bash
+./deploy/backup.sh              # rotasi 7
+./deploy/backup.sh --keep 14    # rotasi 14
+```
+
+### ⛔ Larangan (penyebab data hilang)
+
+- `docker compose down -v` — flag `-v` menghapus volume DB beserta semua data
+- `php artisan migrate:fresh` / `db:wipe` di produksi
+- Rename/copy folder proyek lalu `docker compose up` (volume baru & kosong dibuat)
+  — project name sudah di-pin `name: eternal` di docker-compose.yml, jangan diubah
+- Mengganti nama volume di `docker-compose.yml` (sudah di-pin `eternal_eternal-mysql-data`)
+
+### Pemulihan dari backup
+
+```bash
+zcat backup/eternal_TERBARU.sql.gz | docker exec -i eternal-mysql mysql -uroot -p'rootpassword2026'
+```
+
+### Backup harian (opsional, cron)
+
+```cron
+0 2 * * * cd /opt/docker/eternal && ./deploy/backup.sh
+```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

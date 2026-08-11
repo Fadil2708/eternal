@@ -9,9 +9,6 @@
             <h2 class="page-title">Kelola Lowongan</h2>
             <p class="page-sub">Atur lowongan magang yang ditampilkan ke publik</p>
         </div>
-        <a href="{{ route('admin.vacancies.create') }}" class="btn-primary">
-            <i class="ti ti-plus"></i> Lowongan Baru
-        </a>
     </div>
     <div class="filter-bar">
         <div class="search-box">

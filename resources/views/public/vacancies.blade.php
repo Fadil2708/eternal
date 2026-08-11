@@ -57,7 +57,7 @@
                         <h2 class="vac-card-title">{{ $vacancy->title }}</h2>
                     </div>
                 </div>
-                <p class="vac-card-desc">{{ Str::limit(strip_tags($vacancy->description), 120) }}</p>
+                <p class="vac-card-desc">{!! clean($vacancy->description) !!}</p>
                 <div class="vac-card-meta">
                     <span class="vac-meta-item">
                         <i class="ti ti-users"></i>

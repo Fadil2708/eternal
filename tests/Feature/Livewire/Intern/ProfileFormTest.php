@@ -87,6 +87,7 @@ class ProfileFormTest extends TestCase
 
         $profile = InternProfile::where('user_id', $intern->id)->first();
         $this->assertNotNull($profile->photo_url);
+        $this->assertStringStartsWith("interns/{$intern->id}/photo/", $profile->photo_url);
         Storage::disk('private')->assertExists($profile->photo_url);
     }
 
@@ -111,7 +112,33 @@ class ProfileFormTest extends TestCase
 
         $profile = InternProfile::where('user_id', $intern->id)->first();
         $this->assertNotNull($profile->cv_url);
+        $this->assertStringStartsWith("interns/{$intern->id}/cv/", $profile->cv_url);
         Storage::disk('private')->assertExists($profile->cv_url);
+    }
+
+    public function test_save_uploads_cover_letter(): void
+    {
+        Storage::fake('private');
+
+        $intern = User::factory()->intern()->create();
+        InternProfile::factory()->create(['user_id' => $intern->id]);
+
+        $coverLetter = UploadedFile::fake()->create('cover-letter.pdf', 100);
+
+        Livewire::actingAs($intern)
+            ->test(ProfileForm::class)
+            ->set('full_name', 'Test')
+            ->set('institution_name', 'Univ')
+            ->set('institution_type', 'university')
+            ->set('major', 'CS')
+            ->set('student_id', 'STU-001')
+            ->set('cover_letter', $coverLetter)
+            ->call('save');
+
+        $profile = InternProfile::where('user_id', $intern->id)->first();
+        $this->assertNotNull($profile->cover_letter_url);
+        $this->assertStringStartsWith("interns/{$intern->id}/cover-letter/", $profile->cover_letter_url);
+        Storage::disk('private')->assertExists($profile->cover_letter_url);
     }
 
     public function test_save_validates_file_type(): void

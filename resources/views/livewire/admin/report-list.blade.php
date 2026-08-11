@@ -9,9 +9,6 @@
             <h2 class="page-title">Kelola Laporan</h2>
             <p class="page-sub">Tinjau laporan akhir peserta magang</p>
         </div>
-        <a href="{{ route('admin.export.reports') }}" class="btn-secondary">
-            <i class="ti ti-download"></i> Export
-        </a>
     </div>
     <div class="filter-bar">
         <div class="filter-tabs" role="tablist" aria-label="Filter status">

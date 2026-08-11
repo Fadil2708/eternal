@@ -96,4 +96,17 @@ class MiddlewareTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function test_intern_without_complete_profile_redirected_to_intern_profile_when_applying(): void
+    {
+        $intern = User::factory()->intern()->create();
+        InternProfile::factory()->minimal()->create([
+            'user_id' => $intern->id,
+        ]);
+
+        $response = $this->actingAs($intern)->get('/intern/applications/create/1');
+
+        $response->assertRedirect(route('intern.profile'));
+        $response->assertSessionHas('error');
+    }
 }

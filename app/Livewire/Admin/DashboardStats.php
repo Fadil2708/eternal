@@ -20,6 +20,7 @@ class DashboardStats extends Component
     public int $terminatedInternships = 0;
     public int $quotaUsed = 0;
     public int $quotaTotal = 0;
+    public int $totalQuota = 0;
     public int $activeInternships = 0;
     public array $statsCards = [];
     public array $internshipStats = [];

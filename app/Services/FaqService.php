@@ -28,6 +28,12 @@ class FaqService
         $faq->delete();
     }
 
+    public function toggleActive(Faq $faq): bool
+    {
+        $faq->update(['is_active' => !$faq->is_active]);
+        return $faq->is_active;
+    }
+
     public function getActiveFaqs(): \Illuminate\Support\Collection
     {
         return Faq::active()->orderBy('sort_order')->get();

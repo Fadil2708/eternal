@@ -3159,6 +3159,26 @@
 .vac-section { margin-bottom:20px }
 .vac-section h3 { font-size:13px;font-weight:700;color:#1E1C1A;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.3px }
 .vac-text { font-size:13px;color:#52504B;line-height:1.7 }
+.vac-text ul,.vacancy-card-desc ul,.vac-card-desc ul,.vacancy-grid .text-body ul { list-style-type:disc;padding-left:20px;margin:4px 0 }
+.vac-text ol,.vacancy-card-desc ol,.vac-card-desc ol,.vacancy-grid .text-body ol { list-style-type:decimal;padding-left:20px;margin:4px 0 }
+.vac-text li,.vacancy-card-desc li,.vac-card-desc li,.vacancy-grid .text-body li { margin:2px 0 }
+.vac-text p,.vacancy-card-desc p,.vac-card-desc p,.vacancy-grid .text-body p { margin:0 0 4px }
+.vac-text img,.vacancy-card-desc img,.vac-card-desc img,.vacancy-grid .text-body img { display:none }
+.vacancy-card-desc h2,.vacancy-card-desc h3,.vacancy-card-desc h4,.vac-card-desc h2,.vac-card-desc h3,.vac-card-desc h4,.vacancy-grid .text-body h2,.vacancy-grid .text-body h3,.vacancy-grid .text-body h4 { font-size:12px;margin:2px 0 }
+.vacancy-card-desc { display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden }
+.contact-map { border:1px solid #E8E4DF;border-radius:12px;overflow:hidden;background:#F5F4F2;margin-bottom:20px }
+.contact-map iframe { display:block;width:100%;height:360px;border:0 }
+.contact-grid { display:grid;grid-template-columns:repeat(3,1fr);gap:14px }
+.contact-card { background:#F5F4F2;border:1px solid #EFECE7;border-radius:10px;padding:18px;display:flex;gap:14px;align-items:flex-start;transition:border-color .2s,transform .2s }
+.contact-card:hover { border-color: rgb(var(--brand)/0.35);transform:translateY(-2px) }
+.contact-icon { flex-shrink:0;width:40px;height:40px;border-radius:10px;background:rgb(var(--brand)/0.08);color:rgb(var(--brand));display:flex;align-items:center;justify-content:center;font-size:19px }
+.contact-title { display:block;font-size:12px;font-weight:700;color:#1E1C1A;text-transform:uppercase;letter-spacing:0.3px;margin-bottom:4px }
+.contact-text { font-size:13px;color:#52504B;line-height:1.6;margin:0 0 10px }
+.contact-action { display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:rgb(var(--brand));text-decoration:none }
+.contact-action:hover { text-decoration:underline }
+@media (max-width: 768px) {
+    .contact-grid { grid-template-columns:1fr }
+}
 .vac-meta { border-top:1px solid #EDEBE6;padding-top:16px;font-size:13px;color:#5C5A55 }
 .vac-cta { text-align:center;margin-top:24px }
 

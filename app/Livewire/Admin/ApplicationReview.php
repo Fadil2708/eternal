@@ -102,6 +102,10 @@ class ApplicationReview extends Component
 
         $vacancies = Vacancy::select('id', 'title')->get();
 
-        return view('livewire.admin.application-review', compact('applications', 'vacancies'));
+        $selectedApplication = $this->showReviewModal && $this->selectedApplicationId
+            ? Application::with(['intern.internProfile', 'vacancy'])->find($this->selectedApplicationId)
+            : null;
+
+        return view('livewire.admin.application-review', compact('applications', 'vacancies', 'selectedApplication'));
     }
 }

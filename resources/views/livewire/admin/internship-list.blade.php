@@ -9,9 +9,6 @@
             <h2 class="page-title">Kelola Magang</h2>
             <p class="page-sub">Pantau status magang seluruh peserta</p>
         </div>
-        <a href="{{ route('admin.export.internships') }}" class="btn-secondary">
-            <i class="ti ti-download"></i> Export
-        </a>
     </div>
     <div class="filter-bar">
         <div class="filter-tabs" role="tablist" aria-label="Filter status">

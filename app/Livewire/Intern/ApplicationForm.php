@@ -48,7 +48,7 @@ class ApplicationForm extends Component
         }
     }
 
-    public function submit(): void
+    public function apply(): void
     {
         if (!$this->profileComplete) {
             $this->errorMessage = 'Lengkapi profil Anda sebelum mendaftar.';

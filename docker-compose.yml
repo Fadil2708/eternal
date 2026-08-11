@@ -1,3 +1,5 @@
+name: eternal
+
 services:
   app:
     build: .
@@ -64,7 +66,9 @@ services:
 
 volumes:
   eternal-mysql-data:
+    name: eternal_eternal-mysql-data
   eternal-redis-data:
+    name: eternal_eternal-redis-data
 
 networks:
   eternal-network:

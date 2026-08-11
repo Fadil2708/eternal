@@ -29,14 +29,16 @@
                         @error('quota') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                <div class="field">
+                <div wire:ignore class="field">
                     <label>Deskripsi</label>
-                    <textarea wire:model="description" rows="4" class="input"></textarea>
+                    <input type="hidden" id="description-input" value="{{ $description }}">
+                    <trix-editor input="description-input" x-data x-on:trix-change="$wire.set('description', $event.target.value)"></trix-editor>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
-                <div class="field">
+                <div wire:ignore class="field">
                     <label>Kualifikasi</label>
-                    <textarea wire:model="qualifications" rows="4" class="input"></textarea>
+                    <input type="hidden" id="qualifications-input" value="{{ $qualifications }}">
+                    <trix-editor input="qualifications-input" x-data x-on:trix-change="$wire.set('qualifications', $event.target.value)"></trix-editor>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
@@ -81,4 +83,19 @@
             </a>
         </div>
     </form>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.css">
+    <style>
+        trix-editor {
+            width: 100%; min-height: 160px;
+            border: 1.5px solid rgb(var(--panel-border)); border-radius: var(--radius);
+            font-size: 13px; color: rgb(var(--text-secondary));
+            background: rgb(var(--input-bg)); outline: none;
+            transition: all var(--transition-fast);
+        }
+        trix-editor:focus { border-color: rgb(var(--brand) / 1); background: rgb(var(--panel-bg)); box-shadow: 0 0 0 3px rgb(var(--brand) / 0.10); }
+        trix-toolbar .trix-button-group--file-tools { display: none; }
+        trix-toolbar { padding: 4px 0; }
+        trix-toolbar .trix-button { padding: 6px 8px; }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.umd.min.js" defer></script>
 </div>

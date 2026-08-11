@@ -77,6 +77,39 @@ SVG;
     }
 
     /**
+     * Serve the authenticated intern's own profile documents
+     * (private disk has no public URL).
+     */
+    public function file(Request $request, string $type): StreamedResponse|\Illuminate\Http\Response
+    {
+        $user = $request->user();
+
+        $field = match ($type) {
+            'photo'        => 'photo_url',
+            'cv'           => 'cv_url',
+            'cover-letter' => 'cover_letter_url',
+            default        => null,
+        };
+
+        if (!$user->isIntern() || !$field || !$user->internProfile?->{$field}) {
+            abort(404, 'File tidak ditemukan.');
+        }
+
+        $path = $user->internProfile->{$field};
+        $disk = Storage::disk(config('filesystems.private_disk'));
+
+        if (!$disk->exists($path)) {
+            $disk = Storage::disk('public');
+        }
+
+        if (!$disk->exists($path)) {
+            abort(404, 'File tidak ditemukan di penyimpanan.');
+        }
+
+        return $disk->response($path);
+    }
+
+    /**
      * Delete the user's account.
      */
     public function destroy(Request $request): RedirectResponse

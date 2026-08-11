@@ -48,7 +48,7 @@
             <div style="padding:20px;flex:1">
                 <h3 class="text-h3" style="margin-bottom:4px">{{ $v->title }}</h3>
                 <p class="text-body-sm" style="margin-bottom:12px">{{ $v->division }}</p>
-                <p class="text-body" style="margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{{ Str::limit($v->description, 120) }}</p>
+                <p class="text-body" style="margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden">{!! clean($v->description) !!}</p>
                 <div style="display:flex;align-items:center;justify-content:space-between;font-size:12px;color:#A8A5A0">
                     <span><i class="ti ti-users" style="font-size:14px"></i> Kuota: {{ $v->quota }}
                         @if($v->accepted_applications_count >= $v->quota)

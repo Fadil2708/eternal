@@ -43,7 +43,7 @@
                     @endif
                 </div>
             </div>
-            <p class="vacancy-card-desc">{{ Str::limit($vacancy->description, 120) }}</p>
+            <p class="vacancy-card-desc">{!! clean($vacancy->description) !!}</p>
             <div class="vacancy-card-footer">
                 <span class="vacancy-card-deadline"
                       x-data="{ left: {{ $vacancy->application_deadline ? $vacancy->application_deadline->isPast() ? 0 : $vacancy->application_deadline->diffInDays(now()) : 0 }} }"

@@ -17,6 +17,7 @@ use App\Livewire\Admin\UserForm;
 use App\Livewire\Admin\InviteList;
 use App\Livewire\Admin\TestimonialList;
 use App\Livewire\Admin\FaqList;
+use App\Livewire\Admin\SkillList;
 use App\Livewire\Admin\VacancyForm;
 use App\Livewire\Admin\VacancyList;
 use App\Livewire\Intern\ApplicationForm;
@@ -63,6 +64,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/invites', InviteList::class)->name('invites');
         Route::get('/testimonials', TestimonialList::class)->name('testimonials');
         Route::get('/faq', FaqList::class)->name('faq');
+        Route::get('/skills', SkillList::class)->name('skills');
         Route::get('/certificates', CertificateList::class)->name('certificates');
         Route::get('/certificates/{id}/download', [CertificateController::class, 'download'])->name('certificates.download');
         Route::get('/internships', InternshipList::class)->name('internships');
@@ -120,6 +122,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/profile/photo', [ProfileController::class, 'photo'])->name('profile.photo');
+    Route::get('/profile/file/{type}', [ProfileController::class, 'file'])->name('profile.file');
 
     // ─── Private file serving ───────────────────────────
     Route::get('/private/{path}', [App\Http\Controllers\FileController::class, 'serve'])

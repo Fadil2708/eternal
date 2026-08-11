@@ -79,6 +79,20 @@ class FaqList extends Component
         $this->dispatch('toast', message: 'FAQ berhasil dihapus.', type: 'success');
     }
 
+    public function cancel(): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        $this->resetForm();
+    }
+
+    public function toggleActive(string $id): void
+    {
+        abort_unless(auth()->user()->isAdmin(), 403);
+        $faq = Faq::findOrFail($id);
+        $active = $this->faqService->toggleActive($faq);
+        $this->dispatch('toast', message: $active ? 'FAQ diaktifkan.' : 'FAQ dinonaktifkan.', type: 'success');
+    }
+
     public function resetForm(): void
     {
         $this->editingId = null;

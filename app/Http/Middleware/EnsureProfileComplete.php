@@ -31,7 +31,7 @@ class EnsureProfileComplete
                         ], 422);
                     }
 
-                    return redirect()->route('profile.edit')
+                    return redirect()->route('intern.profile')
                         ->with('error', 'Lengkapi profil Anda terlebih dahulu sebelum mendaftar lowongan.');
                 }
             }

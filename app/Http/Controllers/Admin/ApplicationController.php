@@ -117,6 +117,10 @@ class ApplicationController extends Controller
         $disk = Storage::disk(config('filesystems.private_disk'));
 
         if (!$disk->exists($profile->{$field})) {
+            $disk = Storage::disk('public');
+        }
+
+        if (!$disk->exists($profile->{$field})) {
             abort(404, 'File tidak ditemukan di penyimpanan.');
         }
 

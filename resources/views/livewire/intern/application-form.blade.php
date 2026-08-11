@@ -14,11 +14,11 @@
         <div class="panel form-card" style="margin-bottom:20px">
             <h2 class="text-hero" style="margin:0 0 4px">{{ $vacancy->title }}</h2>
             <p class="text-body-sm" style="margin:0">{{ $vacancy->division }}</p>
-            <p class="text-body" style="margin-top:12px">{{ $vacancy->description }}</p>
+            <div class="vac-text">{!! clean($vacancy->description) !!}</div>
             @if($vacancy->qualifications)
                 <div style="margin-top:16px">
                     <h4 class="text-h4">Kualifikasi:</h4>
-                    <p class="text-body" style="white-space:pre-line">{{ $vacancy->qualifications }}</p>
+                    <div class="vac-text">{!! clean($vacancy->qualifications) !!}</div>
                 </div>
             @endif
         </div>

@@ -29,7 +29,7 @@ class UserList extends Component
         $this->confirmingDeactivateId = $id;
     }
 
-    public function toggleActive(): void
+    public function deactivate(): void
     {
         $user = \App\Models\User::findOrFail($this->confirmingDeactivateId);
         $active = $this->userService->toggleActive($user);

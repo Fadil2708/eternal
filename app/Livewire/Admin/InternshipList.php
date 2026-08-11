@@ -13,6 +13,7 @@ class InternshipList extends Component
     public $filterStatus = '';
     public $confirmingAction = null;
     public $actionType = '';
+    public $confirmingLockId = null;
 
     public $editingInternshipId = null;
     public $showDatesModal = false;
@@ -20,10 +21,12 @@ class InternshipList extends Component
     public $actual_end_date = '';
 
     private InternshipService $internshipService;
+    private \App\Services\EvaluationService $evaluationService;
 
-    public function boot(InternshipService $internshipService): void
+    public function boot(InternshipService $internshipService, \App\Services\EvaluationService $evaluationService): void
     {
         $this->internshipService = $internshipService;
+        $this->evaluationService = $evaluationService;
     }
 
     public function updatingFilterStatus(): void { $this->resetPage(); }
@@ -49,6 +52,28 @@ class InternshipList extends Component
     {
         $this->confirmingAction = null;
         $this->actionType = '';
+    }
+
+    public function confirmLock(string $id): void
+    {
+        $this->confirmingLockId = $id;
+    }
+
+    public function lockEvaluation(): void
+    {
+        try {
+            $internship = \App\Models\Internship::with('evaluation')->findOrFail($this->confirmingLockId);
+
+            if (!$internship->evaluation) {
+                throw new \Exception('Penilaian belum dibuat untuk magang ini.');
+            }
+
+            $this->evaluationService->lock($internship->evaluation);
+            $this->dispatch('toast', message: 'Penilaian berhasil dikunci.', type: 'success');
+            $this->confirmingLockId = null;
+        } catch (\Exception $e) {
+            $this->dispatch('toast', message: $e->getMessage(), type: 'error');
+        }
     }
 
     public function editDates(string $id): void
