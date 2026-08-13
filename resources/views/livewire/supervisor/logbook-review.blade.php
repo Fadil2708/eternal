@@ -48,7 +48,11 @@
                     <div style="display:flex;align-items:flex-start;justify-content:space-between">
                         <div style="flex:1">
                             <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-                                <x-avatar :name="$logbook->intern?->internProfile?->full_name ?? $logbook->intern?->email ?? ''" :size="28" />
+                                <x-avatar
+                                    :name="$logbook->intern?->internProfile?->full_name ?? $logbook->intern?->email ?? ''"
+                                    :photo="$logbook->intern?->internProfile?->photo_url"
+                                    :size="28"
+                                />
                                 <div>
                                     <span class="font-medium">{{ $logbook->intern?->internProfile?->full_name ?? $logbook->intern?->email }}</span>
                                     <span class="text-caption" style="margin-left:8px">{{ $logbook->internship?->vacancy?->title }}</span>

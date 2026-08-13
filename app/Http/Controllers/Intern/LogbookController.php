@@ -9,6 +9,7 @@ use App\Models\Logbook;
 use App\Notifications\LogbookNotification;
 use App\Services\LogbookService;
 use App\Traits\ApiResponse;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 
 class LogbookController extends Controller
@@ -40,14 +41,18 @@ class LogbookController extends Controller
 
     public function update(string $id, StoreLogbookRequest $request): JsonResponse
     {
-        $logbook = Logbook::where('intern_id', $request->user()->id)->findOrFail($id);
-
         try {
-            $logbook = $this->logbookService->update(
+            $logbook = Logbook::where('intern_id', $request->user()->id)->findOrFail($id);
+
+            $this->logbookService->update(
                 $logbook,
                 $request->validated(),
                 $request->user()
             );
+
+            $logbook->refresh();
+        } catch (ModelNotFoundException $e) {
+            return $this->error('Logbook tidak ditemukan atau bukan milik Anda.', 422);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 422);
         }
@@ -60,10 +65,14 @@ class LogbookController extends Controller
 
     public function submit(string $id): JsonResponse
     {
-        $logbook = Logbook::where('intern_id', auth()->id())->findOrFail($id);
-
         try {
-            $logbook = $this->logbookService->submit($logbook, auth()->user());
+            $logbook = Logbook::where('intern_id', auth()->id())->findOrFail($id);
+
+            $this->logbookService->submit($logbook, auth()->user());
+
+            $logbook->refresh();
+        } catch (ModelNotFoundException $e) {
+            return $this->error('Logbook tidak ditemukan atau bukan milik Anda.', 422);
         } catch (\Exception $e) {
             return $this->error($e->getMessage(), 422);
         }

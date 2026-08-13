@@ -18,7 +18,7 @@ class InternshipController extends Controller
     {
         $internship = Internship::with([
             'vacancy', 'supervisor.supervisorProfile',
-        ])->where('intern_id', auth()->id())->first();
+        ])->where('intern_id', auth()->id())->latest()->first();
 
         return view('intern.internship.index', compact('internship'));
     }
@@ -27,7 +27,7 @@ class InternshipController extends Controller
     {
         $internship = Internship::with([
             'vacancy', 'supervisor.supervisorProfile',
-        ])->where('intern_id', $request->user()->id)->first();
+        ])->where('intern_id', $request->user()->id)->latest()->first();
 
         return $this->success(
             $internship ? new InternshipResource($internship) : null,

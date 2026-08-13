@@ -152,3 +152,4 @@ Route::view('/syarat-ketentuan', 'pages.syarat-ketentuan')->name('public.syarat'
 Route::view('/kebijakan-privasi', 'pages.kebijakan-privasi')->name('public.privacy');
 
 require __DIR__.'/auth.php';
+

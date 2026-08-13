@@ -153,6 +153,7 @@ class CertificateTestSeeder extends Seeder
         if (! $internship->certificate()->exists()) {
             $internship->load('evaluation');
             app(CertificateService::class)->issue($internship, $admin->id);
+            $internship->load('certificate');
         }
 
         $this->command->info('✅ Data tes sertifikat berhasil dibuat!');

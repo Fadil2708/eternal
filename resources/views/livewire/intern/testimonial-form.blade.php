@@ -16,7 +16,7 @@
                 <h3 class="text-h3" style="margin-bottom:4px">Berikan Testimoni</h3>
                 <p class="text-body-sm" style="margin-bottom:24px">Bagikan pengalaman Anda mengikuti program magang/PKL di Telkom Sukabumi</p>
 
-                <form wire:submit="save">
+                <form wire:submit="submit">
                     <div class="field">
                         <label>Rating <span class="required">*</span></label>
                         <div class="star-rating" style="margin-top:8px">

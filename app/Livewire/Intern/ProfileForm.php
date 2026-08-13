@@ -137,16 +137,18 @@ class ProfileForm extends Component
         $this->validate([
             'full_name' => 'required|string|max:255',
             'gender' => 'nullable|in:male,female',
-            'phone' => 'nullable|string|max:20',
+            'phone' => 'required|string|max:20',
             'address' => 'nullable|string',
             'date_of_birth' => 'nullable|date',
             'institution_name' => 'required|string|max:255',
             'institution_type' => 'nullable|string|max:255',
-            'major' => 'nullable|string|max:255',
-            'student_id' => 'nullable|string|max:50',
+            'major' => 'required|string|max:255',
+            'student_id' => 'required|string|max:50',
 
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'cv' => 'nullable|file|mimes:pdf|max:5120',
+            'cv' => $this->existingCv
+                ? 'nullable|file|mimes:pdf|max:5120'
+                : 'required|file|mimes:pdf|max:5120',
             'cover_letter' => 'nullable|file|mimes:pdf|max:5120',
         ]);
 

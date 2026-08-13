@@ -35,9 +35,14 @@ class LogbookForm extends Component
         'output' => 'required|string',
     ];
 
-    public function mount(): void
+    public function mount(?string $id = null): void
     {
-        $this->activity_date = now()->format('Y-m-d');
+        if ($id) {
+            $this->edit($id);
+        } else {
+            $this->activity_date = now()->format('Y-m-d');
+        }
+
         $this->checkActiveInternship();
     }
 
@@ -87,7 +92,7 @@ class LogbookForm extends Component
 
             if ($this->logbookId) {
                 $logbook = Logbook::where('intern_id', auth()->id())->findOrFail($this->logbookId);
-                $this->logbookService->update($logbook, $data, $status);
+                $this->logbookService->update($logbook, $data + ['validation_status' => $status], auth()->user());
                 $this->dispatch('toast', message: 'Logbook berhasil diperbarui.', type: 'success');
             } else {
                 $this->logbookService->create($internship->id, auth()->user(), $data + ['validation_status' => $status]);

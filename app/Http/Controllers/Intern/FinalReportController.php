@@ -27,9 +27,6 @@ class FinalReportController extends Controller
             ->findOrFail($internshipId);
 
         $existing = FinalReport::where('internship_id', $internshipId)->first();
-        if ($existing) {
-            $this->fileUploadService->delete($existing->file_url);
-        }
 
         $fileUrl = $this->fileUploadService->uploadFinalReport(
             $request->file('file_url'),
@@ -55,6 +52,10 @@ class FinalReportController extends Controller
             ['internship_id' => $internshipId],
             $data
         );
+
+        if ($existing && $existing->file_url !== $fileUrl) {
+            $this->fileUploadService->delete($existing->file_url);
+        }
 
         return $this->success(
             new FinalReportResource($report),

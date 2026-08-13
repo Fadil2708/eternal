@@ -2,76 +2,162 @@ name: eternal
 
 services:
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: eternal-app
-    ports:
-      - "8082:8080"
+    restart: unless-stopped
+    working_dir: /var/www/html
+
     volumes:
       - .:/var/www/html
+
     environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL}
+
       DB_HOST: mysql
       DB_PORT: 3306
-      DB_DATABASE: eternal_db
-      DB_USERNAME: eternal
-      DB_PASSWORD: Eternal@2026
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
     depends_on:
       mysql:
         condition: service_healthy
       redis:
         condition: service_started
+
     networks:
       - eternal-network
       - proxy
 
+
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eternal-queue
+    restart: unless-stopped
+    working_dir: /var/www/html
+
+    command: php artisan queue:work database --sleep=3 --tries=3 --timeout=120
+
+    volumes:
+      - .:/var/www/html
+
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL}
+
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+    networks:
+      - eternal-network
+
+
   redis:
     image: redis:7-alpine
     container_name: eternal-redis
+    restart: unless-stopped
+
     volumes:
       - eternal-redis-data:/data
+
     networks:
       - eternal-network
+
 
   mysql:
     image: mysql:8.0
     container_name: eternal-mysql
+    restart: unless-stopped
+
     environment:
-      MYSQL_DATABASE: eternal_db
-      MYSQL_ROOT_PASSWORD: rootpassword2026
-      MYSQL_USER: eternal
-      MYSQL_PASSWORD: Eternal@2026
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+
     volumes:
       - eternal-mysql-data:/var/lib/mysql
-    ports:
-      - "3307:3306"
+
+    # JANGAN expose MySQL ke internet/public.
+    # Kalau hanya perlu akses dari host/server, bisa gunakan:
+    # ports:
+    #   - "127.0.0.1:3307:3306"
+
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "${DB_USERNAME}",
+          "-p${DB_PASSWORD}"
+        ]
       timeout: 10s
       retries: 10
+      interval: 10s
+      start_period: 30s
+
     networks:
       - eternal-network
+
 
   phpmyadmin:
     image: phpmyadmin:latest
     container_name: eternal-phpmyadmin
+    restart: unless-stopped
+
     environment:
       PMA_HOST: mysql
-      PMA_USER: eternal
-      PMA_PASSWORD: Eternal@2026
+      PMA_PORT: 3306
+
+    # Hanya bisa diakses dari server itu sendiri.
     ports:
-      - "8083:80"
+      - "127.0.0.1:8083:80"
+
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
+
     networks:
       - eternal-network
+
 
 volumes:
   eternal-mysql-data:
     name: eternal_eternal-mysql-data
+
   eternal-redis-data:
     name: eternal_eternal-redis-data
+
 
 networks:
   eternal-network:
     driver: bridge
+
   proxy:
     external: true

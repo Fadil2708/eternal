@@ -6,7 +6,9 @@
 <div class="page-header">
     <div>
         <h2 class="page-title">Dashboard Pembimbing</h2>
-        <p class="page-sub">Selamat datang, {{ $name }}</p>
+        <p class="page-sub">
+            Selamat datang, {{ auth()->user()->displayName() ?? 'Supervisor' }}
+        </p>
     </div>
 </div>
 

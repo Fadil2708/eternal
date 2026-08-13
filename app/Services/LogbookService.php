@@ -42,11 +42,11 @@ class LogbookService
     {
         $internship = Internship::where('intern_id', $intern->id)
             ->where('status', 'active')
-            ->firstOrFail();
+            ->findOrFail($internshipId);
 
-        $data['internship_id'] = $internshipId;
+        $data['internship_id'] = $internship->id;
         $data['intern_id'] = $intern->id;
-        $data['validation_status'] = 'draft';
+        $data['validation_status'] ??= 'draft';
 
         return Logbook::create($data);
     }

@@ -34,10 +34,22 @@ class TestimonialForm extends Component
     {
         $this->validate();
 
+        if (Testimonial::where('intern_id', auth()->id())->exists()) {
+            $this->submitted = true;
+
+            return;
+        }
+
         $internship = Internship::where('intern_id', auth()->id())
             ->where('status', 'completed')
             ->latest()
-            ->firstOrFail();
+            ->first();
+
+        if (! $internship) {
+            $this->dispatch('toast', message: 'Anda belum memiliki magang yang selesai.', type: 'error');
+
+            return;
+        }
 
         Testimonial::create([
             'intern_id' => auth()->id(),

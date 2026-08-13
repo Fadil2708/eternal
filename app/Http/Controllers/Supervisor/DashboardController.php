@@ -13,11 +13,12 @@ class DashboardController extends Controller
         $stats = $dashboardService->getSupervisorStats(auth()->id());
 
         return view('supervisor.dashboard', [
-            'totalInterns' => $stats['totalInterns'],
-            'pendingLogbooksCount' => $stats['pendingLogbooks'],
-            'pendingReportsCount' => $stats['pendingReports'],
-            'pendingEvaluationsCount' => $stats['pendingEvaluations'],
-            'activeInternships' => $stats['activeInternships'],
-        ]);
+        'totalInterns' => $stats['totalInterns'],
+        'pendingLogbooksCount' => $stats['pendingLogbooks'],
+        'pendingReportsCount' => $stats['pendingReports'],
+        'pendingEvaluationsCount' => $stats['pendingEvaluations'],
+        'activeInternships' => $stats['activeInternships'],
+        'recentLogbooks' => $stats['recentLogbooks'],
+    ]);
     }
 }

@@ -37,12 +37,12 @@ class FinalReportForm extends Component
         }
 
         $internship = Internship::where('intern_id', auth()->id())
-            ->whereIn('status', ['active', 'extended'])
+            ->where('status', 'active')
             ->latest()
             ->first();
         $this->hasActiveInternship = $internship !== null;
         $this->canUpload = $this->hasActiveInternship
-            && (! $this->existingReport || $this->existingReport->supervisor_approval !== 'approved');
+            && (! $this->existingReport || $this->existingReport->supervisor_approval === 'rejected');
     }
 
     public function upload(): void
@@ -62,8 +62,9 @@ class FinalReportForm extends Component
                 'submitted_at' => now(),
                 'supervisor_approval' => 'pending',
             ]);
+            $this->existingReport = $this->existingReport->fresh();
         } else {
-            FinalReport::create([
+            $this->existingReport = FinalReport::create([
                 'internship_id' => $internship->id,
                 'intern_id' => auth()->id(),
                 'title' => $this->title,
@@ -72,6 +73,7 @@ class FinalReportForm extends Component
             ]);
         }
 
+        $this->canUpload = false;
         $this->dispatch('toast', message: 'Laporan akhir berhasil diunggah.', type: 'success');
     }
 

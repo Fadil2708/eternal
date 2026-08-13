@@ -43,7 +43,7 @@
                     {{ $canUpload ? 'Upload Laporan Akhir' : 'Laporan Akhir' }}
                 </h3>
 
-                <form wire:submit="save">
+                <form wire:submit="upload">
                     <div class="field">
                         <label>Judul Laporan <span class="required">*</span></label>
                         <input wire:model="title" type="text" class="input" placeholder="Contoh: Laporan Praktik Kerja Lapangan di Telkom Sukabumi">

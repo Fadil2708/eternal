@@ -9,6 +9,7 @@ use App\Models\FinalReport;
 use App\Models\Internship;
 use App\Models\Logbook;
 use App\Models\Vacancy;
+use Illuminate\Support\Facades\DB;
 
 class DashboardService
 {
@@ -27,10 +28,14 @@ class DashboardService
         $terminatedInternships = Internship::where('status', 'terminated')->count();
 
         $totalQuota = Vacancy::sum('quota');
-        $activeInternships = Internship::whereIn('status', ['active', 'extended'])->count();
+        $activeInternships = Internship::where('status', 'active')->count();
+
+        $dateExpression = DB::getDriverName() === 'sqlite'
+            ? "strftime('%m', created_at) as month, strftime('%Y', created_at) as year"
+            : 'MONTH(created_at) as month, YEAR(created_at) as year';
 
         $monthlyApplications = Application::where('created_at', '>=', now()->subMonths(12))
-            ->selectRaw('MONTH(created_at) as month, YEAR(created_at) as year, COUNT(*) as total')
+            ->selectRaw("{$dateExpression}, COUNT(*) as total")
             ->groupBy('year', 'month')
             ->orderBy('year')
             ->orderBy('month')
@@ -101,14 +106,20 @@ class DashboardService
     public function getSupervisorStats(string $userId): array
     {
         $totalInterns = Internship::where('supervisor_id', $userId)
-            ->whereIn('status', ['active', 'extended'])
+            ->where('status', 'active')
             ->count();
 
-        $pendingLogbooks = Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId))
+        $pendingLogbooks = Logbook::whereHas(
+            'internship',
+            fn ($q) => $q->where('supervisor_id', $userId)
+        )
             ->where('validation_status', 'submitted')
             ->count();
 
-        $pendingReports = FinalReport::whereHas('internship', fn ($q) => $q->where('supervisor_id', $userId))
+        $pendingReports = FinalReport::whereHas(
+            'internship',
+            fn ($q) => $q->where('supervisor_id', $userId)
+        )
             ->where('supervisor_approval', 'pending')
             ->count();
 
@@ -118,7 +129,16 @@ class DashboardService
 
         $activeInternships = Internship::with(['intern.internProfile', 'vacancy'])
             ->where('supervisor_id', $userId)
-            ->whereIn('status', ['active', 'extended'])
+            ->where('status', 'active')
+            ->get();
+
+        $recentLogbooks = Logbook::with(['intern.internProfile'])
+            ->whereHas(
+                'internship',
+                fn ($q) => $q->where('supervisor_id', $userId)
+            )
+            ->latest('activity_date')
+            ->limit(5)
             ->get();
 
         return [
@@ -127,6 +147,7 @@ class DashboardService
             'pendingReports' => $pendingReports,
             'pendingEvaluations' => $pendingEvaluations,
             'activeInternships' => $activeInternships,
+            'recentLogbooks' => $recentLogbooks,
         ];
     }
 }

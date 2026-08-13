@@ -159,7 +159,7 @@ class ApplicationService
     private function ensureNoActiveInternship(User $intern): void
     {
         $hasActive = Internship::where('intern_id', $intern->id)
-            ->whereIn('status', ['active', 'extended'])
+            ->where('status', 'active')
             ->exists();
 
         if ($hasActive) {

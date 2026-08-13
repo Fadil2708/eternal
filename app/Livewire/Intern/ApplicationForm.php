@@ -61,8 +61,8 @@ class ApplicationForm extends Component
 
         try {
             $application = $this->applicationService->apply(
-                $this->vacancy,
-                auth()->user()
+                auth()->user(),
+                $this->vacancy->id
             );
 
             $this->hasApplied = true;
