@@ -1,8 +1,9 @@
 @if(isset($vacancies) && $vacancies->isNotEmpty())
 <div class="welcome-vacancies" id="section-vacancies" data-reveal>
-    <div class="welcome-vacancies-header">
-        <h2 class="welcome-section-title">Lowongan Tersedia</h2>
-        <p class="welcome-section-sub">Temukan posisi magang yang sesuai dengan minatmu</p>
+    <div class="section-heading">
+        <span class="section-label">Lowongan</span>
+        <h2 class="section-title">Lowongan Tersedia</h2>
+        <p class="section-description">Temukan posisi magang yang sesuai dengan minatmu</p>
     </div>
 
     {{-- Search Filter Bar (seperti magentaku.id) --}}
@@ -65,9 +66,10 @@
 </div>
 @else
 <div class="welcome-vacancies" data-reveal>
-    <div class="welcome-vacancies-header">
-        <h2 class="welcome-section-title">Lowongan Tersedia</h2>
-        <p class="welcome-section-sub">Temukan posisi magang yang sesuai dengan minatmu</p>
+    <div class="section-heading">
+        <span class="section-label">Lowongan</span>
+        <h2 class="section-title">Lowongan Tersedia</h2>
+        <p class="section-description">Temukan posisi magang yang sesuai dengan minatmu</p>
     </div>
     <div class="vacancy-empty">
         <i class="ti ti-briefcase-off"></i>

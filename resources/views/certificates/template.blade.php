@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
-    <title>Sertifikat Resmi Telkom Indonesia</title>
+    <title>Sertifikat Resmi Eternal Internship</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         @page {
@@ -39,7 +39,7 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.2);
         }
 
-        /* ===================== STRIPE MERAH TELKOM ===================== */
+        /* ===================== STRIPE MERAH ETERNAL ===================== */
         .top-stripe,
         .bottom-stripe {
             position: absolute;
@@ -390,7 +390,7 @@
 
 <div class="cert">
 
-    <!-- Stripe atas & bawah merah Telkom -->
+    <!-- Stripe atas & bawah merah Eternal -->
     <div class="top-stripe"></div>
     <div class="bottom-stripe"></div>
 
@@ -453,10 +453,10 @@
                 <tr>
                     <td class="logo-td">
                         <div class="logo-td-inner">
-                            <img class="logo-icon" src="data:image/webp;base64,{{ base64_encode(file_get_contents(public_path('images/TLK.webp'))) }}" alt="Telkom Indonesia">
+                            <img class="logo-icon" src="data:image/webp;base64,{{ base64_encode(file_get_contents(public_path('images/TLK.webp'))) }}" alt="Eternal Internship">
                         </div>
                         <div class="logo-text" style="display:inline-block;vertical-align:middle">
-                            <h2>Telkom Indonesia</h2>
+                            <h2>Eternal Internship</h2>
                             <p>Witel Sukabumi</p>
                         </div>
                     </td>

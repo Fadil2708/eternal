@@ -124,7 +124,7 @@ class CertificateTestSeeder extends Seeder
             ['internship_id' => $internship->id],
             [
                 'intern_id' => $intern->id,
-                'title' => 'Laporan Akhir Magang: Pengembangan LMS di Telkom Sukabumi',
+                'title' => 'Laporan Akhir Magang: Pengembangan LMS di Eternal Internship',
                 'file_url' => 'uploads/reports/sample-report.pdf',
                 'file_size_kb' => 2048,
                 'submitted_at' => '2026-03-25',

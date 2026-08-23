@@ -6,15 +6,41 @@ use App\Models\Internship;
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class InternshipService
 {
-    public function getAdminPaginatedList(string $filterStatus = ''): LengthAwarePaginator
+    public function getAdminPaginatedList(string $filterStatus = '', string $search = ''): LengthAwarePaginator
     {
         return Internship::with(['intern.internProfile', 'supervisor.supervisorProfile', 'vacancy', 'evaluation'])
             ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->whereHas('intern.internProfile', fn ($sub) => $sub->where('full_name', 'like', "%{$search}%"))
+                        ->orWhereHas('intern', fn ($sub) => $sub->where('email', 'like', "%{$search}%"))
+                        ->orWhereHas('vacancy', fn ($sub) => $sub->where('title', 'like', "%{$search}%"))
+                        ->orWhereHas('supervisor.supervisorProfile', fn ($sub) => $sub->where('full_name', 'like', "%{$search}%"))
+                        ->orWhereHas('supervisor', fn ($sub) => $sub->where('email', 'like', "%{$search}%"));
+                });
+            })
             ->latest()
             ->paginate(10);
+    }
+
+    public function countByStatus(): array
+    {
+        $rows = Internship::query()
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+
+        return [
+            'total' => array_sum($rows),
+            'active' => $rows['active'] ?? 0,
+            'completed' => $rows['completed'] ?? 0,
+            'terminated' => $rows['terminated'] ?? 0,
+        ];
     }
 
     public function updateStatus(string $id, string $status): Internship
@@ -48,20 +74,51 @@ class InternshipService
         return $internship->fresh();
     }
 
-    public function getSupervisorInterns(string $supervisorId, string $filterStatus = 'active'): LengthAwarePaginator
+    public function getSupervisorInterns(string $supervisorId, string $filterStatus = 'active', string $search = ''): LengthAwarePaginator
     {
         return Internship::with(['intern.internProfile', 'vacancy'])
+            ->withCount(['logbooks', 'approvedLogbooks'])
             ->where('supervisor_id', $supervisorId)
             ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
+            ->when($search, function ($q) use ($search) {
+                $q->whereHas('intern', function ($q) use ($search) {
+                    $q->where('email', 'like', "%{$search}%")
+                        ->orWhereHas('internProfile', fn ($q) => $q->where('full_name', 'like', "%{$search}%"));
+                });
+            })
             ->latest()
             ->paginate(10);
     }
 
-    public function getSupervisorMappedList(string $filterStatus = 'active'): LengthAwarePaginator
+    public function countUnassignedByStatus(): array
+    {
+        $rows = Internship::query()
+            ->whereNull('supervisor_id')
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+
+        return [
+            'total' => array_sum($rows),
+            'active' => $rows['active'] ?? 0,
+            'completed' => $rows['completed'] ?? 0,
+            'terminated' => $rows['terminated'] ?? 0,
+        ];
+    }
+
+    public function getSupervisorMappedList(string $filterStatus = 'active', string $search = ''): LengthAwarePaginator
     {
         return Internship::with(['intern.internProfile', 'vacancy'])
             ->whereNull('supervisor_id')
             ->when($filterStatus, fn ($q) => $q->where('status', $filterStatus))
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->whereHas('intern.internProfile', fn ($sub) => $sub->where('full_name', 'like', "%{$search}%"))
+                        ->orWhereHas('intern', fn ($sub) => $sub->where('email', 'like', "%{$search}%"))
+                        ->orWhereHas('vacancy', fn ($sub) => $sub->where('title', 'like', "%{$search}%"));
+                });
+            })
             ->latest()
             ->paginate(10);
     }

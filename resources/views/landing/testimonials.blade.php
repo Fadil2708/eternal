@@ -1,7 +1,8 @@
 <div class="welcome-ulasan" id="section-testimonials" data-reveal>
-    <div class="ulasan-header">
-        <h2 class="welcome-section-title">Ulasan Magang</h2>
-        <p class="welcome-section-sub">Apa kata peserta magang sebelumnya</p>
+    <div class="section-heading">
+        <span class="section-label">Testimoni</span>
+        <h2 class="section-title">Ulasan Magang</h2>
+        <p class="section-description">Apa kata peserta magang sebelumnya</p>
     </div>
 
     <div class="ulasan-aggregate">

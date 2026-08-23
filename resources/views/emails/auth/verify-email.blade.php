@@ -3,7 +3,7 @@
 @section('content')
     <h2>Verifikasi Email</h2>
     <p>Halo <strong>{{ $user ?? 'Pengguna' }}</strong>,</p>
-    <p>Terima kasih telah mendaftar di <strong>Sistem Magang & PKL Telkom Sukabumi</strong>.</p>
+    <p>Terima kasih telah mendaftar di <strong>Sistem Magang & PKL Eternal Internship</strong>.</p>
     <p>Klik tombol di bawah untuk memverifikasi alamat email Anda dan mengaktifkan akun:</p>
 
     <div style="text-align:center;margin:24px 0">

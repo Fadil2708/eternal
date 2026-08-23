@@ -53,6 +53,20 @@ class MyApplications extends Component
             ->orderBy('applied_at', 'desc')
             ->paginate(10);
 
-        return view('livewire.intern.my-applications', compact('applications'));
+        $statusCounts = Application::where('intern_id', auth()->id())
+            ->selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->all();
+
+        $totalCount = array_sum($statusCounts);
+        $activeCount = ($statusCounts['submitted'] ?? 0)
+            + ($statusCounts['under_review'] ?? 0)
+            + ($statusCounts['interview_scheduled'] ?? 0);
+        $acceptedCount = $statusCounts['accepted'] ?? 0;
+
+        return view('livewire.intern.my-applications', compact(
+            'applications', 'statusCounts', 'totalCount', 'activeCount', 'acceptedCount'
+        ));
     }
 }

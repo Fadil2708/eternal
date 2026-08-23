@@ -7,6 +7,7 @@ use App\Models\Logbook;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 
 class LogbookService
 {
@@ -17,20 +18,42 @@ class LogbookService
         'approved' => [],
     ];
 
+    public function countByStatus(): array
+    {
+        $rows = Logbook::query()
+            ->select('validation_status', DB::raw('count(*) as total'))
+            ->groupBy('validation_status')
+            ->pluck('total', 'validation_status')
+            ->toArray();
+
+        return [
+            'total' => array_sum($rows),
+            'draft' => $rows['draft'] ?? 0,
+            'submitted' => $rows['submitted'] ?? 0,
+            'approved' => $rows['approved'] ?? 0,
+            'revision_requested' => $rows['revision_requested'] ?? 0,
+        ];
+    }
+
     public function getAdminPaginatedList(string $search = '', string $filterStatus = ''): LengthAwarePaginator
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
-            ->when($search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%')
-            ))
+            ->when($search, function ($q) use ($search) {
+                $q->where(function ($query) use ($search) {
+                    $query->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%'))
+                        ->orWhereHas('intern', fn ($p) => $p->where('email', 'like', '%'.$search.'%'));
+                });
+            })
             ->when($filterStatus, fn ($q) => $q->where('validation_status', $filterStatus))
             ->latest('activity_date')
             ->paginate(15);
     }
 
-    public function getSupervisorPaginatedList(string $supervisorId, string $filterStatus = '', string $search = ''): LengthAwarePaginator
+    public function getSupervisorPaginatedList(string $supervisorId, string $filterStatus = '', string $search = '', ?string $internId = null): LengthAwarePaginator
     {
         return Logbook::with(['intern.internProfile', 'internship.vacancy'])
             ->whereHas('internship', fn (Builder $q) => $q->where('supervisor_id', $supervisorId))
+            ->when($internId, fn ($q) => $q->where('intern_id', $internId))
             ->when($search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$search.'%')
             ))
             ->when($filterStatus, fn ($q) => $q->where('validation_status', $filterStatus))

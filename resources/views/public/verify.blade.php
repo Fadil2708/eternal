@@ -11,7 +11,7 @@
         </div>
         <div style="font-size:16px;font-weight:700;color:#065F46">Sertifikat Valid & Terverifikasi</div>
         <div style="font-size:12px;color:#5C5A55;margin-top:4px">
-            Dokumen ini diterbitkan resmi oleh Telkom Sukabumi
+            Dokumen ini diterbitkan resmi oleh Eternal Internship
         </div>
     </div>
 
@@ -53,7 +53,7 @@
         <div style="font-size:16px;font-weight:700;color:#991B1B">Sertifikat Tidak Valid</div>
         <div style="font-size:12px;color:#5C5A55;margin-top:8px;line-height:1.6">
             Token verifikasi tidak ditemukan atau sudah tidak berlaku.
-            Pastikan QR Code yang dipindai berasal dari sertifikat resmi Telkom Sukabumi.
+            Pastikan QR Code yang dipindai berasal dari sertifikat resmi Eternal Internship.
         </div>
     </div>
     @endif

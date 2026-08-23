@@ -24,7 +24,7 @@ class FaqSeeder extends Seeder
             ],
             [
                 'question' => 'Apakah ada sertifikat setelah menyelesaikan magang?',
-                'answer' => 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Telkom Sukabumi yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
+                'answer' => 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Eternal Internship yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
                 'sort_order' => 3,
                 'is_active' => true,
             ],
@@ -36,7 +36,7 @@ class FaqSeeder extends Seeder
             ],
             [
                 'question' => 'Apakah program magang ini berbayar?',
-                'answer' => 'Program magang di Telkom Sukabumi tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
+                'answer' => 'Program magang di Eternal Internship tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
                 'sort_order' => 5,
                 'is_active' => true,
             ],

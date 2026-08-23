@@ -42,6 +42,31 @@ class MyInternsTest extends TestCase
             ->assertSet('filterStatus', 'completed');
     }
 
+    public function test_can_search_interns(): void
+    {
+        $supervisor = User::factory()->supervisor()->create();
+        $intern = User::factory()->intern()->create(['email' => 'john@example.com']);
+        InternProfile::factory()->create(['user_id' => $intern->id, 'full_name' => 'John Intern']);
+        Internship::factory()->active()->create([
+            'intern_id' => $intern->id,
+            'supervisor_id' => $supervisor->id,
+        ]);
+
+        $hiddenIntern = User::factory()->intern()->create(['email' => 'hidden@example.com']);
+        InternProfile::factory()->create(['user_id' => $hiddenIntern->id, 'full_name' => 'Hidden Intern']);
+        Internship::factory()->active()->create([
+            'intern_id' => $hiddenIntern->id,
+            'supervisor_id' => $supervisor->id,
+        ]);
+
+        Livewire::actingAs($supervisor)
+            ->test(MyInterns::class)
+            ->set('search', 'John')
+            ->assertSet('search', 'John')
+            ->assertSee('John Intern')
+            ->assertDontSee('Hidden Intern');
+    }
+
     public function test_does_not_show_other_supervisor_interns(): void
     {
         $supervisor = User::factory()->supervisor()->create();

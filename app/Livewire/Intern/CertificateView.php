@@ -5,8 +5,10 @@ namespace App\Livewire\Intern;
 use App\Models\Certificate;
 use App\Models\Evaluation;
 use App\Models\Internship;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Sertifikat'])]
 class CertificateView extends Component
 {
     public $certificate = null;

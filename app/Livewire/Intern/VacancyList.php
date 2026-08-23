@@ -39,10 +39,21 @@ class VacancyList extends Component
         $this->resetPage();
     }
 
+    public function resetFilters(): void
+    {
+        $this->reset('search', 'filterDivision');
+    }
+
     public function render()
     {
         $vacancies = $this->vacancyService->getOpenVacancies($this->search, $this->filterDivision);
 
-        return view('livewire.intern.vacancy-list', compact('vacancies'));
+        $totalCount = $vacancies->total();
+        $divisionCount = count($this->divisions);
+        $nearestDeadline = Vacancy::where('status', 'open')
+            ->where('application_deadline', '>=', now()->toDateString())
+            ->min('application_deadline');
+
+        return view('livewire.intern.vacancy-list', compact('vacancies', 'totalCount', 'divisionCount', 'nearestDeadline'));
     }
 }

@@ -59,4 +59,23 @@ class VacancyListTest extends TestCase
             ->assertSee('Active Position')
             ->assertDontSee('Expired Position');
     }
+
+    public function test_reset_filters_clears_search_and_division(): void
+    {
+        $intern = User::factory()->intern()->create();
+        Vacancy::factory()->open()->create(['title' => 'IT Position', 'division' => 'IT']);
+        Vacancy::factory()->open()->create(['title' => 'HR Position', 'division' => 'HR']);
+
+        Livewire::actingAs($intern)
+            ->test(VacancyList::class)
+            ->set('search', 'IT')
+            ->set('filterDivision', 'IT')
+            ->assertSee('IT Position')
+            ->assertDontSee('HR Position')
+            ->call('resetFilters')
+            ->assertSet('search', '')
+            ->assertSet('filterDivision', '')
+            ->assertSee('IT Position')
+            ->assertSee('HR Position');
+    }
 }

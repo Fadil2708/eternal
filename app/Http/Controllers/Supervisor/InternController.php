@@ -11,6 +11,7 @@ class InternController extends Controller
     public function show(string $id): View
     {
         $internship = Internship::with(['intern.internProfile', 'vacancy'])
+            ->withCount(['logbooks', 'approvedLogbooks'])
             ->findOrFail($id);
 
         abort_if($internship->supervisor_id === null || $internship->supervisor_id !== auth()->id(), 403);

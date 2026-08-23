@@ -24,7 +24,7 @@
         Tidak menerima email? Periksa folder spam atau klik tombol di bawah untuk kirim ulang.
     </div>
 
-    <div style="display:flex;gap:12px;margin-top:24px">
+    <div class="auth-actions">
         <form method="POST" action="{{ route('verification.send') }}" style="flex:1"
               x-data="{ loading: false }" @submit="loading = true">
             @csrf

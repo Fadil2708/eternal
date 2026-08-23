@@ -1,0 +1,41 @@
+# Dependencies (install di dalam container)
+vendor/
+node_modules/
+
+# Build output (rebuild di dalam container)
+public/build/
+
+# Git
+.git/
+.gitignore
+
+# Environment
+.env
+.env.*
+
+# Storage (runtime data)
+storage/logs/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/app/public/*
+
+# Bootstrap cache
+bootstrap/cache/*.php
+
+# IDE & OS
+.idea/
+.vscode/
+*.swp
+*.swo
+Thumbs.db
+.DS_Store
+
+# Docker
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# Documentation
+*.md
+redesign/

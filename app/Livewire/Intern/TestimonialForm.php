@@ -4,8 +4,10 @@ namespace App\Livewire\Intern;
 
 use App\Models\Internship;
 use App\Models\Testimonial;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Testimoni'])]
 class TestimonialForm extends Component
 {
     public int $rating = 5;

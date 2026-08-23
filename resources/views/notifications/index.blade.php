@@ -23,12 +23,19 @@
 
 <div class="panel" style="padding: 0; overflow: hidden;">
     @forelse($notifications as $notif)
-        @php $data = $notif['data']; @endphp
+        @php
+            $data = $notif['data'];
+            $notifUrl = $data['url'] ?? route('notifications');
+            if (str_starts_with($notifUrl, 'http')) {
+                $notifParts = parse_url($notifUrl);
+                $notifUrl = url('/') . ($notifParts['path'] ?? '/') . (isset($notifParts['query']) ? '?' . $notifParts['query'] : '');
+            }
+        @endphp
         <div class="notif-page-item {{ $notif['read_at'] ? '' : 'notif-page-item-unread' }}">
             @if(!$notif['read_at'])
-                <a href="{{ route('notifications.read', $notif['id']) }}?redirect={{ urlencode($data['url'] ?? route('notifications')) }}" class="notif-page-link">
+                <a href="{{ route('notifications.read', $notif['id']) }}?redirect={{ urlencode($notifUrl) }}" class="notif-page-link">
             @else
-                <a href="{{ $data['url'] ?? '#' }}" class="notif-page-link">
+                <a href="{{ $notifUrl }}" class="notif-page-link">
             @endif
                 <div class="notif-page-icon">
                     <i class="ti ti-{{ match(explode('.', $data['type'] ?? '')[0]) {

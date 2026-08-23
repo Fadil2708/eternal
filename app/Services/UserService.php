@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\User;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserService
@@ -36,6 +37,22 @@ class UserService
             unset($data['password']);
         }
         $user->update($data);
+    }
+
+    public function countByRole(): array
+    {
+        $rows = User::query()
+            ->select('role', DB::raw('count(*) as total'))
+            ->groupBy('role')
+            ->pluck('total', 'role')
+            ->toArray();
+
+        return [
+            'total' => array_sum($rows),
+            'admin' => $rows['admin'] ?? 0,
+            'supervisor' => $rows['supervisor'] ?? 0,
+            'intern' => $rows['intern'] ?? 0,
+        ];
     }
 
     public function toggleActive(User $user): bool

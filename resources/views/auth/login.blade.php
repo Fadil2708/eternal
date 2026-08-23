@@ -1,8 +1,11 @@
 <x-guest-layout>
     @section('title', 'Masuk')
 
-    <div class="auth-form-header">
-        <h2 class="auth-title">Masuk ke Akun Anda</h2>
+    <div class="auth-form-header text-center">
+        <div class="icon-circle-brand-lg">
+            <i class="ti ti-login"></i>
+        </div>
+        <h2 class="auth-title">Selamat Datang Kembali</h2>
         <p class="auth-desc">Masuk untuk mengakses dashboard Anda</p>
     </div>
 
@@ -13,7 +16,10 @@
 
         <div class="field">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="nama@email.com" class="input">
+            <div class="input-wrap">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" placeholder="nama@email.com" class="input">
+                <i class="ti ti-mail input-icon"></i>
+            </div>
             <x-input-error :messages="$errors->get('email')" />
         </div>
 
@@ -27,9 +33,10 @@
             <div class="input-wrap">
                 <input id="password" type="password" name="password" required autocomplete="current-password" placeholder="Masukkan password" class="input"
                        x-bind:type="showPassword ? 'text' : 'password'">
+                <i class="ti ti-lock input-icon"></i>
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                    <i x-show="!showPassword" class="ti ti-eye"></i>
-                    <i x-show="showPassword" class="ti ti-eye-off"></i>
+                    <i x-show="!showPassword" x-cloak class="ti ti-eye"></i>
+                    <i x-show="showPassword" x-cloak class="ti ti-eye-off"></i>
                 </button>
             </div>
             <x-input-error :messages="$errors->get('password')" />
@@ -37,13 +44,14 @@
 
         <label class="checkbox-wrap">
             <input id="remember_me" type="checkbox" name="remember">
-            <span>Ingat saya</span>
+            <span>Ingat saya di perangkat ini</span>
         </label>
 
         <button type="submit"
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
+            <i x-show="!loading" class="ti ti-login-2"></i>
             <i x-show="loading" class="ti ti-loader spin"></i>
             <span x-show="!loading">Masuk</span>
             <span x-show="loading">Memproses...</span>

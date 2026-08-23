@@ -4,8 +4,10 @@ namespace App\Livewire\Admin;
 
 use App\Models\Certificate;
 use App\Models\Internship;
+use App\Jobs\GenerateCertificatePdfJob;
 use App\Notifications\CertificateNotification;
 use App\Services\CertificateService;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -18,6 +20,8 @@ class CertificateList extends Component
     public $filterGrade = '';
 
     public $confirmingIssueId = null;
+
+    public array $gradeCounts = [];
 
     private CertificateService $certificateService;
 
@@ -47,6 +51,7 @@ class CertificateList extends Component
 
         try {
             $certificate = $this->certificateService->issue($internship, auth()->id());
+            dispatch(new GenerateCertificatePdfJob($certificate));
             $internship->intern->notify(new CertificateNotification($certificate));
             $this->dispatch('toast', message: 'Sertifikat berhasil diterbitkan.', type: 'success');
         } catch (\Exception $e) {
@@ -58,6 +63,13 @@ class CertificateList extends Component
 
     public function render()
     {
+        $this->gradeCounts = Certificate::query()
+            ->select('grade', DB::raw('count(*) as total'))
+            ->groupBy('grade')
+            ->pluck('total', 'grade')
+            ->toArray();
+        $this->gradeCounts['total'] = array_sum($this->gradeCounts);
+
         $certificates = Certificate::with(['intern.internProfile', 'issuedBy'])
             ->when($this->search, fn ($q) => $q->whereHas('intern.internProfile', fn ($p) => $p->where('full_name', 'like', '%'.$this->search.'%')
             ))

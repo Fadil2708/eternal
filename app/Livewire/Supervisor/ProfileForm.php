@@ -3,8 +3,10 @@
 namespace App\Livewire\Supervisor;
 
 use App\Models\SupervisorProfile;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Profil'])]
 class ProfileForm extends Component
 {
     public $full_name = '';

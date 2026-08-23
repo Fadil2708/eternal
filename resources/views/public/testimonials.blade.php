@@ -5,7 +5,7 @@
 <main class="public-page">
     <div class="page-header-center">
         <h2 class="page-title page-title-lg">Testimoni</h2>
-        <p class="page-sub">Apa kata mereka setelah mengikuti program magang/PKL di Telkom Sukabumi</p>
+        <p class="page-sub">Apa kata mereka setelah mengikuti program magang/PKL di Eternal Internship</p>
     </div>
 
     @if(($testimonials ?? collect())->count() > 0)

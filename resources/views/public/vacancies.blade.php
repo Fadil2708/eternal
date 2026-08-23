@@ -6,7 +6,7 @@
     <div class="vac-hero">
         <div class="vac-hero-content">
             <h1 class="vac-hero-title">Temukan Magang Impianmu</h1>
-            <p class="vac-hero-sub">Jelajahi lowongan magang & PKL dari berbagai divisi di Telkom Sukabumi</p>
+            <p class="vac-hero-sub">Jelajahi lowongan magang & PKL dari berbagai divisi di Eternal Internship</p>
         </div>
         <form class="vac-search-form" method="GET" action="{{ route('public.vacancies') }}"
               x-data="{ loading: false }" @submit="loading = true">

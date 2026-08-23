@@ -2,15 +2,18 @@
 
 @section('content')
 @include('landing.hero')
-@include('landing.testimonials')
-@include('landing.offer-slider')
+@include('landing.fitur')
+@include('landing.alur')
+@include('landing.untuk-siapa')
+@include('landing.tentang')
 @include('landing.how-it-works')
 @include('landing.timeline')
-@include('landing.stats')
-@include('landing.faq')
+@include('landing.vacancies')
+@include('landing.offer-slider')
+@include('landing.testimonials')
 <x-partner-marquee/>
 @include('landing.gallery')
-@include('landing.vacancies')
 @include('landing.cta')
+@include('landing.faq')
 @include('landing.back-to-top')
 @endsection

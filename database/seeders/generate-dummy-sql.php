@@ -90,7 +90,7 @@ function e($v)
 // SITE SETTINGS
 // ──────────────────────────────────────────────────────────────────
 $sql = "-- ============================================================
--- DATA DUMMY LENGKAP — Sistem Magang & PKL Telkom Sukabumi
+-- DATA DUMMY LENGKAP — Sistem Magang & PKL Eternal Internship
 -- Generated: $date
 -- ============================================================
 SET FOREIGN_KEY_CHECKS = 0;
@@ -116,13 +116,13 @@ INSERT INTO faqs (question, answer, sort_order, is_active, created_at, updated_a
  'Durasi magang bervariasi antara 2 hingga 6 bulan, tergantung pada kebijakan institusi pendidikan dan kebutuhan divisi. Program PKL umumnya berlangsung 3 bulan. Jadwal dapat disesuaikan dengan kalender akademik.',
  2, 1, '$now', '$now'),
 ('Apakah ada sertifikat setelah menyelesaikan magang?',
- 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Telkom Sukabumi yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
+ 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Eternal Internship yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
  3, 1, '$now', '$now'),
 ('Bagaimana cara memantau status pendaftaran saya?',
  'Setelah mendaftar, kamu dapat login ke dashboard untuk memantau status lamaran secara real-time. Status akan diperbarui oleh tim admin di setiap tahap seleksi. Pastikan email yang didaftarkan aktif untuk menerima notifikasi.',
  4, 1, '$now', '$now'),
 ('Apakah program magang ini berbayar?',
- 'Program magang di Telkom Sukabumi tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
+ 'Program magang di Eternal Internship tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
  5, 1, '$now', '$now');
 
 -- ============================================================
@@ -285,9 +285,9 @@ INSERT INTO logbooks (id, internship_id, intern_id, activity_date, activities, o
 -- ============================================================
 TRUNCATE TABLE final_reports;
 INSERT INTO final_reports (id, internship_id, intern_id, title, file_url, file_size_kb, submitted_at, supervisor_approval, approved_at, created_at, updated_at) VALUES
-('{$uuid['fr_1']}', '{$uuid['ins_1']}', '{$uuid['test_cert']}',   'Laporan Akhir Magang: Pengembangan LMS di Telkom Sukabumi',                                   'uploads/reports/sample-report.pdf',  2048, '2026-03-25 10:00:00', 'approved', '2026-03-28 10:00:00', '$now', '$now'),
+('{$uuid['fr_1']}', '{$uuid['ins_1']}', '{$uuid['test_cert']}',   'Laporan Akhir Magang: Pengembangan LMS di Eternal Internship',                                   'uploads/reports/sample-report.pdf',  2048, '2026-03-25 10:00:00', 'approved', '2026-03-28 10:00:00', '$now', '$now'),
 ('{$uuid['fr_2']}', '{$uuid['ins_2']}', '{$uuid['dummy_lulus']}', 'Laporan Akhir Magang: Pengembangan Backend API untuk Sistem Informasi Manajemen',              'uploads/reports/dummy-report.pdf',   1536, '2026-04-25 10:00:00', 'approved', '2026-04-28 10:00:00', '$now', '$now'),
-('{$uuid['fr_3']}', '{$uuid['ins_3']}', '{$uuid['siap_terbit']}', 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Telkom Sukabumi',           'uploads/reports/pending-report.pdf', 1800, '2026-05-25 10:00:00', 'approved', '2026-05-28 10:00:00', '$now', '$now'),
+('{$uuid['fr_3']}', '{$uuid['ins_3']}', '{$uuid['siap_terbit']}', 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Eternal Internship',           'uploads/reports/pending-report.pdf', 1800, '2026-05-25 10:00:00', 'approved', '2026-05-28 10:00:00', '$now', '$now'),
 ('{$uuid['fr_4']}', '{$uuid['ins_4']}', '{$uuid['nilai_siap']}',  'Laporan Akhir Magang: Perancangan Design System dan UI Dashboard Manajemen',                   'uploads/reports/uiux-report.pdf',    2200, '2026-06-25 10:00:00', 'approved', '2026-06-28 10:00:00', '$now', '$now');
 
 -- ============================================================

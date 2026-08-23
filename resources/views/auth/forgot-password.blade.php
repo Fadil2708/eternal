@@ -2,7 +2,7 @@
     @section('title', 'Lupa Password')
 
     <div class="text-center auth-form-header">
-        <div class="icon-circle-brand">
+        <div class="icon-circle-brand-lg">
             <i class="ti ti-lock-question"></i>
         </div>
         <h2 class="auth-title">Lupa Password?</h2>
@@ -18,7 +18,10 @@
 
         <div class="field">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="input" placeholder="nama@email.com">
+            <div class="input-wrap">
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autofocus class="input" placeholder="nama@email.com">
+                <i class="ti ti-mail input-icon"></i>
+            </div>
             <x-input-error :messages="$errors->get('email')" />
         </div>
 

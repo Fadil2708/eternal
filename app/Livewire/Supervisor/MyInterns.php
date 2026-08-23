@@ -12,6 +12,8 @@ class MyInterns extends Component
 
     public $filterStatus = 'active';
 
+    public $search = '';
+
     private InternshipService $internshipService;
 
     public function boot(InternshipService $internshipService): void
@@ -24,9 +26,14 @@ class MyInterns extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
     public function render()
     {
-        $internships = $this->internshipService->getSupervisorInterns(auth()->id(), $this->filterStatus);
+        $internships = $this->internshipService->getSupervisorInterns(auth()->id(), $this->filterStatus, $this->search);
 
         return view('livewire.supervisor.my-interns', compact('internships'));
     }

@@ -21,6 +21,8 @@ class ApplicationReview extends Component
 
     public bool $showReviewModal = false;
 
+    public array $statusCounts = [];
+
     public string $reviewStatus = '';
 
     public ?string $rejectionReason = null;
@@ -114,6 +116,7 @@ class ApplicationReview extends Component
             ->paginate(15);
 
         $vacancies = Vacancy::select('id', 'title')->get();
+        $this->statusCounts = $this->applicationService->countByStatus();
 
         $selectedApplication = $this->showReviewModal && $this->selectedApplicationId
             ? Application::with(['intern.internProfile', 'vacancy'])->find($this->selectedApplicationId)

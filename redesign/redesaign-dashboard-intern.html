@@ -1,0 +1,2466 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Eternal — Dashboard Intern</title>
+
+    <!-- Tabler Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"
+    >
+
+    <style>
+        :root {
+            --primary: #3155e7;
+            --primary-dark: #2444c9;
+            --primary-light: #eef2ff;
+
+            --text: #111936;
+            --text-secondary: #64708a;
+            --text-muted: #98a2b3;
+
+            --border: #e7eaf1;
+            --background: #f7f9fc;
+            --white: #ffffff;
+
+            --success: #16a34a;
+            --success-bg: #ecfdf3;
+
+            --warning: #f59e0b;
+            --warning-bg: #fff7e6;
+
+            --purple: #7c3aed;
+            --purple-bg: #f4f0ff;
+
+            --sidebar-width: 260px;
+            --topbar-height: 76px;
+
+            --radius: 14px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+        }
+
+        /* =========================================
+           SIDEBAR
+        ========================================= */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+
+            width: var(--sidebar-width);
+
+            background: var(--white);
+            border-right: 1px solid var(--border);
+
+            display: flex;
+            flex-direction: column;
+
+            z-index: 100;
+
+            transition: transform .25s ease;
+        }
+
+        .sidebar-header {
+            height: var(--topbar-height);
+
+            display: flex;
+            align-items: center;
+
+            padding: 0 24px;
+
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: linear-gradient(
+                135deg,
+                #3155e7,
+                #6748e8
+            );
+
+            color: white;
+            font-weight: 800;
+            font-size: 22px;
+        }
+
+        .brand-content strong {
+            display: block;
+
+            font-size: 20px;
+            line-height: 20px;
+
+            letter-spacing: -.5px;
+        }
+
+        .brand-content span {
+            display: block;
+
+            margin-top: 3px;
+
+            color: var(--text-muted);
+
+            font-size: 9px;
+            font-weight: 500;
+
+            white-space: nowrap;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+
+            padding: 20px 14px;
+
+            overflow-y: auto;
+        }
+
+        .nav-section {
+            margin: 22px 12px 8px;
+
+            color: #9aa3b4;
+
+            font-size: 10px;
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .08em;
+        }
+
+        .nav-section:first-child {
+            margin-top: 0;
+        }
+
+        .nav-item {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 11px 13px;
+
+            margin-bottom: 4px;
+
+            color: #526078;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            transition: all .2s ease;
+        }
+
+        .nav-item i {
+            font-size: 19px;
+        }
+
+        .nav-item:hover {
+            background: #f5f7fb;
+            color: var(--primary);
+        }
+
+        .nav-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .nav-item.active::before {
+            content: "";
+
+            position: absolute;
+
+            left: -14px;
+
+            top: 8px;
+            bottom: 8px;
+
+            width: 3px;
+
+            border-radius: 0 4px 4px 0;
+
+            background: var(--primary);
+        }
+
+        .sidebar-bottom {
+            padding: 14px;
+        }
+
+        .help-card {
+            padding: 15px;
+
+            border: 1px solid #dfe5ff;
+            border-radius: 12px;
+
+            background: #f8faff;
+
+            margin-bottom: 12px;
+        }
+
+        .help-card-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-icon {
+            width: 32px;
+            height: 32px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: var(--primary);
+            color: white;
+
+            font-size: 16px;
+        }
+
+        .help-card strong {
+            font-size: 12px;
+            display: block;
+        }
+
+        .help-card span {
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+
+        .logout {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            width: 100%;
+
+            padding: 11px 13px;
+
+            color: #667085;
+
+            border-radius: 10px;
+
+            font-size: 14px;
+        }
+
+        .logout:hover {
+            background: #fff1f1;
+            color: #dc2626;
+        }
+
+        /* =========================================
+           MAIN
+        ========================================= */
+
+        .main {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+        }
+
+        /* =========================================
+           TOPBAR
+        ========================================= */
+
+        .topbar {
+            height: var(--topbar-height);
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 30px;
+
+            background: rgba(255,255,255,.95);
+
+            border-bottom: 1px solid var(--border);
+
+            position: sticky;
+            top: 0;
+
+            z-index: 50;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .hamburger {
+            display: none;
+
+            border: none;
+            background: none;
+
+            font-size: 23px;
+
+            color: var(--text);
+        }
+
+        .page-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .top-icon {
+            width: 38px;
+            height: 38px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: none;
+            background: transparent;
+
+            color: #667085;
+
+            border-radius: 10px;
+
+            font-size: 20px;
+
+            cursor: pointer;
+        }
+
+        .top-icon:hover {
+            background: #f5f7fb;
+            color: var(--primary);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            cursor: pointer;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+
+            border-radius: 50%;
+
+            background: linear-gradient(
+                135deg,
+                #dce6ff,
+                #aebfff
+            );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: var(--primary);
+
+            font-weight: 700;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .profile-info span {
+            display: block;
+
+            margin-top: 2px;
+
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* =========================================
+           CONTENT
+        ========================================= */
+
+        .content {
+            padding: 30px;
+            max-width: 1600px;
+            margin: auto;
+        }
+
+        .welcome {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 24px;
+        }
+
+        .welcome h1 {
+            font-size: 25px;
+            letter-spacing: -.6px;
+        }
+
+        .welcome p {
+            margin-top: 6px;
+
+            font-size: 13px;
+
+            color: var(--text-secondary);
+        }
+
+        .date-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 10px 14px;
+
+            background: white;
+
+            border: 1px solid var(--border);
+            border-radius: 9px;
+
+            font-size: 12px;
+            font-weight: 600;
+
+            color: #526078;
+        }
+
+        .date-badge i {
+            color: var(--primary);
+            font-size: 17px;
+        }
+
+        /* =========================================
+           STAT CARDS
+        ========================================= */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+
+            gap: 16px;
+
+            margin-bottom: 18px;
+        }
+
+        .stat-card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            padding: 20px;
+
+            min-height: 155px;
+
+            transition: transform .2s ease,
+                        box-shadow .2s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 8px 25px rgba(15, 23, 42, .05);
+        }
+
+        .stat-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 11px;
+
+            font-size: 20px;
+        }
+
+        .icon-blue {
+            background: #edf2ff;
+            color: var(--primary);
+        }
+
+        .icon-green {
+            background: var(--success-bg);
+            color: var(--success);
+        }
+
+        .icon-purple {
+            background: var(--purple-bg);
+            color: var(--purple);
+        }
+
+        .icon-orange {
+            background: var(--warning-bg);
+            color: var(--warning);
+        }
+
+        .stat-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+
+            font-weight: 600;
+
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 26px;
+            font-weight: 700;
+
+            letter-spacing: -.7px;
+        }
+
+        .stat-value small {
+            font-size: 15px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .stat-bottom {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+
+            margin-top: 13px;
+
+            font-size: 11px;
+        }
+
+        .good {
+            color: var(--success);
+            font-weight: 600;
+        }
+
+        .normal {
+            color: var(--purple);
+            font-weight: 600;
+        }
+
+        .warning {
+            color: var(--warning);
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            height: 6px;
+
+            width: 100%;
+
+            background: #edf0f5;
+
+            border-radius: 20px;
+
+            overflow: hidden;
+
+            margin-top: 13px;
+        }
+
+        .progress-fill {
+            height: 100%;
+
+            border-radius: inherit;
+
+            background: var(--primary);
+        }
+
+        /* =========================================
+           GRID
+        ========================================= */
+
+        .dashboard-grid {
+            display: grid;
+
+            grid-template-columns:
+                minmax(0, 2fr)
+                minmax(320px, 1fr);
+
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+
+            border: 1px solid var(--border);
+
+            border-radius: var(--radius);
+
+            overflow: hidden;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 19px 20px;
+
+            border-bottom: 1px solid #f0f1f4;
+        }
+
+        .card-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .card-link {
+            color: var(--primary);
+
+            font-size: 11px;
+
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        /* =========================================
+           PROGRESS
+        ========================================= */
+
+        .progress-card {
+            min-height: 320px;
+        }
+
+        .chart-layout {
+            display: grid;
+
+            grid-template-columns: 220px 1fr;
+
+            gap: 28px;
+
+            align-items: center;
+        }
+
+        .progress-item {
+            margin-bottom: 17px;
+        }
+
+        .progress-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .progress-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 7px;
+
+            font-size: 11px;
+        }
+
+        .progress-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            font-weight: 600;
+        }
+
+        .mini-icon {
+            width: 25px;
+            height: 25px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+        }
+
+        .progress-percent {
+            color: var(--text-secondary);
+        }
+
+        .chart {
+            height: 210px;
+
+            position: relative;
+
+            display: flex;
+            align-items: flex-end;
+
+            padding: 0 5px 20px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    transparent 24%,
+                    #edf0f5 25%,
+                    transparent 25.5%,
+                    transparent 49%,
+                    #edf0f5 50%,
+                    transparent 50.5%,
+                    transparent 74%,
+                    #edf0f5 75%,
+                    transparent 75.5%
+                );
+        }
+
+        .chart-line {
+            width: 100%;
+            height: 100%;
+
+            position: relative;
+        }
+
+        .chart-line svg {
+            width: 100%;
+            height: 100%;
+
+            overflow: visible;
+        }
+
+        .chart-labels {
+            position: absolute;
+
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #9aa3b4;
+
+            font-size: 9px;
+        }
+
+        /* =========================================
+           MENTORING
+        ========================================= */
+
+        .meeting-card {
+            margin-bottom: 18px;
+        }
+
+        .meeting {
+            padding: 20px;
+        }
+
+        .meeting-date {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            margin-bottom: 18px;
+        }
+
+        .date-box {
+            width: 52px;
+            height: 60px;
+
+            border: 1px solid #e1e6f5;
+
+            border-radius: 11px;
+
+            display: flex;
+            flex-direction: column;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #f9faff;
+        }
+
+        .date-box strong {
+            font-size: 20px;
+            line-height: 20px;
+
+            color: var(--primary);
+        }
+
+        .date-box span {
+            font-size: 9px;
+
+            margin-top: 3px;
+
+            color: var(--text-muted);
+
+            font-weight: 700;
+        }
+
+        .meeting-info strong {
+            display: block;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .meeting-info span {
+            display: block;
+
+            font-size: 11px;
+
+            color: var(--text-secondary);
+
+            margin-bottom: 3px;
+        }
+
+        .status {
+            display: inline-flex;
+
+            padding: 5px 9px;
+
+            border-radius: 6px;
+
+            font-size: 10px;
+
+            font-weight: 600;
+
+            margin-left: auto;
+
+            color: var(--primary);
+
+            background: var(--primary-light);
+        }
+
+        .primary-btn {
+            width: 100%;
+
+            border: none;
+
+            padding: 11px;
+
+            border-radius: 8px;
+
+            color: white;
+
+            background: var(--primary);
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition: background .2s ease;
+        }
+
+        .primary-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* =========================================
+           ACTIVITY
+        ========================================= */
+
+        .activity-card {
+            margin-top: 18px;
+        }
+
+        .activity {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            padding: 14px 20px;
+
+            border-bottom: 1px solid #f0f1f4;
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 36px;
+            height: 36px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            font-size: 17px;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-content strong {
+            display: block;
+
+            font-size: 12px;
+
+            margin-bottom: 3px;
+        }
+
+        .activity-content span {
+            display: block;
+
+            color: var(--text-secondary);
+
+            font-size: 10px;
+        }
+
+        .activity-time {
+            color: var(--text-muted);
+
+            font-size: 10px;
+
+            white-space: nowrap;
+        }
+
+        /* =========================================
+           ANNOUNCEMENT
+        ========================================= */
+
+        .announcement {
+            display: flex;
+
+            gap: 12px;
+
+            padding: 15px 20px;
+
+            border-bottom: 1px solid #f0f1f4;
+        }
+
+        .announcement:last-child {
+            border-bottom: none;
+        }
+
+        .announcement-icon {
+            width: 35px;
+            height: 35px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 9px;
+
+            background: #edf2ff;
+            color: var(--primary);
+        }
+
+        .announcement-content {
+            flex: 1;
+        }
+
+        .announcement-content strong {
+            display: block;
+
+            font-size: 11px;
+
+            margin-bottom: 4px;
+        }
+
+        .announcement-content p {
+            color: var(--text-secondary);
+
+            font-size: 10px;
+
+            margin-bottom: 4px;
+        }
+
+        .announcement-content small {
+            color: var(--text-muted);
+
+            font-size: 9px;
+        }
+
+        /* =========================================
+           REMINDER
+        ========================================= */
+
+        .reminder {
+            margin-top: 18px;
+
+            padding: 17px 20px;
+
+            background: linear-gradient(
+                100deg,
+                #f3f6ff,
+                #ffffff
+            );
+
+            border: 1px solid #dce4ff;
+
+            border-radius: var(--radius);
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .reminder-icon {
+            width: 42px;
+            height: 42px;
+
+            flex-shrink: 0;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            color: var(--primary);
+
+            background: #e9efff;
+
+            font-size: 20px;
+        }
+
+        .reminder-content {
+            flex: 1;
+        }
+
+        .reminder-content strong {
+            display: block;
+
+            font-size: 12px;
+
+            margin-bottom: 3px;
+        }
+
+        .reminder-content span {
+            color: var(--text-secondary);
+
+            font-size: 10px;
+        }
+
+        .reminder-btn {
+            border: none;
+
+            padding: 11px 17px;
+
+            background: var(--primary);
+
+            color: white;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            cursor: pointer;
+        }
+
+        /* =========================================
+           RESPONSIVE
+        ========================================= */
+
+        @media (max-width: 1100px) {
+            .stats {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            :root {
+                --sidebar-width: 260px;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                box-shadow:
+                    10px 0 30px rgba(0,0,0,.08);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .topbar {
+                padding: 0 18px;
+            }
+
+            .topbar .page-title {
+                font-size: 14px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .content {
+                padding: 20px 16px;
+            }
+
+            .welcome {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                gap: 14px;
+            }
+
+            .welcome h1 {
+                font-size: 22px;
+            }
+
+            .date-badge {
+                width: 100%;
+
+                justify-content: center;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .chart {
+                height: 180px;
+            }
+
+            .reminder {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .reminder-btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .topbar-right {
+                gap: 4px;
+            }
+
+            .top-icon {
+                width: 34px;
+                height: 34px;
+            }
+
+            .avatar {
+                width: 34px;
+                height: 34px;
+            }
+
+            .welcome h1 {
+                font-size: 20px;
+            }
+
+            .stat-card {
+                min-height: auto;
+            }
+
+            .activity {
+                align-items: flex-start;
+            }
+
+            .activity-time {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================
+     SIDEBAR
+========================================= -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="sidebar-header">
+
+        <a href="#" class="brand">
+
+            <div class="brand-logo">
+                E
+            </div>
+
+            <div class="brand-content">
+                <strong>Eternal</strong>
+                <span>Internship Management System</span>
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <nav class="sidebar-nav">
+
+        <a href="#" class="nav-item active">
+            <i class="ti ti-dashboard"></i>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-user"></i>
+            <span>Profil</span>
+        </a>
+
+
+        <div class="nav-section">
+            Program Magang
+        </div>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-briefcase"></i>
+            <span>Lowongan Magang</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-file-description"></i>
+            <span>Lamaran Saya</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-clipboard-list"></i>
+            <span>Detail Magang</span>
+        </a>
+
+
+        <div class="nav-section">
+            Aktivitas
+        </div>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-calendar-check"></i>
+            <span>Absensi</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-notebook"></i>
+            <span>Logbook</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-message-circle"></i>
+            <span>Bimbingan</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-file-report"></i>
+            <span>Laporan Akhir</span>
+        </a>
+
+
+        <div class="nav-section">
+            Penyelesaian
+        </div>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-star"></i>
+            <span>Evaluasi</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-certificate"></i>
+            <span>Sertifikat</span>
+        </a>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-message-star"></i>
+            <span>Testimoni</span>
+        </a>
+
+
+        <div class="nav-section">
+            Lainnya
+        </div>
+
+        <a href="#" class="nav-item">
+            <i class="ti ti-bell"></i>
+            <span>Notifikasi</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="help-card">
+
+            <div class="help-card-top">
+
+                <div class="help-icon">
+                    <i class="ti ti-help"></i>
+                </div>
+
+                <div>
+                    <strong>Butuh Bantuan?</strong>
+                    <span>Pusat bantuan & panduan</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <a href="#" class="logout">
+
+            <i class="ti ti-logout"></i>
+
+            <span>Keluar</span>
+
+        </a>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================================
+     MAIN
+========================================= -->
+
+<main class="main">
+
+
+    <!-- TOPBAR -->
+
+    <header class="topbar">
+
+        <div class="topbar-left">
+
+            <button
+                class="hamburger"
+                onclick="toggleSidebar()"
+            >
+                <i class="ti ti-menu-2"></i>
+            </button>
+
+            <span class="page-title">
+                Dashboard
+            </span>
+
+        </div>
+
+
+        <div class="topbar-right">
+
+            <button class="top-icon">
+                <i class="ti ti-bell"></i>
+            </button>
+
+            <button class="top-icon">
+                <i class="ti ti-calendar"></i>
+            </button>
+
+
+            <div class="profile">
+
+                <div class="avatar">
+                    AS
+                </div>
+
+                <div class="profile-info">
+
+                    <strong>
+                        Andi Saputra
+                    </strong>
+
+                    <span>
+                        Peserta Magang
+                    </span>
+
+                </div>
+
+                <i class="ti ti-chevron-down"></i>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- CONTENT -->
+
+    <section class="content">
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome">
+
+            <div>
+
+                <h1>
+                    Selamat datang, Andi Saputra 👋
+                </h1>
+
+                <p>
+                    Semangat menjalani hari ini! Terus catat,
+                    belajar, dan berkembang.
+                </p>
+
+            </div>
+
+
+            <div class="date-badge">
+
+                <i class="ti ti-calendar"></i>
+
+                Selasa, 13 Mei 2026
+
+            </div>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+
+        <div class="stats">
+
+
+            <!-- PROGRESS -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+
+                        <div class="stat-title">
+                            Progress Magang
+                        </div>
+
+                        <div class="stat-value">
+                            82%
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-blue">
+
+                        <i class="ti ti-progress"></i>
+
+                    </div>
+
+                </div>
+
+
+                <div class="progress-bar">
+
+                    <div
+                        class="progress-fill"
+                        style="width:82%"
+                    ></div>
+
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span>
+                        Total progress keseluruhan
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- ATTENDANCE -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+
+                        <div class="stat-title">
+                            Kehadiran
+                        </div>
+
+                        <div class="stat-value">
+                            42
+                            <small>/ 48</small>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-green">
+
+                        <i class="ti ti-calendar-check"></i>
+
+                    </div>
+
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span class="good">
+                        93%
+                    </span>
+
+                    <span>
+                        •
+                    </span>
+
+                    <span>
+                        Sangat Baik
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- LOGBOOK -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+
+                        <div class="stat-title">
+                            Logbook
+                        </div>
+
+                        <div class="stat-value">
+                            38
+                            <small>/ 48</small>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-purple">
+
+                        <i class="ti ti-notebook"></i>
+
+                    </div>
+
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span class="normal">
+                        79%
+                    </span>
+
+                    <span>
+                        •
+                    </span>
+
+                    <span>
+                        Baik
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- MENTORING -->
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+
+                        <div class="stat-title">
+                            Bimbingan
+                        </div>
+
+                        <div class="stat-value">
+                            8
+                            <small>/ 10</small>
+                        </div>
+
+                    </div>
+
+                    <div class="stat-icon icon-orange">
+
+                        <i class="ti ti-message-circle"></i>
+
+                    </div>
+
+                </div>
+
+                <div class="stat-bottom">
+
+                    <span class="warning">
+                        80%
+                    </span>
+
+                    <span>
+                        •
+                    </span>
+
+                    <span>
+                        Baik
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAIN GRID -->
+
+        <div class="dashboard-grid">
+
+
+            <!-- LEFT -->
+
+            <div>
+
+
+                <!-- PROGRESS CARD -->
+
+                <div class="card progress-card">
+
+                    <div class="card-header">
+
+                        <span class="card-title">
+                            Progress Program
+                        </span>
+
+                        <select
+                            style="
+                                border:1px solid #e2e6ed;
+                                border-radius:7px;
+                                padding:7px 10px;
+                                font-size:10px;
+                                color:#667085;
+                            "
+                        >
+                            <option>
+                                30 Hari Terakhir
+                            </option>
+
+                            <option>
+                                3 Bulan
+                            </option>
+
+                            <option>
+                                Semua
+                            </option>
+                        </select>
+
+                    </div>
+
+
+                    <div class="card-body">
+
+                        <div class="chart-layout">
+
+
+                            <!-- PROGRESS BREAKDOWN -->
+
+                            <div>
+
+
+                                <div class="progress-item">
+
+                                    <div class="progress-label">
+
+                                        <span class="progress-name">
+
+                                            <span
+                                                class="mini-icon"
+                                                style="
+                                                    background:#ecfdf3;
+                                                    color:#16a34a;
+                                                "
+                                            >
+                                                <i class="ti ti-calendar"></i>
+                                            </span>
+
+                                            Kehadiran
+
+                                        </span>
+
+                                        <span class="progress-percent">
+                                            93%
+                                        </span>
+
+                                    </div>
+
+                                    <div class="progress-bar">
+                                        <div
+                                            class="progress-fill"
+                                            style="
+                                                width:93%;
+                                                background:#16a34a;
+                                            "
+                                        ></div>
+                                    </div>
+
+                                </div>
+
+
+                                <div class="progress-item">
+
+                                    <div class="progress-label">
+
+                                        <span class="progress-name">
+
+                                            <span
+                                                class="mini-icon"
+                                                style="
+                                                    background:#eef2ff;
+                                                    color:#3155e7;
+                                                "
+                                            >
+                                                <i class="ti ti-notebook"></i>
+                                            </span>
+
+                                            Logbook
+
+                                        </span>
+
+                                        <span class="progress-percent">
+                                            79%
+                                        </span>
+
+                                    </div>
+
+                                    <div class="progress-bar">
+
+                                        <div
+                                            class="progress-fill"
+                                            style="width:79%"
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="progress-item">
+
+                                    <div class="progress-label">
+
+                                        <span class="progress-name">
+
+                                            <span
+                                                class="mini-icon"
+                                                style="
+                                                    background:#fff7e6;
+                                                    color:#f59e0b;
+                                                "
+                                            >
+                                                <i class="ti ti-message"></i>
+                                            </span>
+
+                                            Bimbingan
+
+                                        </span>
+
+                                        <span class="progress-percent">
+                                            80%
+                                        </span>
+
+                                    </div>
+
+                                    <div class="progress-bar">
+
+                                        <div
+                                            class="progress-fill"
+                                            style="
+                                                width:80%;
+                                                background:#f59e0b;
+                                            "
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="progress-item">
+
+                                    <div class="progress-label">
+
+                                        <span class="progress-name">
+
+                                            <span
+                                                class="mini-icon"
+                                                style="
+                                                    background:#f4f0ff;
+                                                    color:#7c3aed;
+                                                "
+                                            >
+                                                <i class="ti ti-star"></i>
+                                            </span>
+
+                                            Evaluasi
+
+                                        </span>
+
+                                        <span class="progress-percent">
+                                            85%
+                                        </span>
+
+                                    </div>
+
+                                    <div class="progress-bar">
+
+                                        <div
+                                            class="progress-fill"
+                                            style="
+                                                width:85%;
+                                                background:#7c3aed;
+                                            "
+                                        ></div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- CHART -->
+
+                            <div class="chart">
+
+                                <div class="chart-line">
+
+                                    <svg
+                                        viewBox="0 0 500 200"
+                                        preserveAspectRatio="none"
+                                    >
+
+                                        <defs>
+
+                                            <linearGradient
+                                                id="areaGradient"
+                                                x1="0"
+                                                y1="0"
+                                                x2="0"
+                                                y2="1"
+                                            >
+
+                                                <stop
+                                                    offset="0%"
+                                                    stop-color="#3155e7"
+                                                    stop-opacity=".20"
+                                                />
+
+                                                <stop
+                                                    offset="100%"
+                                                    stop-color="#3155e7"
+                                                    stop-opacity="0"
+                                                />
+
+                                            </linearGradient>
+
+                                        </defs>
+
+
+                                        <path
+                                            d="
+                                                M 0 165
+                                                C 65 150,
+                                                  95 140,
+                                                  125 125
+                                                C 165 105,
+                                                  190 110,
+                                                  230 90
+                                                C 275 70,
+                                                  305 75,
+                                                  345 55
+                                                C 390 35,
+                                                  420 40,
+                                                  500 20
+                                                L 500 200
+                                                L 0 200
+                                                Z
+                                            "
+                                            fill="url(#areaGradient)"
+                                        />
+
+
+                                        <path
+                                            d="
+                                                M 0 165
+                                                C 65 150,
+                                                  95 140,
+                                                  125 125
+                                                C 165 105,
+                                                  190 110,
+                                                  230 90
+                                                C 275 70,
+                                                  305 75,
+                                                  345 55
+                                                C 390 35,
+                                                  420 40,
+                                                  500 20
+                                            "
+                                            fill="none"
+                                            stroke="#3155e7"
+                                            stroke-width="3"
+                                        />
+
+
+                                        <circle
+                                            cx="0"
+                                            cy="165"
+                                            r="5"
+                                            fill="#3155e7"
+                                        />
+
+                                        <circle
+                                            cx="125"
+                                            cy="125"
+                                            r="5"
+                                            fill="#3155e7"
+                                        />
+
+                                        <circle
+                                            cx="230"
+                                            cy="90"
+                                            r="5"
+                                            fill="#3155e7"
+                                        />
+
+                                        <circle
+                                            cx="345"
+                                            cy="55"
+                                            r="5"
+                                            fill="#3155e7"
+                                        />
+
+                                        <circle
+                                            cx="500"
+                                            cy="20"
+                                            r="5"
+                                            fill="#3155e7"
+                                        />
+
+                                    </svg>
+
+                                </div>
+
+
+                                <div class="chart-labels">
+
+                                    <span>
+                                        14 Apr
+                                    </span>
+
+                                    <span>
+                                        21 Apr
+                                    </span>
+
+                                    <span>
+                                        28 Apr
+                                    </span>
+
+                                    <span>
+                                        5 Mei
+                                    </span>
+
+                                    <span>
+                                        13 Mei
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIVITY -->
+
+                <div class="card activity-card">
+
+                    <div class="card-header">
+
+                        <span class="card-title">
+                            Aktivitas Terbaru
+                        </span>
+
+                        <a
+                            href="#"
+                            class="card-link"
+                        >
+                            Lihat Semua
+                        </a>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div
+                            class="activity-icon"
+                            style="
+                                background:#eef2ff;
+                                color:#3155e7;
+                            "
+                        >
+                            <i class="ti ti-notebook"></i>
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Logbook #38 berhasil dikirim
+                            </strong>
+
+                            <span>
+                                Menunggu review dari pembimbing
+                            </span>
+
+                        </div>
+
+                        <span class="activity-time">
+                            2 jam yang lalu
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div
+                            class="activity-icon"
+                            style="
+                                background:#ecfdf3;
+                                color:#16a34a;
+                            "
+                        >
+                            <i class="ti ti-message"></i>
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Bimbingan dengan Fajar Nugroho
+                            </strong>
+
+                            <span>
+                                Topik: Progress Modul Monitoring
+                            </span>
+
+                        </div>
+
+                        <span class="activity-time">
+                            Kemarin, 10:30
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div
+                            class="activity-icon"
+                            style="
+                                background:#ecfdf3;
+                                color:#16a34a;
+                            "
+                        >
+                            <i class="ti ti-calendar-check"></i>
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Absensi berhasil dicatat
+                            </strong>
+
+                            <span>
+                                Selasa, 13 Mei 2026 — 08:45 WIB
+                            </span>
+
+                        </div>
+
+                        <span class="activity-time">
+                            Hari ini
+                        </span>
+
+                    </div>
+
+
+                    <div class="activity">
+
+                        <div
+                            class="activity-icon"
+                            style="
+                                background:#fff7e6;
+                                color:#f59e0b;
+                            "
+                        >
+                            <i class="ti ti-star"></i>
+                        </div>
+
+                        <div class="activity-content">
+
+                            <strong>
+                                Feedback logbook #37 diterima
+                            </strong>
+
+                            <span>
+                                Pembimbing memberikan catatan
+                            </span>
+
+                        </div>
+
+                        <span class="activity-time">
+                            12 Mei 2026
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT -->
+
+            <div>
+
+
+                <!-- MENTORING -->
+
+                <div class="card meeting-card">
+
+                    <div class="card-header">
+
+                        <span class="card-title">
+                            Jadwal Bimbingan Berikutnya
+                        </span>
+
+                        <a
+                            href="#"
+                            class="card-link"
+                        >
+                            Lihat Semua
+                        </a>
+
+                    </div>
+
+
+                    <div class="meeting">
+
+                        <div class="meeting-date">
+
+                            <div class="date-box">
+
+                                <strong>
+                                    15
+                                </strong>
+
+                                <span>
+                                    MEI
+                                </span>
+
+                            </div>
+
+
+                            <div class="meeting-info">
+
+                                <strong>
+                                    Bimbingan #09
+                                </strong>
+
+                                <span>
+                                    10:00 — 11:00 WIB
+                                </span>
+
+                                <span>
+                                    Pembimbing:
+                                    Fajar Nugroho, S.Kom
+                                </span>
+
+                            </div>
+
+
+                            <span class="status">
+                                Terjadwal
+                            </span>
+
+                        </div>
+
+
+                        <button class="primary-btn">
+
+                            <i class="ti ti-calendar"></i>
+
+                            &nbsp;
+
+                            Lihat Detail
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ANNOUNCEMENTS -->
+
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <span class="card-title">
+                            Pengumuman Terbaru
+                        </span>
+
+                        <a
+                            href="#"
+                            class="card-link"
+                        >
+                            Lihat Semua
+                        </a>
+
+                    </div>
+
+
+                    <div class="announcement">
+
+                        <div class="announcement-icon">
+
+                            <i class="ti ti-speakerphone"></i>
+
+                        </div>
+
+                        <div class="announcement-content">
+
+                            <strong>
+                                Workshop Soft Skill
+                            </strong>
+
+                            <p>
+                                Wajib untuk seluruh peserta magang
+                            </p>
+
+                            <small>
+                                8 Mei 2026 · 09:00
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="announcement">
+
+                        <div
+                            class="announcement-icon"
+                            style="
+                                background:#ecfdf3;
+                                color:#16a34a;
+                            "
+                        >
+
+                            <i class="ti ti-file-description"></i>
+
+                        </div>
+
+                        <div class="announcement-content">
+
+                            <strong>
+                                Pengumpulan Laporan Akhir
+                            </strong>
+
+                            <p>
+                                Batas pengumpulan laporan akhir
+                            </p>
+
+                            <small>
+                                20 Mei 2026 · 23:59
+                            </small>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="announcement">
+
+                        <div
+                            class="announcement-icon"
+                            style="
+                                background:#f4f0ff;
+                                color:#7c3aed;
+                            "
+                        >
+
+                            <i class="ti ti-star"></i>
+
+                        </div>
+
+                        <div class="announcement-content">
+
+                            <strong>
+                                Evaluasi Tengah Program
+                            </strong>
+
+                            <p>
+                                Evaluasi tengah program akan dilaksanakan
+                            </p>
+
+                            <small>
+                                10 Mei 2026 · 10:00
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- REMINDER -->
+
+        <div class="reminder">
+
+            <div class="reminder-icon">
+
+                <i class="ti ti-shield-check"></i>
+
+            </div>
+
+
+            <div class="reminder-content">
+
+                <strong>
+                    Jangan lupa lengkapi logbook harianmu!
+                </strong>
+
+                <span>
+                    Logbook yang lengkap akan membantu
+                    pembimbing memantau perkembanganmu.
+                </span>
+
+            </div>
+
+
+            <button class="reminder-btn">
+
+                <i class="ti ti-plus"></i>
+
+                &nbsp;
+
+                Buat Logbook Baru
+
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script>
+
+    function toggleSidebar() {
+
+        const sidebar =
+            document.getElementById("sidebar");
+
+        sidebar.classList.toggle("open");
+
+    }
+
+</script>
+
+</body>
+</html> 

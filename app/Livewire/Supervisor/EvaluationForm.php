@@ -4,8 +4,10 @@ namespace App\Livewire\Supervisor;
 
 use App\Models\Evaluation;
 use App\Services\EvaluationService;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Evaluasi'])]
 class EvaluationForm extends Component
 {
     public ?string $internshipId = null;
@@ -19,6 +21,8 @@ class EvaluationForm extends Component
     public bool $showForm = false;
 
     public bool $confirmingSave = false;
+
+    public bool $isLocked = false;
 
     public float $soft_skill_score = 0;
 
@@ -53,6 +57,9 @@ class EvaluationForm extends Component
         $this->evaluation = $data['evaluation'];
         $this->completedInternships = $data['completedInternships'];
         $this->internshipId = $internshipId;
+        $this->isLocked = $data['internship'] !== null
+            && ($data['internship']->certificate !== null
+                || ($data['evaluation'] && $data['evaluation']->evaluated_at !== null));
 
         if ($data['evaluation']) {
             $this->showForm = true;
@@ -71,6 +78,10 @@ class EvaluationForm extends Component
 
     public function save(): void
     {
+        if ($this->isLocked) {
+            return;
+        }
+
         $this->validate();
         $this->confirmingSave = false;
 
@@ -101,6 +112,11 @@ class EvaluationForm extends Component
 
     public function confirmSave(): void
     {
+        if ($this->isLocked) {
+            return;
+        }
+
+        $this->validate();
         $this->confirmingSave = true;
     }
 

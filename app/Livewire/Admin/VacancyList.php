@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Models\Vacancy;
 use App\Services\VacancyService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -17,6 +18,8 @@ class VacancyList extends Component
     public $sortField = 'created_at';
 
     public $sortDirection = 'desc';
+
+    public array $statusCounts = [];
 
     private VacancyService $vacancyService;
 
@@ -45,6 +48,19 @@ class VacancyList extends Component
         }
     }
 
+    public function deleteVacancy(string $id): void
+    {
+        $vacancy = Vacancy::findOrFail($id);
+
+        if (! $this->vacancyService->delete($vacancy)) {
+            $this->dispatch('toast', message: 'Lowongan tidak bisa dihapus karena sudah memiliki pelamar.', type: 'error');
+
+            return;
+        }
+
+        $this->dispatch('toast', message: 'Lowongan berhasil dihapus.', type: 'success');
+    }
+
     public function render()
     {
         $vacancies = $this->vacancyService->getPaginatedList(
@@ -53,6 +69,7 @@ class VacancyList extends Component
             $this->sortField,
             $this->sortDirection
         );
+        $this->statusCounts = $this->vacancyService->countByStatus();
 
         return view('livewire.admin.vacancy-list', compact('vacancies'));
     }

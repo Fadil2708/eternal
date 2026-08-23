@@ -1,7 +1,8 @@
 <div class="welcome-timeline" data-reveal>
-    <div class="timeline-header">
-        <h2 class="welcome-section-title">Jadwal Pendaftaran</h2>
-        <p class="welcome-section-sub">Pilih gelombang yang sesuai dengan jadwal akademikmu</p>
+    <div class="section-heading">
+        <span class="section-label">Timeline</span>
+        <h2 class="section-title">Jadwal Pendaftaran</h2>
+        <p class="section-description">Pilih gelombang yang sesuai dengan jadwal akademikmu</p>
     </div>
     <div class="timeline-grid">
         <div class="timeline-card">

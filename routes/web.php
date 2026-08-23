@@ -37,6 +37,7 @@ use App\Livewire\Intern\LogbookList;
 use App\Livewire\Intern\MyApplications;
 use App\Livewire\Intern\ProfileForm;
 use App\Livewire\Intern\TestimonialForm;
+use App\Livewire\Intern\VacancyDetail;
 use App\Livewire\Intern\VacancyList as InternVacancyList;
 use App\Livewire\Supervisor\EvaluationForm;
 use App\Livewire\Supervisor\LogbookReview;
@@ -103,6 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/profile', ProfileForm::class)->name('profile');
         Route::get('/vacancies', InternVacancyList::class)->name('vacancies');
+        Route::get('/vacancies/{vacancyId}', VacancyDetail::class)->name('vacancies.show');
         Route::get('/applications/create/{vacancyId}', ApplicationForm::class)->middleware('profile.complete')->name('applications.create');
         Route::get('/applications', MyApplications::class)->name('applications');
         Route::get('/applications/{application}', [App\Http\Controllers\Intern\ApplicationController::class, 'show'])->name('applications.show');

@@ -1,57 +1,119 @@
-<div class="welcome-hero" id="section-hero">
-    <div class="welcome-hero-bg"></div>
-    <div class="hero-pattern-overlay"></div>
-    <div class="welcome-hero-shapes">
-        <div class="hero-shape hero-shape-1"></div>
-        <div class="hero-shape hero-shape-2"></div>
-        <div class="hero-shape hero-shape-3"></div>
-        <div class="hero-shape hero-shape-4"></div>
-    </div>
-    <div class="welcome-hero-inner">
-        <div class="welcome-hero-content" data-reveal>
-            <div class="hero-brand">
-                <picture><source srcset="{{ asset('images/TLK.webp') }}" type="image/webp"><img src="{{ asset('images/TLK.webp') }}" alt="Telkom" class="hero-brand-logo-img" width="48" height="48"></picture>
-                <div class="hero-brand-text">
-                    <div class="hero-brand-name">Telkom Sukabumi</div>
-                    <div class="hero-brand-sub">Sistem Informasi Pengelolaan Magang & PKL</div>
+<section class="hero" id="beranda">
+    <div class="container">
+        <div class="hero-grid">
+
+            <div class="hero-content" data-reveal>
+                <div class="hero-badge">
+                    <i class="ti ti-shield-check"></i>
+                    Sistem Pengelolaan Magang Internal Perusahaan
+                </div>
+                <h1>Kelola Perjalanan Magang dengan <span>Lebih Terarah.</span></h1>
+                <p class="hero-description">
+                    Eternal membantu perusahaan mengelola peserta magang secara terstruktur, mulai
+                    dari absensi, logbook, bimbingan, monitoring, evaluasi hingga penerbitan sertifikat.
+                </p>
+                <div class="hero-buttons">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="hero-btn">
+                            <i class="ti ti-layout-dashboard"></i> Dashboard
+                        </a>
+                        <a href="#fitur" class="hero-btn-ghost">
+                            <i class="ti ti-player-play"></i> Lihat Cara Kerja
+                        </a>
+                    @else
+                        <a href="{{ route('register') }}" class="hero-btn">
+                            <i class="ti ti-user-plus"></i> Daftar Sekarang
+                        </a>
+                        <a href="{{ route('login') }}" class="hero-btn-ghost">
+                            <i class="ti ti-login"></i> Login
+                        </a>
+                    @endauth
+                </div>
+
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <i class="ti ti-link"></i>
+                        Terintegrasi
+                    </div>
+                    <div class="hero-feature">
+                        <i class="ti ti-shield-check"></i>
+                        Aman
+                    </div>
+                    <div class="hero-feature">
+                        <i class="ti ti-mood-smile"></i>
+                        Mudah Digunakan
+                    </div>
                 </div>
             </div>
-            <h1 class="welcome-hero-title">Temukan Kesempatan Magang<br>di <span class="grad-brand-text">Telkom Sukabumi</span></h1>
-            <p class="welcome-hero-sub">
-                Pendaftaran, monitoring, dan evaluasi program magang dan PKL<br>
-                di lingkungan Telkom Sukabumi dalam satu platform digital.
-            </p>
-            <div class="welcome-hero-actions">
-                @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-primary btn-hero">
-                        <i class="ti ti-layout-dashboard"></i> Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('register') }}" class="btn-primary btn-hero btn-cta">
-                        <i class="ti ti-user-plus"></i> Daftar Sekarang
-                    </a>
-                    <a href="{{ route('login') }}" class="btn-hero-secondary">
-                        <i class="ti ti-login"></i> Masuk
-                    </a>
-                @endauth
+
+            <div class="hero-visual" data-reveal>
+                <div class="hero-dashboard">
+                    <div class="dashboard-window">
+                        <div class="dashboard-bar">
+                            <div class="dashboard-dots">
+                                <span style="background:#ff5f57"></span>
+                                <span style="background:#ffbd2e"></span>
+                                <span style="background:#28ca41"></span>
+                            </div>
+                        </div>
+                        <div class="dashboard-main">
+                            <div class="mock-sidebar">
+                                <div class="mock-logo">E</div>
+                                <div class="mock-nav active">
+                                    <i class="ti ti-dashboard"></i>
+                                    Dashboard
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-notebook"></i>
+                                    Logbook
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-message"></i>
+                                    Bimbingan
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-chart-line"></i>
+                                    Monitoring
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-star"></i>
+                                    Evaluasi
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-certificate"></i>
+                                    Sertifikat
+                                </div>
+                                <div class="mock-nav">
+                                    <i class="ti ti-file-report"></i>
+                                    Laporan
+                                </div>
+                            </div>
+                            <div class="mock-main">
+                                <div class="mock-heading">Dashboard</div>
+                                <div class="mock-welcome">
+                                    <div class="mock-welcome-text">
+                                        <strong>Selamat Datang!</strong>
+                                        <span>Semangat menjalani hari ini!</span>
+                                    </div>
+                                </div>
+                                <div class="mock-columns">
+                                    <div class="mock-card">
+                                        <div class="mock-card-title">Logbook</div>
+                                        <div class="mock-card-value">12</div>
+                                        <div class="mock-card-sub">Bulan ini</div>
+                                    </div>
+                                    <div class="mock-card">
+                                        <div class="mock-card-title">Absensi</div>
+                                        <div class="mock-card-value">95%</div>
+                                        <div class="mock-card-sub">Kehadiran</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="hero-visual" data-reveal
-             x-data="heroParallax"
-             @mousemove="move"
-             @mouseleave="reset"
-             :style="style">
-            <div class="hero-visual-frame">
-                <picture>
-                    <source srcset="{{ asset('images/gedungtelkom.webp') }}" type="image/webp">
-                    <img src="{{ asset('images/gedungtelkom.webp') }}"
-                         alt="Gedung Telkom Sukabumi"
-                         class="hero-visual-img"
-                         width="800" height="600"
-                         loading="eager">
-                </picture>
-                <div class="hero-visual-glow"></div>
-            </div>
+
         </div>
     </div>
-</div>
+</section>

@@ -41,15 +41,15 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <div class="header-logo"><img src="{{ asset('images/TLK.webp') }}" alt="Telkom Indonesia"></div>
-            <h1>Sistem Magang &amp; PKL Telkom Sukabumi</h1>
-            <p>Telkom Sukabumi</p>
+            <div class="header-logo"><img src="{{ asset('images/TLK.webp') }}" alt="Eternal Internship"></div>
+            <h1>Sistem Magang &amp; PKL Eternal Internship</h1>
+            <p>Eternal Internship</p>
         </div>
         <div class="content-body">
             @yield('content')
         </div>
         <div class="footer">
-            <p>&copy; {{ date('Y') }} <a href="#" class="brand-link">Telkom Sukabumi</a>. All rights reserved.</p>
+            <p>&copy; {{ date('Y') }} <a href="#" class="brand-link">Eternal Internship</a>. All rights reserved.</p>
             <p>Email ini dikirim secara otomatis dari sistem <strong>Sistem Magang & PKL</strong>, harap tidak membalas.</p>
         </div>
     </div>

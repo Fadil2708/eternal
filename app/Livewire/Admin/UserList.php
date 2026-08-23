@@ -15,6 +15,8 @@ class UserList extends Component
 
     public string $filterRole = '';
 
+    public array $roleCounts = [];
+
     public ?string $confirmingDeactivateId = null;
 
     private UserService $userService;
@@ -50,6 +52,7 @@ class UserList extends Component
     public function render()
     {
         $users = $this->userService->getPaginatedList($this->search, $this->filterRole);
+        $this->roleCounts = $this->userService->countByRole();
 
         return view('livewire.admin.user-list', compact('users'));
     }

@@ -3,8 +3,10 @@
 namespace App\Livewire\Intern;
 
 use App\Models\Internship;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Evaluasi'])]
 class EvaluationView extends Component
 {
     public $internship = null;

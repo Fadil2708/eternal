@@ -1,5 +1,5 @@
 -- ============================================================
--- DATA DUMMY LENGKAP — Sistem Magang & PKL Telkom Sukabumi
+-- DATA DUMMY LENGKAP — Sistem Magang & PKL Eternal Internship
 -- Generated: 2026-06-25
 -- Password semua user: password
 -- ============================================================
@@ -26,13 +26,13 @@ INSERT INTO faqs (question, answer, sort_order, is_active, created_at, updated_a
  'Durasi magang bervariasi antara 2 hingga 6 bulan, tergantung pada kebijakan institusi pendidikan dan kebutuhan divisi. Program PKL umumnya berlangsung 3 bulan. Jadwal dapat disesuaikan dengan kalender akademik.',
  2, 1, '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('Apakah ada sertifikat setelah menyelesaikan magang?',
- 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Telkom Sukabumi yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
+ 'Ya, setiap peserta yang menyelesaikan program magang akan mendapatkan sertifikat digital resmi dari Eternal Internship yang dilengkapi QR code. Sertifikat dapat diverifikasi secara publik melalui platform ini.',
  3, 1, '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('Bagaimana cara memantau status pendaftaran saya?',
  'Setelah mendaftar, kamu dapat login ke dashboard untuk memantau status lamaran secara real-time. Status akan diperbarui oleh tim admin di setiap tahap seleksi. Pastikan email yang didaftarkan aktif untuk menerima notifikasi.',
  4, 1, '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('Apakah program magang ini berbayar?',
- 'Program magang di Telkom Sukabumi tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
+ 'Program magang di Eternal Internship tidak dipungut biaya pendaftaran. Informasi mengenai tunjangan atau insentif akan dijelaskan lebih lanjut pada saat proses seleksi dan tergantung pada kebijakan masing-masing divisi.',
  5, 1, '2026-06-25 10:00:00', '2026-06-25 10:00:00');
 
 -- ============================================================
@@ -277,7 +277,7 @@ TRUNCATE TABLE final_reports;
 INSERT INTO final_reports (id, internship_id, intern_id, title, file_url, file_size_kb, submitted_at, supervisor_approval, approved_at, created_at, updated_at) VALUES
 ('a0070000-0000-4000-8000-000000000001', 'a0060000-0000-4000-8000-000000000001',
  'a0010000-0000-4000-8000-000000000021',
- 'Laporan Akhir Magang: Pengembangan LMS di Telkom Sukabumi',
+ 'Laporan Akhir Magang: Pengembangan LMS di Eternal Internship',
  'uploads/reports/sample-report.pdf', 2048, '2026-03-25 10:00:00', 'approved', '2026-03-28 10:00:00', '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('a0070000-0000-4000-8000-000000000002', 'a0060000-0000-4000-8000-000000000002',
  'a0010000-0000-4000-8000-000000000022',
@@ -285,7 +285,7 @@ INSERT INTO final_reports (id, internship_id, intern_id, title, file_url, file_s
  'uploads/reports/dummy-report.pdf', 1536, '2026-04-25 10:00:00', 'approved', '2026-04-28 10:00:00', '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('a0070000-0000-4000-8000-000000000003', 'a0060000-0000-4000-8000-000000000003',
  'a0010000-0000-4000-8000-000000000023',
- 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Telkom Sukabumi',
+ 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Eternal Internship',
  'uploads/reports/pending-report.pdf', 1800, '2026-05-25 10:00:00', 'approved', '2026-05-28 10:00:00', '2026-06-25 10:00:00', '2026-06-25 10:00:00'),
 ('a0070000-0000-4000-8000-000000000004', 'a0060000-0000-4000-8000-000000000004',
  'a0010000-0000-4000-8000-000000000024',

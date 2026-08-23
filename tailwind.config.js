@@ -13,14 +13,14 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Open Sans', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
                 heading: ['Poppins', 'sans-serif'],
             },
             colors: {
                 brand: {
-                    DEFAULT: '#C0392B',
-                    light: '#F9EAE8',
-                    dark: '#7F1D1D',
+                    DEFAULT: '#3155E7',
+                    light: '#EEF2FF',
+                    dark: '#1E3A8A',
                 },
                 surface: {
                     DEFAULT: '#F8FAFC',
@@ -37,7 +37,7 @@ export default {
                     light: '#CBD5E1',
                 },
                 status: {
-                    brand: '#E05A4A',
+                    brand: '#3155E7',
                     amber: '#D97706',
                     green: '#16A34A',
                     red: '#DC2626',

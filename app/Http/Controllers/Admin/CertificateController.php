@@ -10,9 +10,11 @@ use App\Models\Internship;
 use App\Notifications\CertificateNotification;
 use App\Services\CertificateService;
 use App\Traits\ApiResponse;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class CertificateController extends Controller
@@ -72,7 +74,21 @@ class CertificateController extends Controller
         $certificate = Certificate::findOrFail($id);
 
         if (! $certificate->certificate_file_url) {
-            abort(404, 'File sertifikat belum tersedia.');
+            $certificate->load(['intern.internProfile', 'internship.vacancy', 'internship.supervisor.supervisorProfile']);
+
+            $qrCodeSvg = QrCode::format('svg')
+                ->size(120)
+                ->margin(1)
+                ->generate($certificate->qr_code_url);
+
+            $pdf = Pdf::loadView('certificates.template', [
+                'certificate' => $certificate,
+                'qrCode' => $qrCodeSvg,
+            ]);
+
+            $path = "certificates/{$certificate->internship_id}/certificate.pdf";
+            Storage::disk('private')->put($path, $pdf->output());
+            $certificate->update(['certificate_file_url' => $path]);
         }
 
         $path = Storage::disk('private')->path($certificate->certificate_file_url);

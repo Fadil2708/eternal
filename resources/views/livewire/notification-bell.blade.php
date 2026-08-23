@@ -26,8 +26,15 @@
 
         <div class="topbar-notif-list">
             @forelse($notifications as $notif)
-                @php $data = $notif['data']; @endphp
-                <a href="{{ $data['url'] ?? '#' }}"
+                @php
+                    $data = $notif['data'];
+                    $notifUrl = $data['url'] ?? '#';
+                    if (str_starts_with($notifUrl, 'http')) {
+                        $notifParts = parse_url($notifUrl);
+                        $notifUrl = url('/') . ($notifParts['path'] ?? '/') . (isset($notifParts['query']) ? '?' . $notifParts['query'] : '');
+                    }
+                @endphp
+                <a href="{{ $notifUrl }}"
                    wire:click="markAsRead('{{ $notif['id'] }}')"
                    class="topbar-notif-item">
                     <div class="topbar-notif-icon">

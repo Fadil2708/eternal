@@ -15,7 +15,10 @@
 
         <div class="field">
             <label for="email">Email</label>
-            <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username" class="input">
+            <div class="input-wrap">
+                <input id="email" type="email" name="email" value="{{ old('email', $request->email) }}" required autofocus autocomplete="username" class="input">
+                <i class="ti ti-mail input-icon"></i>
+            </div>
             <x-input-error :messages="$errors->get('email')" />
         </div>
 
@@ -24,6 +27,7 @@
             <div class="input-wrap">
                 <input id="password" type="password" name="password" required autocomplete="new-password" class="input" placeholder="Minimal 8 karakter"
                        x-bind:type="showPassword ? 'text' : 'password'">
+                <i class="ti ti-lock input-icon"></i>
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
                     <i x-show="!showPassword" class="ti ti-eye"></i>
                     <i x-show="showPassword" class="ti ti-eye-off"></i>
@@ -37,6 +41,7 @@
             <div class="input-wrap">
                 <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" class="input" placeholder="Ulangi password"
                        x-bind:type="showConfirm ? 'text' : 'password'">
+                <i class="ti ti-lock-check input-icon"></i>
                 <button type="button" @click="showConfirm = !showConfirm" class="password-toggle">
                     <i x-show="!showConfirm" class="ti ti-eye"></i>
                     <i x-show="showConfirm" class="ti ti-eye-off"></i>

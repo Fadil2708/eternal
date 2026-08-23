@@ -14,6 +14,10 @@ class InternshipList extends Component
 
     public $filterStatus = '';
 
+    public $search = '';
+
+    public array $statusCounts = [];
+
     public $confirmingAction = null;
 
     public $actionType = '';
@@ -39,6 +43,11 @@ class InternshipList extends Component
     }
 
     public function updatingFilterStatus(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatingSearch(): void
     {
         $this->resetPage();
     }
@@ -117,7 +126,8 @@ class InternshipList extends Component
 
     public function render()
     {
-        $internships = $this->internshipService->getAdminPaginatedList($this->filterStatus);
+        $this->statusCounts = $this->internshipService->countByStatus();
+        $internships = $this->internshipService->getAdminPaginatedList($this->filterStatus, $this->search);
 
         return view('livewire.admin.internship-list', compact('internships'));
     }

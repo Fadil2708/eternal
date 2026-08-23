@@ -1,6 +1,6 @@
 -- ============================================================
 -- DATABASE: if0_42251225_magang_telkom
--- SISTEM MAGANG & PKL TELKOM SUKABUMI
+-- SISTEM MAGANG & PKL ETERNAL INTERNSHIP
 -- ============================================================
 
 CREATE TABLE `users` (

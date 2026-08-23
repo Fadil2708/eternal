@@ -6,8 +6,10 @@ use App\Models\Internship;
 use App\Models\Logbook;
 use App\Services\LogbookService;
 use Illuminate\Support\Facades\Log;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 
+#[Layout('layouts::app', ['title' => 'Logbook'])]
 class LogbookForm extends Component
 {
     public ?string $logbookId = null;

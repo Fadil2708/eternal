@@ -1,8 +1,8 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "telkom-skb/sistem-magang-pkl",
+    "name": "eternal-internship/sistem-magang-pkl",
     "type": "project",
-    "description": "Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi",
+    "description": "Sistem Informasi Pengelolaan Magang & PKL Eternal Internship",
     "keywords": ["laravel", "framework"],
     "license": "MIT",
     "require": {

@@ -6,10 +6,12 @@ use App\Models\InternProfile;
 use App\Models\Skill;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Livewire\WithFileUploads;
 
+#[Layout('layouts::app', ['title' => 'Profil'])]
 class ProfileForm extends Component
 {
     use WithFileUploads;

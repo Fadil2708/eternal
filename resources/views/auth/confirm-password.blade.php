@@ -19,6 +19,7 @@
             <div class="input-wrap">
                 <input id="password" type="password" name="password" required autocomplete="current-password" class="input"
                        x-bind:type="showPassword ? 'text' : 'password'">
+                <i class="ti ti-lock input-icon"></i>
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
                     <i x-show="!showPassword" class="ti ti-eye"></i>
                     <i x-show="showPassword" class="ti ti-eye-off"></i>

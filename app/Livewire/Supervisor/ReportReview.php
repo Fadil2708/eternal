@@ -23,6 +23,29 @@ class ReportReview extends Component
             ->whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()));
     }
 
+    public function approve(string $id): void
+    {
+        $this->baseQuery()
+            ->where('supervisor_approval', 'pending')
+            ->where('id', $id)
+            ->update([
+                'supervisor_approval' => 'approved',
+                'approved_at' => now(),
+            ]);
+
+        $this->dispatch('toast', message: 'Laporan disetujui.', type: 'success');
+    }
+
+    public function reject(string $id): void
+    {
+        $this->baseQuery()
+            ->where('supervisor_approval', 'pending')
+            ->where('id', $id)
+            ->update(['supervisor_approval' => 'rejected']);
+
+        $this->dispatch('toast', message: 'Laporan ditolak.', type: 'success');
+    }
+
     public function render()
     {
         $reports = $this->baseQuery()

@@ -1,24 +1,24 @@
-<div class="welcome-faq" id="section-faq" data-reveal>
-    <div class="faq-header">
-        <h2 class="welcome-section-title">Pertanyaan Umum</h2>
-        <p class="welcome-section-sub">Hal-hal yang sering ditanyakan tentang program magang</p>
-    </div>
-    <div class="faq-list">
-        @forelse($faqs as $faq)
-        <div class="faq-item" x-data="{ open: false }">
-            <button class="faq-question" @click="open = !open" :aria-expanded="open">
-                <span>{{ $faq->question }}</span>
-                <i class="ti ti-chevron-down faq-arrow" :class="{ 'rotated': open }"></i>
-            </button>
-            <div class="faq-answer" x-show="open" x-collapse>
+<section class="section" id="faq" data-reveal>
+    <div class="container">
+
+        <div class="section-heading">
+            <span class="section-label">FAQ</span>
+            <h2 class="section-title">Pertanyaan yang Sering Diajukan</h2>
+        </div>
+
+        <div class="faq-list">
+            @forelse($faqs as $faq)
+            <details class="faq-item">
+                <summary>{{ $faq->question }}</summary>
                 <p>{{ $faq->answer }}</p>
+            </details>
+            @empty
+            <div class="vacancy-empty">
+                <i class="ti ti-message-off"></i>
+                <p>Belum ada pertanyaan umum.</p>
             </div>
+            @endforelse
         </div>
-        @empty
-        <div class="vacancy-empty">
-            <i class="ti ti-message-off"></i>
-            <p>Belum ada pertanyaan umum.</p>
-        </div>
-        @endforelse
+
     </div>
-</div>
+</section>

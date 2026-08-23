@@ -1,12 +1,18 @@
-<div>
-    <div class="page-header" style="margin-bottom:16px">
+<div class="adx-root">
+    <div class="adx-header" style="margin-bottom:20px">
         <div>
             <div class="breadcrumb">
-                <a href="{{ route('admin.users') }}">Pengguna</a>
+                <a href="{{ route('admin.users') }}" wire:navigate>Pengguna</a>
                 <i class="ti ti-chevron-right"></i>
                 <span>{{ $isEditing ? 'Edit' : 'Buat Baru' }}</span>
             </div>
-            <h2 class="page-title">{{ $isEditing ? 'Edit Pengguna' : 'Buat Pengguna Baru' }}</h2>
+            <h2 class="adx-title">{{ $isEditing ? 'Edit Pengguna' : 'Buat Pengguna Baru' }}</h2>
+        </div>
+
+        <div class="adx-header-right">
+            <a href="{{ route('admin.users') }}" wire:navigate class="adx-btn adx-btn-ghost">
+                <i class="ti ti-arrow-left"></i> Kembali
+            </a>
         </div>
     </div>
     <form wire:submit="save">
@@ -51,7 +57,7 @@
             </div>
         </div>
         <div class="flex items-center gap-4" style="margin-top:24px">
-            <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait" class="btn-save">
+            <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait" class="adx-btn adx-btn-primary">
                 <i wire:loading.remove class="ti ti-device-floppy" style="font-size:16px"></i>
                 <span wire:loading.remove>{{ $isEditing ? 'Perbarui' : 'Buat' }} Pengguna</span>
                 <span wire:loading class="inline-flex items-center gap-1">
@@ -59,7 +65,7 @@
                     Menyimpan...
                 </span>
             </button>
-            <a href="{{ route('admin.users') }}" wire:navigate class="btn-secondary">
+            <a href="{{ route('admin.users') }}" wire:navigate class="adx-btn adx-btn-ghost">
                 Batal
             </a>
         </div>

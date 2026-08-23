@@ -17,8 +17,8 @@ class InternshipController extends Controller
     public function index(): View
     {
         $internship = Internship::with([
-            'vacancy', 'supervisor.supervisorProfile',
-        ])->where('intern_id', auth()->id())->latest()->first();
+            'vacancy', 'supervisor.supervisorProfile', 'finalReport', 'evaluation', 'certificate',
+        ])->withCount(['logbooks', 'approvedLogbooks'])->where('intern_id', auth()->id())->latest()->first();
 
         return view('intern.internship.index', compact('internship'));
     }

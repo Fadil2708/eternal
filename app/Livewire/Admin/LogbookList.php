@@ -14,6 +14,8 @@ class LogbookList extends Component
 
     public $search = '';
 
+    public array $statusCounts = [];
+
     private LogbookService $logbookService;
 
     public function boot(LogbookService $logbookService): void
@@ -33,6 +35,7 @@ class LogbookList extends Component
 
     public function render()
     {
+        $this->statusCounts = $this->logbookService->countByStatus();
         $logbooks = $this->logbookService->getAdminPaginatedList($this->search, $this->filterStatus);
 
         return view('livewire.admin.logbook-list', compact('logbooks'));

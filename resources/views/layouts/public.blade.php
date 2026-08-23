@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Telkom Sukabumi — Sistem Magang PKL')</title>
-    <meta name="description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
+    <title>@yield('title', 'Eternal Internship — Sistem Magang PKL')</title>
+    <meta name="description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Eternal Internship — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
 
     {{-- Canonical --}}
     <link rel="canonical" href="{{ url()->current() }}">
@@ -15,8 +15,8 @@
     <link rel="apple-touch-icon" href="{{ asset('images/TLK.webp') }}">
 
     {{-- Open Graph & Twitter Card --}}
-    <meta property="og:title" content="@yield('title', 'Telkom Sukabumi — Sistem Magang PKL')">
-    <meta property="og:description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
+    <meta property="og:title" content="@yield('title', 'Eternal Internship — Sistem Magang PKL')">
+    <meta property="og:description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Eternal Internship — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
     <meta property="og:image" content="{{ asset('images/TLK_BIG.webp') }}">
@@ -28,10 +28,10 @@
     {{-- Fonts — preconnect + preload + optimized load --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" media="print" id="font-css">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" media="print" id="font-css">
     <noscript>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap">
     </noscript>
     <script nonce="{{ $cspNonce }}">document.getElementById('font-css').media='all'</script>
 
@@ -40,16 +40,16 @@
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/dist/tabler-icons.min.css">
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/css/landing.css'])
 
     {{-- Structured Data --}}
     <script type="application/ld+json" nonce="{{ $cspNonce }}">
     {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Sistem Magang & PKL Telkom Sukabumi",
+        "name": "Sistem Magang & PKL Eternal Internship",
         "url": "{{ url('/') }}",
-        "description": "Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi — pendaftaran, monitoring, dan evaluasi program magang secara digital."
+        "description": "Sistem Informasi Pengelolaan Magang & PKL Eternal Internship — pendaftaran, monitoring, dan evaluasi program magang secara digital."
     }
     </script>
 </head>
@@ -83,52 +83,57 @@
     @endif
 
     {{-- ═══════════════════════════════════════════════════════════
-         NAVBAR — Sticky blurred glass (updated layout)
+         NAVBAR — Eternal (redesign)
          ═══════════════════════════════════════════════════════════ --}}
-    <nav class="public-nav" x-data="publicNav"
-         @click.away="close"
-         @keydown.escape.window="close">
-        <a href="{{ url('/') }}" class="public-nav-logo">
-            <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.webp') }}" alt="Telkom Sukabumi"></picture>
-        </a>
+    <header class="navbar" x-data="publicNav"
+            @click.away="close"
+            @keydown.escape.window="close">
+        <div class="navbar-inner">
 
-        <button @click="toggle" class="public-nav-toggle" aria-label="Menu">
-            <i x-show="!navOpen" class="ti ti-menu-2"></i>
-            <i x-show="navOpen" class="ti ti-x"></i>
-        </button>
+            <a href="{{ url('/') }}" class="logo">
+                <div class="logo-mark">E</div>
+                <div class="logo-text">
+                    <strong>Eternal</strong>
+                    <span>Internship Management System</span>
+                </div>
+            </a>
 
-        <div class="public-nav-links" :class="{ open: navOpen }">
-            <a href="{{ route('public.vacancies') }}"
-               class="{{ request()->routeIs('public.vacancies*') ? 'nav-active' : '' }}">Cari Lowongan</a>
-            <a href="{{ route('public.testimonials') }}"
-               class="{{ request()->routeIs('public.testimonials*') ? 'nav-active' : '' }}">Testimoni</a>
-            <a href="{{ url('/#section-faq') }}"
-               class="{{ request()->routeIs('home') ? 'nav-active' : '' }}">FAQ</a>
-            <a href="{{ route('public.tentang-kami') }}"
-               class="{{ request()->routeIs('public.tentang-kami*') ? 'nav-active' : '' }}">Tentang Kami</a>
+            <nav class="nav-links" :class="{ open: navOpen }">
+                <a href="{{ url('/#beranda') }}" :class="{ active: active === 'beranda' }" @click="close">Beranda</a>
+                <a href="{{ url('/#fitur') }}" :class="{ active: active === 'fitur' }" @click="close">Fitur</a>
+                <a href="{{ url('/#alur') }}" :class="{ active: active === 'alur' }" @click="close">Alur Magang</a>
+                <a href="{{ url('/#untuk-siapa') }}" :class="{ active: active === 'untuk-siapa' }" @click="close">Untuk Siapa</a>
+                <a href="{{ url('/#tentang') }}" :class="{ active: active === 'tentang' }" @click="close">Tentang</a>
+                <a href="{{ url('/#faq') }}" :class="{ active: active === 'faq' }" @click="close">FAQ</a>
 
-            <hr class="nav-mobile-hr">
-            <div class="nav-mobile-auth">
+                <div class="nav-mobile-auth">
+                    @auth
+                        <a href="{{ url('/dashboard') }}" class="login-btn"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+                    @else
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="login-btn login-btn-ghost"><i class="ti ti-user-plus"></i> Daftar</a>
+                        @endif
+                        <a href="{{ route('login') }}" class="login-btn"><i class="ti ti-login"></i> Masuk</a>
+                    @endauth
+                </div>
+            </nav>
+
+            <div class="nav-actions">
                 @auth
-                    <a href="{{ url('/dashboard') }}" class="btn-nav">Dashboard</a>
+                    <a href="{{ url('/dashboard') }}" class="login-btn"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
                 @else
-                    <a href="{{ route('login') }}" class="btn-outline-nav">Masuk</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="btn-nav">Daftar</a>
+                        <a href="{{ route('register') }}" class="login-btn login-btn-ghost"><i class="ti ti-user-plus"></i> Daftar</a>
                     @endif
+                    <a href="{{ route('login') }}" class="login-btn"><i class="ti ti-login"></i> Masuk</a>
                 @endauth
             </div>
-        </div>
 
-        <div class="public-nav-actions">
-            @auth
-                <a href="{{ url('/dashboard') }}" class="btn-nav">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="btn-outline-nav"><i class="ti ti-login"></i> Masuk</a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn-nav"><i class="ti ti-user-plus"></i> Daftar</a>
-                @endif
-            @endauth
+            <button @click="toggle" class="mobile-menu" aria-label="Menu" :aria-expanded="navOpen">
+                <i x-show="!navOpen" class="ti ti-menu-2"></i>
+                <i x-show="navOpen" class="ti ti-x"></i>
+            </button>
+
         </div>
 
         <div x-show="navOpen" @click="close"
@@ -139,71 +144,89 @@
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0"
              class="nav-overlay"></div>
-    </nav>
+    </header>
 
     @yield('content')
     <div id="main-content"></div>
     {{ $slot ?? '' }}
 
     <footer class="public-footer">
-        <div class="public-footer-grid">
-            <div class="public-footer-brand">
-                <div class="public-footer-logo">
-                    <picture><source srcset="{{ asset('images/TLK_BIG.webp') }}" type="image/webp"><img src="{{ asset('images/TLK_BIG.webp') }}" alt="Telkom Sukabumi" height="28"></picture>
+        <div class="container">
+            <div class="footer-grid">
+
+                <div class="footer-brand">
+                    <a href="{{ url('/') }}" class="logo">
+                        <div class="logo-mark">E</div>
+                        <div class="logo-text">
+                            <strong>Eternal</strong>
+                            <span>Internship Management System</span>
+                        </div>
+                    </a>
+                    <p class="footer-description">Sistem internal perusahaan untuk mengelola program magang secara terstruktur, terintegrasi, dan aman.</p>
+                    <div class="footer-social">
+                        <a href="https://www.instagram.com/telkomsukabumi" target="_blank" rel="noopener noreferrer" aria-label="Instagram Eternal Internship">
+                            <i class="ti ti-brand-instagram"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/telkom-indonesia" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Eternal Internship">
+                            <i class="ti ti-brand-linkedin"></i>
+                        </a>
+                        <a href="https://www.youtube.com/@TelkomIndonesia" target="_blank" rel="noopener noreferrer" aria-label="YouTube Eternal Internship">
+                            <i class="ti ti-brand-youtube"></i>
+                        </a>
+                        <a href="https://wa.me/6285881683025" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Eternal Internship">
+                            <i class="ti ti-brand-whatsapp"></i>
+                        </a>
+                    </div>
                 </div>
-                <p class="public-footer-desc">Sistem informasi terpadu untuk pendaftaran, monitoring, dan evaluasi program magang dan PKL di lingkungan Telkom Sukabumi.</p>
-                <div class="public-footer-social">
-                    <a href="https://www.instagram.com/telkomsukabumi" target="_blank" rel="noopener noreferrer" aria-label="Instagram Telkom Sukabumi">
-                        <i class="ti ti-brand-instagram"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/company/telkom-indonesia" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Telkom Indonesia">
-                        <i class="ti ti-brand-linkedin"></i>
-                    </a>
-                    <a href="https://www.youtube.com/@TelkomIndonesia" target="_blank" rel="noopener noreferrer" aria-label="YouTube Telkom Indonesia">
-                        <i class="ti ti-brand-youtube"></i>
-                    </a>
-                    <a href="https://wa.me/6285881683025" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Telkom Sukabumi">
-                        <i class="ti ti-brand-whatsapp"></i>
-                    </a>
+
+                <div>
+                    <div class="footer-title">Navigasi</div>
+                    <div class="footer-links">
+                        <a href="{{ url('/#beranda') }}">Beranda</a>
+                        <a href="{{ url('/#fitur') }}">Fitur</a>
+                        <a href="{{ url('/#alur') }}">Alur Magang</a>
+                        <a href="{{ url('/#untuk-siapa') }}">Untuk Siapa</a>
+                        <a href="{{ url('/#faq') }}">FAQ</a>
+                    </div>
                 </div>
-            </div>
-            <div class="public-footer-col">
-                <h4 class="public-footer-title">Navigasi</h4>
-                <div class="public-footer-links">
-                    <a href="{{ route('public.vacancies') }}">Lowongan</a>
-                    <a href="{{ route('public.testimonials') }}">Testimoni</a>
-                    <a href="{{ url('/#section-faq') }}">FAQ</a>
-                    <a href="{{ route('public.tentang-kami') }}">Tentang Kami</a>
-                    <a href="{{ route('public.syarat') }}">Syarat & Ketentuan</a>
-                    <a href="{{ route('public.privacy') }}">Kebijakan Privasi</a>
+
+                <div>
+                    <div class="footer-title">Fitur</div>
+                    <div class="footer-links">
+                        <a href="{{ route('public.vacancies') }}">Cari Lowongan</a>
+                        <a href="{{ route('public.testimonials') }}">Testimoni</a>
+                        <a href="{{ route('public.tentang-kami') }}">Tentang Kami</a>
+                        <a href="{{ route('public.syarat') }}">Syarat &amp; Ketentuan</a>
+                        <a href="{{ route('public.privacy') }}">Kebijakan Privasi</a>
+                    </div>
                 </div>
+
+                <div>
+                    <div class="footer-title">Kontak</div>
+                    <a class="footer-map" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener" aria-label="Buka peta Eternal Internship di Google Maps">
+                        <iframe
+                            src="https://www.openstreetmap.org/export/embed.html?bbox=106.9152%2C-6.9257%2C106.9353%2C-6.9157&layer=mapnik&marker=-6.9206966%2C106.9252477"
+                            title="Peta Eternal Internship"
+                            loading="lazy"
+                            allowfullscreen
+                            tabindex="-1"></iframe>
+                        <span class="footer-map-overlay">
+                            <span class="footer-map-badge">
+                                <i class="ti ti-map-pin"></i> Buka di Google Maps
+                            </span>
+                        </span>
+                    </a>
+                    <div class="footer-contact">
+                        <div><i class="ti ti-map-pin"></i><a class="footer-map-link" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener">Eternal Internship, Jl. Masjid No.1, Gunungparang, Kec. Cikole, Kota Sukabumi, Jawa Barat 43111</a></div>
+                        <div><i class="ti ti-mail"></i><span>magang@telkomsukabumi.co.id</span></div>
+                        <div><i class="ti ti-phone"></i><span>+62 858-8168-3025</span></div>
+                    </div>
+                </div>
+
             </div>
-            <div class="public-footer-col">
-                <h4 class="public-footer-title">Kontak</h4>
-                <a href="https://maps.app.goo.gl/FQyBPdFQeCeWGrug6" target="_blank" rel="noopener noreferrer" class="public-footer-contact">
-                    <i class="ti ti-map-pin"></i>
-                    Jl. Masjid No.1, Gunungparang,<br>Kec. Cikole, Kota Sukabumi<br>Jawa Barat 43111
-                </a>
-                <a href="tel:+6285881683025" class="public-footer-contact">
-                    <i class="ti ti-phone"></i>
-                    +62 858-8168-3025
-                </a>
-                <a href="mailto:magang@telkomsukabumi.co.id" class="public-footer-contact">
-                    <i class="ti ti-mail"></i>
-                    magang@telkomsukabumi.co.id
-                </a>
+            <div class="footer-bottom">
+                &copy; {{ date('Y') }} Eternal Internship Management System. All rights reserved.
             </div>
-            <div class="public-footer-col">
-                <h4 class="public-footer-title">Lokasi</h4>
-                <a href="https://maps.app.goo.gl/FQyBPdFQeCeWGrug6" target="_blank" rel="noopener noreferrer" class="public-footer-map">
-                    <picture><source srcset="{{ asset('images/map-thumbnail.webp') }}" type="image/webp"><img src="{{ asset('images/map-thumbnail.webp') }}" alt="Peta lokasi Telkom Sukabumi" loading="lazy"></picture>
-                </a>
-            </div>
-        </div>
-        <hr class="public-footer-divider">
-        <div class="public-footer-bottom">
-            <span>&copy; {{ date('Y') }} Telkom Indonesia &middot; Sukabumi</span>
-            <span>Dibangun dengan <i class="ti ti-heart-filled" style="color:#C0392B"></i> oleh Tim IT Telkom Sukabumi</span>
         </div>
     </footer>
 
@@ -237,7 +260,7 @@
         </div>
     @endauth
 
-    <a href="https://wa.me/6285881683025?text=Halo%20Telkom%20Sukabumi%2C%20saya%20ingin%20bertanya%20tentang%20program%20magang."
+    <a href="https://wa.me/6285881683025?text=Halo%20Eternal%20Internship%2C%20saya%20ingin%20bertanya%20tentang%20program%20magang."
        target="_blank" rel="noopener noreferrer"
        class="whatsapp-float"
        aria-label="Hubungi via WhatsApp">

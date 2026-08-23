@@ -12,6 +12,10 @@ class SupervisorMapping extends Component
 
     public $filterStatus = 'active';
 
+    public $search = '';
+
+    public array $statusCounts = [];
+
     private InternshipService $internshipService;
 
     public function boot(InternshipService $internshipService): void
@@ -24,6 +28,11 @@ class SupervisorMapping extends Component
         $this->resetPage();
     }
 
+    public function updatingSearch(): void
+    {
+        $this->resetPage();
+    }
+
     public function assignSupervisor(string $internshipId, string $supervisorId): void
     {
         $this->internshipService->assignSupervisor($internshipId, $supervisorId);
@@ -32,7 +41,8 @@ class SupervisorMapping extends Component
 
     public function render()
     {
-        $internships = $this->internshipService->getSupervisorMappedList($this->filterStatus);
+        $this->statusCounts = $this->internshipService->countUnassignedByStatus();
+        $internships = $this->internshipService->getSupervisorMappedList($this->filterStatus, $this->search);
         $supervisors = $this->internshipService->getSupervisors();
 
         return view('livewire.admin.supervisor-mapping', compact('internships', 'supervisors'));

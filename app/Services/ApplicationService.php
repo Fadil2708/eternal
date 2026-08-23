@@ -177,4 +177,23 @@ class ApplicationService
             throw new \Exception('Anda hanya dapat memiliki maksimal 2 lamaran aktif. Silakan tunggu hingga salah satu lamaran selesai diproses sebelum melamar lagi.');
         }
     }
+
+    public function countByStatus(): array
+    {
+        $rows = Application::query()
+            ->select('status', DB::raw('count(*) as total'))
+            ->groupBy('status')
+            ->pluck('total', 'status')
+            ->toArray();
+
+        return [
+            'total' => array_sum($rows),
+            'submitted' => $rows['submitted'] ?? 0,
+            'under_review' => $rows['under_review'] ?? 0,
+            'interview_scheduled' => $rows['interview_scheduled'] ?? 0,
+            'accepted' => $rows['accepted'] ?? 0,
+            'rejected' => $rows['rejected'] ?? 0,
+            'cancelled' => $rows['cancelled'] ?? 0,
+        ];
+    }
 }

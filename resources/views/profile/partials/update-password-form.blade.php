@@ -1,44 +1,47 @@
 <section>
-    <div class="form-section-title">Ubah Password</div>
-    <p style="font-size:13px;color:#A8A5A0;margin-bottom:20px">Pastikan akun Anda menggunakan password yang kuat dan acak.</p>
+    <div class="acp-card-head">
+        <div class="acp-card-icon"><i class="ti ti-key"></i></div>
+        <div>
+            <h3 class="acp-card-title">Ubah Password</h3>
+            <p class="acp-card-sub">Pastikan akun Anda menggunakan password yang kuat dan acak.</p>
+        </div>
+    </div>
 
-    <form method="post" action="{{ route('password.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('password.update') }}">
         @csrf
         @method('put')
 
-        <div class="field">
-            <label for="update_password_current_password">Password Saat Ini</label>
-            <input id="update_password_current_password" name="current_password" type="password" class="input" autocomplete="current-password">
-            @error('current_password', 'updatePassword') <div class="field-error">{{ $message }}</div> @enderror
+        <div class="acp-field">
+            <label for="update_password_current_password" class="acp-label">Password Saat Ini</label>
+            <input id="update_password_current_password" name="current_password" type="password" class="acp-input" autocomplete="current-password">
+            @error('current_password', 'updatePassword') <div class="acp-error">{{ $message }}</div> @enderror
         </div>
 
-        <div class="field">
-            <label for="update_password_password">Password Baru</label>
-            <input id="update_password_password" name="password" type="password" class="input" autocomplete="new-password">
-            @error('password', 'updatePassword') <div class="field-error">{{ $message }}</div> @enderror
+        <div class="acp-field">
+            <label for="update_password_password" class="acp-label">Password Baru</label>
+            <input id="update_password_password" name="password" type="password" class="acp-input" autocomplete="new-password">
+            @error('password', 'updatePassword') <div class="acp-error">{{ $message }}</div> @enderror
         </div>
 
-        <div class="field">
-            <label for="update_password_password_confirmation">Konfirmasi Password</label>
-            <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="input" autocomplete="new-password">
-            @error('password_confirmation', 'updatePassword') <div class="field-error">{{ $message }}</div> @enderror
+        <div class="acp-field">
+            <label for="update_password_password_confirmation" class="acp-label">Konfirmasi Password</label>
+            <input id="update_password_password_confirmation" name="password_confirmation" type="password" class="acp-input" autocomplete="new-password">
+            @error('password_confirmation', 'updatePassword') <div class="acp-error">{{ $message }}</div> @enderror
         </div>
 
-        <div style="display:flex;align-items:center;gap:12px">
+        <div class="acp-footer">
             <button type="submit"
-                    class="btn-save"
+                    class="acp-submit"
                     x-data="{ loading: false }"
                     x-on:click="loading = true"
-                    x-bind:disabled="loading"
-                    x-bind:class="loading ? 'btn-loading' : ''">
+                    x-bind:disabled="loading">
                 <i x-show="!loading" class="ti ti-device-floppy"></i>
-                <i x-show="loading" class="ti ti-loader spin"></i>
+                <i x-show="loading" class="ti ti-loader acp-spin"></i>
                 <span x-show="!loading">Simpan</span>
                 <span x-show="loading">Menyimpan...</span>
             </button>
             @if (session('status') === 'password-updated')
-                <p x-data="timedHide" x-show="show" x-transition
-                   style="font-size:13px;color:#16A34A;font-weight:600">
+                <p x-data="timedHide" x-show="show" x-transition class="acp-saved">
                     <i class="ti ti-circle-check"></i> {{ __('Saved.') }}
                 </p>
             @endif

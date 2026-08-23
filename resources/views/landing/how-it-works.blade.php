@@ -1,7 +1,8 @@
 <div class="welcome-howitworks" data-reveal>
-    <div class="how-header">
-        <h2 class="welcome-section-title">Bagaimana Cara Mendaftar?</h2>
-        <p class="welcome-section-sub">Hanya 4 langkah mudah untuk memulai perjalanan magangmu</p>
+    <div class="section-heading">
+        <span class="section-label">Cara Mendaftar</span>
+        <h2 class="section-title">Bagaimana Cara Mendaftar?</h2>
+        <p class="section-description">Hanya 4 langkah mudah untuk memulai perjalanan magangmu</p>
     </div>
     <div class="how-grid">
         <div class="how-step">

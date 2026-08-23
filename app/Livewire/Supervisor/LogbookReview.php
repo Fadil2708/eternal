@@ -3,6 +3,7 @@
 namespace App\Livewire\Supervisor;
 
 use App\Models\Logbook;
+use App\Models\User;
 use App\Services\LogbookService;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,6 +15,10 @@ class LogbookReview extends Component
     public $filterStatus = '';
 
     public $search = '';
+
+    public ?string $internId = null;
+
+    public ?string $filteredInternName = null;
 
     public bool $showRevisionModal = false;
 
@@ -34,18 +39,41 @@ class LogbookReview extends Component
 
     public function mount(): void
     {
+        $this->internId = request()->query('intern_id');
+
+        if ($this->internId) {
+            $this->filteredInternName = User::find($this->internId)?->internProfile?->full_name;
+        }
+
         $this->totalSubmitted = Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()))
+            ->when($this->internId, fn ($q) => $q->where('intern_id', $this->internId))
             ->where('validation_status', 'submitted')->count();
     }
 
     public function updatingFilterStatus(): void
     {
         $this->resetPage();
+        $this->selectedLogbooks = [];
     }
 
     public function updatingSearch(): void
     {
         $this->resetPage();
+        $this->selectedLogbooks = [];
+    }
+
+    public function updatingInternId(): void
+    {
+        $this->resetPage();
+        $this->selectedLogbooks = [];
+    }
+
+    public function clearInternFilter(): void
+    {
+        $this->internId = null;
+        $this->filteredInternName = null;
+        $this->resetPage();
+        $this->selectedLogbooks = [];
     }
 
     public function openRevision(string $id): void
@@ -83,17 +111,21 @@ class LogbookReview extends Component
 
     public function bulkApprove(): void
     {
+        $count = count($this->selectedLogbooks);
+
         Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()))
+            ->when($this->internId, fn ($q) => $q->where('intern_id', $this->internId))
             ->where('validation_status', 'submitted')
             ->whereIn('id', $this->selectedLogbooks)
             ->update(['validation_status' => 'approved']);
         $this->selectedLogbooks = [];
-        $this->dispatch('toast', message: count($this->selectedLogbooks).' logbook disetujui.', type: 'success');
+        $this->dispatch('toast', message: $count.' logbook disetujui.', type: 'success');
     }
 
     public function toggleSelectAll(): void
     {
         $ids = Logbook::whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()))
+            ->when($this->internId, fn ($q) => $q->where('intern_id', $this->internId))
             ->where('validation_status', 'submitted')
             ->pluck('id')
             ->toArray();
@@ -105,7 +137,8 @@ class LogbookReview extends Component
         $logbooks = $this->logbookService->getSupervisorPaginatedList(
             auth()->id(),
             $this->filterStatus,
-            $this->search
+            $this->search,
+            $this->internId
         );
 
         return view('livewire.supervisor.logbook-review', compact('logbooks'));

@@ -6,7 +6,7 @@
 <div class="public-page">
     <div class="page-header-center">
         <h1 class="page-title-lg">Syarat & Ketentuan</h1>
-        <p class="welcome-section-sub">Ketentuan umum program magang dan PKL Telkom Sukabumi</p>
+        <p class="welcome-section-sub">Ketentuan umum program magang dan PKL Eternal Internship</p>
     </div>
 
     <div class="panel" style="padding:32px">
@@ -16,7 +16,7 @@
                 <li>Mahasiswa aktif minimal semester 4 dari jurusan relevan</li>
                 <li>Siswa SMK kelas 11-12 untuk program PKL</li>
                 <li>Memiliki surat rekomendasi dari institusi pendidikan</li>
-                <li>Bersedia mematuhi peraturan yang berlaku di Telkom Sukabumi</li>
+                <li>Bersedia mematuhi peraturan yang berlaku di Eternal Internship</li>
             </ul>
         </div>
 
@@ -32,9 +32,9 @@
         <div class="vac-section">
             <h3>Ketentuan Lain</h3>
             <p class="vac-text">
-                Telkom Sukabumi berhak mengubah jadwal, membatalkan, atau menyesuaikan program
+                Eternal Internship berhak mengubah jadwal, membatalkan, atau menyesuaikan program
                 magang sesuai kebutuhan operasional. Keputusan akhir mengenai kelulusan peserta
-                berada di tangan tim evaluasi Telkom Sukabumi.
+                berada di tangan tim evaluasi Eternal Internship.
             </p>
         </div>
 

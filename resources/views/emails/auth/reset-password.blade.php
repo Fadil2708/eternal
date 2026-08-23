@@ -3,7 +3,7 @@
 @section('content')
     <h2>Reset Password</h2>
     <p>Halo <strong>{{ $user ?? 'Pengguna' }}</strong>,</p>
-    <p>Kami menerima permintaan reset password untuk akun <strong>Sistem Magang & PKL Telkom Sukabumi</strong> Anda.</p>
+    <p>Kami menerima permintaan reset password untuk akun <strong>Sistem Magang & PKL Eternal Internship</strong> Anda.</p>
     <p>Klik tombol di bawah untuk mengatur ulang password:</p>
 
     <div style="text-align:center;margin:24px 0">

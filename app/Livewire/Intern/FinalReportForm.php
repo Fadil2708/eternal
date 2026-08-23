@@ -4,9 +4,11 @@ namespace App\Livewire\Intern;
 
 use App\Models\FinalReport;
 use App\Models\Internship;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
+#[Layout('layouts::app', ['title' => 'Laporan Akhir'])]
 class FinalReportForm extends Component
 {
     use WithFileUploads;

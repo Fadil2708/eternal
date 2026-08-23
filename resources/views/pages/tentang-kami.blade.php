@@ -6,16 +6,16 @@
 <div class="public-page">
     <div class="page-header-center">
         <h1 class="page-title-lg">Tentang Kami</h1>
-        <p class="welcome-section-sub">Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi</p>
+        <p class="welcome-section-sub">Sistem Informasi Pengelolaan Magang & PKL Eternal Internship</p>
     </div>
 
     <div class="panel" style="padding:32px">
         <div class="vac-section">
             <h3>Latar Belakang</h3>
             <p class="vac-text">
-                Sistem Informasi Pengelolaan Magang & PKL Telkom Sukabumi adalah platform digital yang dikembangkan
-                oleh Tim IT Telkom Sukabumi untuk memudahkan proses pendaftaran, monitoring, dan evaluasi program
-                magang dan Praktik Kerja Lapangan (PKL) di lingkungan Telkom Sukabumi.
+                Sistem Informasi Pengelolaan Magang & PKL Eternal Internship adalah platform digital yang dikembangkan
+                oleh Tim IT Eternal Internship untuk memudahkan proses pendaftaran, monitoring, dan evaluasi program
+                magang dan Praktik Kerja Lapangan (PKL) di lingkungan Eternal Internship.
             </p>
         </div>
 
@@ -37,7 +37,7 @@
             <div class="contact-map">
                 <iframe
                     src="https://www.openstreetmap.org/export/embed.html?bbox=106.9152%2C-6.9257%2C106.9353%2C-6.9157&layer=mapnik&marker=-6.9206966%2C106.9252477"
-                    title="Peta Telkom Witel Sukabumi"
+                    title="Peta Eternal Internship"
                     loading="lazy"
                     allowfullscreen></iframe>
             </div>
@@ -51,7 +51,7 @@
                             Jl. Masjid No. 17, Gunung Parang, Kec. Cikole,<br>
                             Kota Sukabumi, Jawa Barat 43113
                         </p>
-                        <a class="contact-action" href="https://maps.app.goo.gl/FQyBPdFQeCeWGrug6" target="_blank" rel="noopener">
+                        <a class="contact-action" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener">
                             Buka di Google Maps <i class="ti ti-arrow-up-right"></i>
                         </a>
                     </div>
@@ -73,7 +73,7 @@
                     <div>
                         <strong class="contact-title">WhatsApp</strong>
                         <p class="contact-text">+62 858-8168-3025</p>
-                        <a class="contact-action" href="https://wa.me/6285881683025?text=Halo%20Telkom%20Sukabumi%2C%20saya%20ingin%20bertanya%20tentang%20program%20magang." target="_blank" rel="noopener">
+                        <a class="contact-action" href="https://wa.me/6285881683025?text=Halo%20Eternal%20Internship%2C%20saya%20ingin%20bertanya%20tentang%20program%20magang." target="_blank" rel="noopener">
                             Chat WhatsApp <i class="ti ti-arrow-up-right"></i>
                         </a>
                     </div>

@@ -294,6 +294,40 @@ class LogbookReviewTest extends TestCase
         $this->assertEquals('submitted', $otherLogbook->fresh()->validation_status);
     }
 
+    public function test_filters_by_intern_id(): void
+    {
+        $supervisor = User::factory()->supervisor()->create();
+        $internA = User::factory()->intern()->create();
+        $internB = User::factory()->intern()->create();
+        InternProfile::factory()->create(['user_id' => $internA->id, 'full_name' => 'Intern A']);
+        InternProfile::factory()->create(['user_id' => $internB->id, 'full_name' => 'Intern B']);
+
+        $internshipA = Internship::factory()->active()->create([
+            'intern_id' => $internA->id,
+            'supervisor_id' => $supervisor->id,
+        ]);
+        $internshipB = Internship::factory()->active()->create([
+            'intern_id' => $internB->id,
+            'supervisor_id' => $supervisor->id,
+        ]);
+
+        Logbook::factory()->submitted()->create([
+            'internship_id' => $internshipA->id,
+            'intern_id' => $internA->id,
+        ]);
+        Logbook::factory()->submitted()->create([
+            'internship_id' => $internshipB->id,
+            'intern_id' => $internB->id,
+        ]);
+
+        Livewire::actingAs($supervisor)
+            ->test(LogbookReview::class, ['intern_id' => $internA->id])
+            ->assertSet('internId', $internA->id)
+            ->assertSet('filteredInternName', 'Intern A')
+            ->assertSee('Intern A')
+            ->assertDontSee('Intern B');
+    }
+
     public function test_updating_filter_status_clears_selection(): void
     {
         $supervisor = User::factory()->supervisor()->create();

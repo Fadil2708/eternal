@@ -21,7 +21,7 @@ class VerifyEmailMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verifikasi Email — Telkom Sukabumi',
+            subject: 'Verifikasi Email — Eternal Internship',
         );
     }
 

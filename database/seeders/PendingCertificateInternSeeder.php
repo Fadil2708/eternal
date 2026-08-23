@@ -115,7 +115,7 @@ class PendingCertificateInternSeeder extends Seeder
             ['internship_id' => $internship->id],
             [
                 'intern_id' => $intern->id,
-                'title' => 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Telkom Sukabumi',
+                'title' => 'Laporan Akhir Magang: Pengembangan Frontend Dashboard Manajemen di Eternal Internship',
                 'file_url' => 'uploads/reports/pending-report.pdf',
                 'file_size_kb' => 1800,
                 'submitted_at' => '2026-05-25',

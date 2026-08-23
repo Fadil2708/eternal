@@ -5,9 +5,11 @@ namespace App\Livewire\Intern;
 use App\Models\Internship;
 use App\Models\Logbook;
 use App\Services\LogbookService;
+use Livewire\Attributes\Layout;
 use Livewire\Component;
 use Livewire\WithPagination;
 
+#[Layout('layouts::app', ['title' => 'Logbook'])]
 class LogbookList extends Component
 {
     use WithPagination;

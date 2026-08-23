@@ -22,7 +22,10 @@
 
     {{-- Intern Form --}}
     <div x-show="role === 'intern'">
-        <div class="auth-form-header">
+        <div class="auth-form-header text-center">
+            <div class="icon-circle-brand-lg">
+                <i class="ti ti-user-plus"></i>
+            </div>
             <h2 class="auth-title">Buat Akun Baru</h2>
             <p class="auth-desc">Daftar untuk memulai perjalanan magang Anda</p>
         </div>
@@ -32,7 +35,10 @@
 
             <div class="field">
                 <label for="email">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="nama@email.com" class="input">
+                <div class="input-wrap">
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="nama@email.com" class="input">
+                    <i class="ti ti-mail input-icon"></i>
+                </div>
                 <x-input-error :messages="$errors->get('email')" />
             </div>
 
@@ -41,9 +47,10 @@
                 <div class="input-wrap">
                     <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="Minimal 8 karakter" class="input"
                            x-bind:type="showPassword ? 'text' : 'password'">
+                    <i class="ti ti-lock input-icon"></i>
                     <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                        <i x-show="!showPassword" class="ti ti-eye"></i>
-                        <i x-show="showPassword" class="ti ti-eye-off"></i>
+                        <i x-show="!showPassword" x-cloak class="ti ti-eye"></i>
+                        <i x-show="showPassword" x-cloak class="ti ti-eye-off"></i>
                     </button>
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
@@ -54,9 +61,10 @@
                 <div class="input-wrap">
                     <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Ulangi password" class="input"
                            x-bind:type="showConfirm ? 'text' : 'password'">
+                    <i class="ti ti-lock-check input-icon"></i>
                     <button type="button" @click="showConfirm = !showConfirm" class="password-toggle">
-                        <i x-show="!showConfirm" class="ti ti-eye"></i>
-                        <i x-show="showConfirm" class="ti ti-eye-off"></i>
+                        <i x-show="!showConfirm" x-cloak class="ti ti-eye"></i>
+                        <i x-show="showConfirm" x-cloak class="ti ti-eye-off"></i>
                     </button>
                 </div>
                 <x-input-error :messages="$errors->get('password_confirmation')" />
@@ -66,16 +74,25 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
+                <i x-show="!loading" class="ti ti-user-check"></i>
                 <i x-show="loading" class="ti ti-loader spin"></i>
                 <span x-show="!loading">Daftar</span>
                 <span x-show="loading">Memproses...</span>
             </button>
+
+            <p class="auth-footer">
+                Sudah punya akun?
+                <a href="{{ route('login') }}" class="link-brand">Masuk di sini</a>
+            </p>
         </form>
     </div>
 
     {{-- Supervisor Form --}}
     <div x-show="role === 'supervisor'" x-cloak>
-        <div class="auth-form-header">
+        <div class="auth-form-header text-center">
+            <div class="icon-circle-brand-lg">
+                <i class="ti ti-user-star"></i>
+            </div>
             <h2 class="auth-title">Daftar sebagai Pembimbing</h2>
             <p class="auth-desc">Gunakan kode undangan dari admin untuk mendaftar</p>
         </div>
@@ -85,13 +102,19 @@
 
             <div class="field">
                 <label for="code">Kode Undangan</label>
-                <input id="code" type="text" name="code" value="{{ old('code', $code) }}" required class="input input-code" placeholder="Contoh: A1B2C3D4">
+                <div class="input-wrap">
+                    <input id="code" type="text" name="code" value="{{ old('code', $code) }}" required class="input input-code" placeholder="Contoh: A1B2C3D4">
+                    <i class="ti ti-ticket input-icon"></i>
+                </div>
                 <x-input-error :messages="$errors->get('code')" />
             </div>
 
             <div class="field field-group">
                 <label for="supervisor_email">Email</label>
-                <input id="supervisor_email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="pembimbing@telkom.co.id" class="input">
+                <div class="input-wrap">
+                    <input id="supervisor_email" type="email" name="email" value="{{ old('email') }}" required autocomplete="username" placeholder="pembimbing@eternalinternship.id" class="input">
+                    <i class="ti ti-mail input-icon"></i>
+                </div>
                 <x-input-error :messages="$errors->get('email')" />
             </div>
 
@@ -100,9 +123,10 @@
                 <div class="input-wrap">
                     <input id="supervisor_password" type="password" name="password" required autocomplete="new-password" placeholder="Minimal 8 karakter" class="input"
                            x-bind:type="showPassword ? 'text' : 'password'">
+                    <i class="ti ti-lock input-icon"></i>
                     <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                        <i x-show="!showPassword" class="ti ti-eye"></i>
-                        <i x-show="showPassword" class="ti ti-eye-off"></i>
+                        <i x-show="!showPassword" x-cloak class="ti ti-eye"></i>
+                        <i x-show="showPassword" x-cloak class="ti ti-eye-off"></i>
                     </button>
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
@@ -113,9 +137,10 @@
                 <div class="input-wrap">
                     <input id="supervisor_password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Ulangi password" class="input"
                            x-bind:type="showConfirm ? 'text' : 'password'">
+                    <i class="ti ti-lock-check input-icon"></i>
                     <button type="button" @click="showConfirm = !showConfirm" class="password-toggle">
-                        <i x-show="!showConfirm" class="ti ti-eye"></i>
-                        <i x-show="showConfirm" class="ti ti-eye-off"></i>
+                        <i x-show="!showConfirm" x-cloak class="ti ti-eye"></i>
+                        <i x-show="showConfirm" x-cloak class="ti ti-eye-off"></i>
                     </button>
                 </div>
                 <x-input-error :messages="$errors->get('password_confirmation')" />
@@ -125,15 +150,16 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
+                <i x-show="!loading" class="ti ti-user-check"></i>
                 <i x-show="loading" class="ti ti-loader spin"></i>
-                <span x-show="!loading">Daftar sebagai Pembimbing</span>
+                <span x-show="!loading">Daftar</span>
                 <span x-show="loading">Memproses...</span>
             </button>
+
+            <p class="auth-footer">
+                Sudah punya akun?
+                <a href="{{ route('login') }}" class="link-brand">Masuk di sini</a>
+            </p>
         </form>
     </div>
-
-    <p class="auth-footer">
-        Sudah punya akun?
-        <a href="{{ route('login') }}" class="link-brand">Masuk</a>
-    </p>
 </x-guest-layout>
