@@ -7,6 +7,7 @@ export default (Alpine) => {
             document.body.style.overflow = this.navOpen ? 'hidden' : '';
         },
         close() {
+            if (!this.navOpen) return;
             this.navOpen = false;
             document.body.style.overflow = '';
         },

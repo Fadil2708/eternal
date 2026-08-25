@@ -453,7 +453,7 @@
                 <tr>
                     <td class="logo-td">
                         <div class="logo-td-inner">
-                            <img class="logo-icon" src="data:image/webp;base64,{{ base64_encode(file_get_contents(public_path('images/TLK.webp'))) }}" alt="Eternal Internship">
+                            <img class="logo-icon" src="data:image/webp;base64,{{ base64_encode(file_get_contents(public_path('images/LogoEternalUtama.webp'))) }}" alt="Eternal Internship">
                         </div>
                         <div class="logo-text" style="display:inline-block;vertical-align:middle">
                             <h2>Eternal Internship</h2>

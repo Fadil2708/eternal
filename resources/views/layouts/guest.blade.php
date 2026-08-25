@@ -7,9 +7,9 @@
     <meta name="description" content="Eternal Internship Management System — pendaftaran, monitoring, dan evaluasi program magang & PKL secara digital.">
 
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/webp" sizes="512x512" href="{{ asset('images/TLK.webp') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/TLK.webp') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
+    <link rel="icon" type="image/webp" sizes="192x192" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -34,7 +34,7 @@
 
             <div class="auth-brand-content">
                 <div class="auth-logo">
-                    <img src="{{ asset('images/TLK.webp') }}" alt="Logo Eternal" class="auth-logo-img">
+                    <img src="{{ asset('images/LogoEternalUtama.webp') }}" alt="Logo Eternal" class="auth-logo-img">
                 </div>
                 <h1 class="auth-brand-name">Eternal</h1>
                 <p class="auth-brand-subtitle">Internship Management System</p>

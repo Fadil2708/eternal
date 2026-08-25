@@ -46,8 +46,11 @@
         font-family: 'Open Sans', sans-serif;
         background: rgb(var(--body-bg));
         color: rgb(var(--text-secondary));
-        overflow-x: hidden;
         transition: background var(--transition-base), color var(--transition-base);
+    }
+
+    .page-wrapper {
+        overflow-x: hidden;
     }
 
     /* ===== SKIP TO CONTENT ===== */
@@ -158,19 +161,29 @@
 @layer components {
     /* ===== SIDEBAR ===== */
     .sidebar-header {
-        padding: 20px 16px 0;
-        margin-bottom: 8px;
+        padding: 16px 16px 12px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, .1);
     }
     .sidebar-logo {
         display: flex;
         align-items: center;
-        gap: 10px;
+        justify-content: center;
         text-decoration: none;
     }
     .sidebar-logo-img {
         display: block;
-        max-width: 160px;
-        height: auto;
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        object-fit: contain;
+        box-shadow: 0 0 0 3px rgba(255, 255, 255, .12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .sidebar-logo:hover .sidebar-logo-img {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 4px rgba(255, 255, 255, .2);
+    }
         object-fit: contain;
     }
     .sb-logo-mark {
@@ -2476,7 +2489,6 @@
         color: #fff;
         border-color: #C0392B;
     }
-}
 
 /* Layout shell (dash-wrap, sidebar, main-content, topbar, dash-body)
    kini dikelola di <style> inline layouts/app.blade.php sebagai satu sumber. */
@@ -2576,6 +2588,10 @@
     }
     .sidebar.open {
         transform: translateX(0);
+    }
+    .sidebar-logo-img {
+        width: 56px;
+        height: 56px;
     }
     .sidebar-backdrop {
         display: none;

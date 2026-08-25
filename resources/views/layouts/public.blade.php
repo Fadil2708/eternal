@@ -10,20 +10,20 @@
     <link rel="canonical" href="{{ url()->current() }}">
 
     {{-- Favicon & Touch Icons --}}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-    <link rel="icon" type="image/webp" sizes="512x512" href="{{ asset('images/TLK.webp') }}">
-    <link rel="apple-touch-icon" href="{{ asset('images/TLK.webp') }}">
+    <link rel="icon" type="image/webp" sizes="32x32" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
+    <link rel="icon" type="image/webp" sizes="192x192" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/LogoEternalFavIcon.webp') }}">
 
     {{-- Open Graph & Twitter Card --}}
     <meta property="og:title" content="@yield('title', 'Eternal Internship — Sistem Magang PKL')">
     <meta property="og:description" content="@yield('meta_description', 'Sistem Informasi Pengelolaan Magang & PKL Eternal Internship — pendaftaran, monitoring, dan evaluasi program magang secara digital.')">
     <meta property="og:type" content="website">
     <meta property="og:url" content="{{ url()->current() }}">
-    <meta property="og:image" content="{{ asset('images/TLK_BIG.webp') }}">
-    <meta property="og:image:width" content="1583">
-    <meta property="og:image:height" content="864">
+    <meta property="og:image" content="{{ asset('images/LogoEternalUtama.webp') }}">
+    <meta property="og:image:width" content="1254">
+    <meta property="og:image:height" content="1254">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="{{ asset('images/TLK_BIG.webp') }}">
+    <meta name="twitter:image" content="{{ asset('images/LogoEternalUtama.webp') }}">
 
     {{-- Fonts — preconnect + preload + optimized load --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -83,39 +83,29 @@
     @endif
 
     {{-- ═══════════════════════════════════════════════════════════
-         NAVBAR — Eternal (redesign)
+         NAVBAR — Eternal (redesign v2)
          ═══════════════════════════════════════════════════════════ --}}
-    <header class="navbar" x-data="publicNav"
-            @click.away="close"
-            @keydown.escape.window="close">
+    <div x-data="publicNav"
+         @keydown.escape.window="close">
+
+    <header class="navbar" @click.away="close">
         <div class="navbar-inner">
 
             <a href="{{ url('/') }}" class="logo">
-                <div class="logo-mark">E</div>
+                <img src="{{ asset('images/LogoEternalFavIcon.webp') }}" alt="Eternal" class="logo-img">
                 <div class="logo-text">
                     <strong>Eternal</strong>
                     <span>Internship Management System</span>
                 </div>
             </a>
 
-            <nav class="nav-links" :class="{ open: navOpen }">
+            <nav class="nav-links">
                 <a href="{{ url('/#beranda') }}" :class="{ active: active === 'beranda' }" @click="close">Beranda</a>
                 <a href="{{ url('/#fitur') }}" :class="{ active: active === 'fitur' }" @click="close">Fitur</a>
                 <a href="{{ url('/#alur') }}" :class="{ active: active === 'alur' }" @click="close">Alur Magang</a>
                 <a href="{{ url('/#untuk-siapa') }}" :class="{ active: active === 'untuk-siapa' }" @click="close">Untuk Siapa</a>
                 <a href="{{ url('/#tentang') }}" :class="{ active: active === 'tentang' }" @click="close">Tentang</a>
                 <a href="{{ url('/#faq') }}" :class="{ active: active === 'faq' }" @click="close">FAQ</a>
-
-                <div class="nav-mobile-auth">
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="login-btn"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
-                    @else
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="login-btn login-btn-ghost"><i class="ti ti-user-plus"></i> Daftar</a>
-                        @endif
-                        <a href="{{ route('login') }}" class="login-btn"><i class="ti ti-login"></i> Masuk</a>
-                    @endauth
-                </div>
             </nav>
 
             <div class="nav-actions">
@@ -129,23 +119,44 @@
                 @endauth
             </div>
 
-            <button @click="toggle" class="mobile-menu" aria-label="Menu" :aria-expanded="navOpen">
-                <i x-show="!navOpen" class="ti ti-menu-2"></i>
-                <i x-show="navOpen" class="ti ti-x"></i>
+            <button @click="toggle" class="mobile-menu" :class="{ 'is-open': navOpen }" aria-label="Toggle menu" :aria-expanded="navOpen">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
             </button>
 
         </div>
-
-        <div x-show="navOpen" @click="close"
-             x-transition:enter="transition-opacity duration-200"
-             x-transition:enter-start="opacity-0"
-             x-transition:enter-end="opacity-100"
-             x-transition:leave="transition-opacity duration-200"
-             x-transition:leave-start="opacity-100"
-             x-transition:leave-end="opacity-0"
-             class="nav-overlay"></div>
     </header>
 
+    {{-- Mobile slide panel --}}
+    <div class="nav-overlay" :class="{ 'is-visible': navOpen }" @click="close" x-cloak></div>
+    <div class="nav-panel" :class="{ 'is-open': navOpen }">
+        <nav class="nav-panel-links">
+            <a href="{{ url('/#beranda') }}" :class="{ active: active === 'beranda' }" @click="close">Beranda</a>
+            <a href="{{ url('/#fitur') }}" :class="{ active: active === 'fitur' }" @click="close">Fitur</a>
+            <a href="{{ url('/#alur') }}" :class="{ active: active === 'alur' }" @click="close">Alur Magang</a>
+            <a href="{{ url('/#untuk-siapa') }}" :class="{ active: active === 'untuk-siapa' }" @click="close">Untuk Siapa</a>
+            <a href="{{ url('/#tentang') }}" :class="{ active: active === 'tentang' }" @click="close">Tentang</a>
+            <a href="{{ url('/#faq') }}" :class="{ active: active === 'faq' }" @click="close">FAQ</a>
+        </nav>
+
+        <div class="nav-panel-divider"></div>
+
+        <div class="nav-panel-auth">
+            @auth
+                <a href="{{ url('/dashboard') }}" class="login-btn"><i class="ti ti-layout-dashboard"></i> Dashboard</a>
+            @else
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="login-btn login-btn-ghost"><i class="ti ti-user-plus"></i> Daftar</a>
+                @endif
+                <a href="{{ route('login') }}" class="login-btn"><i class="ti ti-login"></i> Masuk</a>
+            @endauth
+        </div>
+    </div>
+
+    </div>
+
+    <div class="page-wrapper">
     @yield('content')
     <div id="main-content"></div>
     {{ $slot ?? '' }}
@@ -229,6 +240,7 @@
             </div>
         </div>
     </footer>
+    </div>
 
     <div class="cookie-consent" x-data="cookieConsent"
          x-show="show" x-cloak>

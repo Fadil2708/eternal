@@ -41,7 +41,7 @@
 <body>
     <div class="wrapper">
         <div class="header">
-            <div class="header-logo"><img src="{{ asset('images/TLK.webp') }}" alt="Eternal Internship"></div>
+            <div class="header-logo"><img src="{{ asset('images/LogoEternalUtama.webp') }}" alt="Eternal Internship"></div>
             <h1>Sistem Magang &amp; PKL Eternal Internship</h1>
             <p>Eternal Internship</p>
         </div>
