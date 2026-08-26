@@ -6,7 +6,7 @@
     <style>
         body { margin: 0; padding: 0; background-color: #f3f4f6; font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif; -webkit-font-smoothing: antialiased; }
         .wrapper { max-width: 560px; margin: 0 auto; padding: 24px 12px; }
-        .header { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); padding: 36px 24px; text-align: center; border-radius: 10px 10px 0 0; }
+        .header { background: linear-gradient(135deg, #0027c1 0%, #001cbc 100%); padding: 36px 24px; text-align: center; border-radius: 10px 10px 0 0; }
         .header-logo { width: 48px; height: 48px; background: #000; border-radius: 14px; text-align: center; margin: 0 auto 14px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); line-height: 48px; font-size: 0; }
         .header-logo img { vertical-align: middle; max-width: 32px; max-height: 32px; }
         .header h1 { color: #ffffff; margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.3px; }
@@ -28,7 +28,7 @@
         .divider { border: none; border-top: 1px solid #e5e7eb; margin: 20px 0; }
         .footer { background: #f9fafb; padding: 20px 28px; text-align: center; border-radius: 0 0 10px 10px; border-top: 1px solid #e5e7eb; }
         .footer p { color: #6b7280; font-size: 12px; margin: 3px 0; line-height: 1.5; }
-        .footer .brand-link { color: #dc2626; text-decoration: none; font-weight: 500; }
+        .footer .brand-link { color: #0027c1; text-decoration: none; font-weight: 500; }
         @media only screen and (max-width: 480px) {
             .wrapper { padding: 12px 6px; }
             .content-body { padding: 24px 16px; }
