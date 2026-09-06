@@ -22,8 +22,9 @@ yarn-error.log
 /.vscode
 /.zed
 /backup
-/bootstrap/cache/*.php
-bootstrap/cache/compiled.php
-bootstrap/cache/services.php
+/bootstrap/cache/config.php
+/bootstrap/cache/services.php
+/bootstrap/cache/packages.php
+/bootstrap/cache/routes-*.php
 .env.testing
 unit-results.txt
