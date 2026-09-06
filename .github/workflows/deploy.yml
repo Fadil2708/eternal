@@ -129,6 +129,11 @@ jobs:
       deploy_status: ${{ steps.deploy.outputs.status }}
       previous_image: ${{ steps.deploy.outputs.previous_image }}
     steps:
+      - name: Connect to Tailscale
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TS_AUTHKEY }}
+
       - name: Deploy via SSH
         id: deploy
         uses: appleboy/ssh-action@v1.2.2
@@ -137,7 +142,6 @@ jobs:
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           port: 22
-          script_stop: true
           script: |
             set -euo pipefail
             echo "========================================="
@@ -260,33 +264,36 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Determine status
-        id: status
+      - name: Send Discord notification
+        if: always()
         run: |
-          if [ "${{ needs.deploy.result }}" = "success" ]; then
-            echo "color=3066993" >> $GITHUB_OUTPUT
-            echo "status=SUCCESS" >> $GITHUB_OUTPUT
-            echo "emoji=✅" >> $GITHUB_OUTPUT
-          elif [ "${{ needs.deploy.result }}" = "skipped" ]; then
-            echo "color=16776960" >> $GITHUB_OUTPUT
-            echo "status=SKIPPED" >> $GITHUB_OUTPUT
-            echo "emoji=⏭️" >> $GITHUB_OUTPUT
+          DEPLOY_RESULT="${{ needs.deploy.result }}"
+          if [ "$DEPLOY_RESULT" = "success" ]; then
+            COLOR=3066993
+            EMOJI=":white_check_mark:"
+            TITLE="Deploy SUCCESS"
           else
-            echo "color=15158332" >> $GITHUB_OUTPUT
-            echo "status=FAILED" >> $GITHUB_OUTPUT
-            echo "emoji=❌" >> $GITHUB_OUTPUT
+            COLOR=15158332
+            EMOJI=":x:"
+            TITLE="Deploy FAILED"
           fi
 
-      - name: Send Discord notification
-        uses: appleboy/discord-action@v1.0.0
-        with:
-          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          color: ${{ steps.status.outputs.color }}
-          title: "${{ steps.status.outputs.emoji }} Deploy ${{ steps.status.outputs.status }}"
-          message: |
-            **Repository:** ${{ github.repository }}
-            **Branch:** ${{ github.ref_name }}
-            **Commit:** [`${{ github.sha }}`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-            **Author:** ${{ github.actor }}
-            **Image:** `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}`
-            **Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+          RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          curl -s -H "Content-Type: application/json" \
+            -d "{
+              \"embeds\": [{
+                \"title\": \"${EMOJI} ${TITLE}\",
+                \"color\": ${COLOR},
+                \"fields\": [
+                  {\"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true},
+                  {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
+                  {\"name\": \"Author\", \"value\": \"${{ github.actor }}\", \"inline\": true},
+                  {\"name\": \"Image\", \"value\": \"\\\`ghcr.io/${{ github.repository }}:${{ needs.build-image.outputs.image_tag }}\\\`\", \"inline\": false},
+                  {\"name\": \"Run\", \"value\": \"[View Details](${RUN_URL})\", \"inline\": false}
+                ],
+                \"footer\": {\"text\": \"GitHub Actions\"},
+                \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+              }]
+            }" \
+            "${{ secrets.DISCORD_WEBHOOK_URL }}"
