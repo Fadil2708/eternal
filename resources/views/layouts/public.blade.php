@@ -285,7 +285,8 @@
     </a>
 
     {{-- SCRIPT ALPINE.JS INIT — MENGATASI ERROR UNDEFINED COMPONENTS --}}
-    <script>
+    {{-- SCRIPT ALPINE.JS INIT DENGAN NONCE CSP --}}
+    <script nonce="{{ $cspNonce }}">
         document.addEventListener('alpine:init', () => {
             
             // 1. Komponen Navbar
