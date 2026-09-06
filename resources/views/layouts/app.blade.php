@@ -26,8 +26,7 @@
         href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/dist/tabler-icons.min.css"
     >
 
-    <!-- Alpine.js CDN -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    {{-- CDN ALPINE DIHAPUS DARI SINI KARENA SUDAH DIBAWA OLEH @livewireScripts --}}
 
     @vite(['resources/css/app.css'])
     @stack('styles')
@@ -46,7 +45,6 @@
         /* =====================================================
            MAIN WRAPPER
         ====================================================== */
-
         .dash-wrap {
             width: 100%;
             min-height: 100vh;
@@ -56,52 +54,37 @@
         /* =====================================================
            SIDEBAR - GLASSMORPHISM
         ====================================================== */
-
         .dash-wrap .sidebar {
             position: fixed;
             top: 0;
             left: 0;
-
             display: flex;
             flex-direction: column;
-
             width: var(--sidebar-width);
             height: 100vh;
-
             background: rgba(15, 15, 35, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-
             border-right: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
-
             box-sizing: border-box;
-
             z-index: 1100;
-
             overflow-y: auto;
             overflow-x: hidden;
-
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* =====================================================
            MAIN AREA
         ====================================================== */
-
         .dash-wrap .main-content {
             margin-left: var(--sidebar-width);
-
             width: calc(100% - var(--sidebar-width));
             height: 100vh;
-
             display: flex;
             flex-direction: column;
-
             position: relative;
-
             box-sizing: border-box;
-
             overflow-x: hidden;
             overflow-y: hidden;
         }
@@ -109,44 +92,31 @@
         /* =====================================================
            TOPBAR
         ====================================================== */
-
         .dash-wrap .topbar {
             position: sticky;
             top: 0;
-
             width: 100%;
             min-height: var(--topbar-height);
-
             z-index: 900;
-
             box-sizing: border-box;
         }
 
         /* =====================================================
            BODY
         ====================================================== */
-
         .dash-wrap .dash-body {
             width: 100%;
             max-width: 100%;
-
             flex: 1;
             min-height: 0;
-
             box-sizing: border-box;
-
             padding: 24px;
-
             overflow-y: auto;
         }
 
         /* =====================================================
            PROFILE STRIP
-           
-           Kalau profile strip memang diperlukan,
-           tampil setelah topbar.
         ====================================================== */
-
         .dash-wrap .profile-strip {
             width: 100%;
             box-sizing: border-box;
@@ -155,7 +125,6 @@
         /* =====================================================
            SIDEBAR BACKDROP
         ====================================================== */
-
         .sidebar-backdrop {
             display: none;
         }
@@ -163,46 +132,32 @@
         /* =====================================================
            MOBILE
         ====================================================== */
-
         @media (max-width: 768px) {
-
             .dash-wrap .sidebar {
                 transform: translateX(-100%);
                 transition: transform .25s ease;
             }
-
             .dash-wrap .sidebar.open {
                 transform: translateX(0);
             }
-
             .dash-wrap .main-content {
                 margin-left: 0;
                 width: 100%;
             }
-
             .dash-wrap .dash-body {
                 padding: 16px;
             }
-
             .sidebar-backdrop {
                 display: block;
-
                 position: fixed;
                 inset: 0;
-
                 background: rgba(15, 23, 42, .45);
-
                 z-index: 1050;
-
                 opacity: 0;
                 visibility: hidden;
                 pointer-events: none;
-
-                transition:
-                    opacity .25s ease,
-                    visibility .25s ease;
+                transition: opacity .25s ease, visibility .25s ease;
             }
-
             .sidebar-backdrop.show {
                 opacity: 1;
                 visibility: visible;
@@ -211,11 +166,9 @@
         }
 
         @media (min-width: 769px) {
-
             .dash-wrap .sidebar {
                 transform: translateX(0) !important;
             }
-
             .sidebar-backdrop {
                 display: none !important;
             }
@@ -223,24 +176,18 @@
 
         /* =====================================================
            DEFENSIVE ORDER
-           Memaksa urutan: topbar -> profile-strip -> dash-body,
-           agar tidak ada CSS lain yang membalik urutannya.
         ====================================================== */
-
         .dash-wrap .main-content {
             display: flex !important;
             flex-direction: column !important;
         }
-
         .dash-wrap .main-content > .topbar {
             order: 0 !important;
             flex: 0 0 auto;
         }
-
         .dash-wrap .main-content > .profile-strip {
             order: 1 !important;
         }
-
         .dash-wrap .main-content > .dash-body {
             order: 2 !important;
         }
@@ -254,71 +201,99 @@
     localStorage.removeItem('dark');
 </script>
 
-<div
-    class="dash-wrap"
-    x-data="{ sidebarOpen: false }"
->
+<div class="dash-wrap" x-data="{ sidebarOpen: false }">
 
-    {{-- ==========================================
-         SIDEBAR BACKDROP
-    =========================================== --}}
+    {{-- SIDEBAR BACKDROP --}}
     <div
         class="sidebar-backdrop"
         :class="sidebarOpen ? 'show' : ''"
         @click="sidebarOpen = false"
     ></div>
 
-
-    {{-- ==========================================
-         SIDEBAR
-    =========================================== --}}
+    {{-- SIDEBAR --}}
     @include('components.sidebar')
 
-
-    {{-- ==========================================
-         MAIN AREA
-    =========================================== --}}
+    {{-- MAIN AREA --}}
     <main class="main-content">
 
-        {{-- ======================================
-             TOPBAR
-        ======================================= --}}
+        {{-- TOPBAR --}}
         @include('components.topbar', [
             'title' => $pageTitle ?? ($title ?? 'Dashboard')
         ])
 
-
-        {{-- ======================================
-             PROFILE STRIP
-             
-             Jika memang ingin ditampilkan,
-             sekarang posisinya SETELAH topbar.
-        ======================================= --}}
+        {{-- PROFILE STRIP --}}
         @if($showProfileStrip)
             @include('components.profile-strip')
         @endif
 
-
-        {{-- ======================================
-             PAGE CONTENT
-        ======================================= --}}
+        {{-- PAGE CONTENT --}}
         <div class="dash-body">
-
             @yield('content')
-
             {{ $slot ?? '' }}
-
         </div>
 
     </main>
 
 </div>
 
-
 @include('components.toast')
 @include('components.confirm-modal')
 
 @vite(['resources/js/auth.js'])
+
+{{-- INISIALISASI LOGIKA ALPINE UNTUK TOAST & MODAL --}}
+<script nonce="{{ $cspNonce }}">
+    document.addEventListener('alpine:init', () => {
+        
+        // 1. Komponen Toast Stack
+        Alpine.data('toastStack', (initialToasts = []) => ({
+            toasts: initialToasts,
+            add(event) {
+                // Menangkap event dari @toast.window
+                const toastId = Date.now();
+                const detail = event.detail || {};
+                
+                this.toasts.push({
+                    id: toastId,
+                    message: detail.message || 'Berhasil',
+                    type: detail.type || 'success'
+                });
+
+                // Hapus otomatis setelah 3 detik
+                setTimeout(() => {
+                    this.remove(toastId);
+                }, 3000);
+            },
+            remove(id) {
+                this.toasts = this.toasts.filter(toast => toast.id !== id);
+            }
+        }));
+
+        // 2. Komponen Confirm Modal
+        Alpine.data('confirmModal', () => ({
+            open: false,
+            message: '',
+            callbackEvent: null,
+
+            show(message, callback) {
+                this.message = message;
+                this.callbackEvent = callback;
+                this.open = true;
+            },
+            confirm() {
+                if (this.callbackEvent) {
+                    // Triggers the Livewire action/event if passed
+                    window.Livewire?.dispatch(this.callbackEvent); 
+                }
+                this.open = false;
+            },
+            cancel() {
+                this.open = false;
+            }
+        }));
+
+    });
+</script>
 
 @stack('scripts')
 @livewireScripts
