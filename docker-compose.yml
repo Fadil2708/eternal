@@ -2,6 +2,7 @@ name: eternal
 
 services:
   app:
+    image: ghcr.io/fadil2708/eternal:latest
     build:
       context: .
       dockerfile: Dockerfile
@@ -14,6 +15,8 @@ services:
 
     volumes:
       - .:/var/www/html
+      - eternal-storage-private:/var/www/html/storage/app/private
+      - eternal-storage-local:/var/www/html/storage/app/local
 
     environment:
       APP_ENV: production
@@ -156,6 +159,12 @@ volumes:
 
   eternal-redis-data:
     name: eternal_eternal-redis-data
+
+  eternal-storage-private:
+    name: eternal_storage_private
+
+  eternal-storage-local:
+    name: eternal_storage_local
 
 
 networks:

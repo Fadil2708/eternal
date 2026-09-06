@@ -125,9 +125,6 @@ jobs:
     needs: build-image
     runs-on: ubuntu-latest
     environment: production
-    outputs:
-      deploy_status: ${{ steps.deploy.outputs.status }}
-      previous_image: ${{ steps.deploy.outputs.previous_image }}
     steps:
       - name: Connect to Tailscale
         uses: tailscale/github-action@v3
@@ -150,125 +147,53 @@ jobs:
 
             cd /opt/docker/eternal
 
-            # Save current image tag for rollback
-            PREVIOUS_IMAGE=$(docker inspect --format='{{.Config.Image}}' eternal-app 2>/dev/null || echo "none")
-            echo "previous_image=${PREVIOUS_IMAGE}" > /tmp/deploy_output
-            echo "Previous image: ${PREVIOUS_IMAGE}"
-
-            echo "--- 1/8 Login to GHCR ---"
+            echo "--- 1/6 Login to GHCR ---"
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
-            echo "--- 2/8 Pull latest code ---"
+            echo "--- 2/6 Pull latest code ---"
             sudo git fetch origin main
             sudo git reset --hard origin/main
             sudo chown -R skbprime:skbprime /opt/docker/eternal
 
-            echo "--- 3/8 Setup .env ---"
-            if [ ! -f .env ]; then
-              cp deploy/.env.production .env
-              echo "Created .env from deploy/.env.production template"
-              echo "NOTE: Update .env on server with actual secrets!"
-            fi
-
-            echo "--- Load .env variables ---"
+            echo "--- 3/6 Load .env ---"
             set -a
             source .env
             set +a
 
-            echo "--- 4/8 Running backup ---"
+            echo "--- 4/6 Running backup ---"
             sudo bash deploy/backup.sh || echo "Backup failed, continuing..."
 
-            echo "--- 5/8 Pull new Docker image ---"
-            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
-
-            echo "--- 6/8 Stop old app container ---"
-            docker stop eternal-app 2>/dev/null || true
-            docker rm eternal-app 2>/dev/null || true
-
-            echo "--- 7/8 Start new app container from GHCR image ---"
-            docker run -d \
-              --name eternal-app \
-              --restart unless-stopped \
-              --network eternal_eternal-network \
-              -p 8082:8080 \
-              -e APP_ENV=production \
-              -e APP_DEBUG=false \
-              -e APP_URL=${APP_URL:-https://telkom-magang.nfy.fyi} \
-              -e DB_HOST=mysql \
-              -e DB_PORT=3306 \
-              -e DB_DATABASE=${DB_DATABASE:-magang_telkom} \
-              -e DB_USERNAME=${DB_USERNAME:-root} \
-              -e DB_PASSWORD=${DB_PASSWORD} \
-              -e REDIS_HOST=redis \
-              -e REDIS_PORT=6379 \
-              -v /opt/docker/eternal/.env:/var/www/html/.env:ro \
-              -v eternal-storage-private:/var/www/html/storage/app/private \
-              -v eternal-storage-local:/var/www/html/storage/app/local \
-              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
-
-            echo "--- Fix ownership back to www-data ---"
-            sudo chown -R www-data:www-data /opt/docker/eternal/storage
-            sudo chown -R www-data:www-data /opt/docker/eternal/bootstrap/cache
+            echo "--- 5/6 Pull new Docker image & restart ---"
+            docker compose pull app
+            docker compose up -d --force-recreate app queue
 
             echo "--- Waiting for container to be ready ---"
             sleep 15
 
-            echo "--- 8/8 Health check ---"
+            echo "--- 6/6 Health check ---"
             HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
             echo "App HTTP status: ${HTTP_STATUS}"
 
             if [ "${HTTP_STATUS}" = "200" ] || [ "${HTTP_STATUS}" = "302" ]; then
-              echo "status=success" >> /tmp/deploy_output
+              echo "status=success" > /tmp/deploy_output
               echo "========================================="
               echo "  DEPLOY SUCCESS!"
               echo "  Time: $(date)"
               echo "========================================="
             else
-              echo "status=failed" >> /tmp/deploy_output
+              echo "status=failed" > /tmp/deploy_output
               echo "========================================="
               echo "  DEPLOY FAILED: HTTP ${HTTP_STATUS}"
               echo "  Attempting rollback..."
               echo "========================================="
 
-              # Rollback
-              docker stop eternal-app 2>/dev/null || true
-              docker rm eternal-app 2>/dev/null || true
-
-              if [ "${PREVIOUS_IMAGE}" != "none" ] && [ -n "${PREVIOUS_IMAGE}" ]; then
-                docker run -d \
-                  --name eternal-app \
-                  --restart unless-stopped \
-                  --network eternal_eternal-network \
-                  -p 8082:8080 \
-                  -e APP_ENV=production \
-                  -e APP_DEBUG=false \
-                  -e APP_URL=${APP_URL:-https://telkom-magang.nfy.fyi} \
-                  -e DB_HOST=mysql \
-                  -e DB_PORT=3306 \
-                  -e DB_DATABASE=${DB_DATABASE:-magang_telkom} \
-                  -e DB_USERNAME=${DB_USERNAME:-root} \
-                  -e DB_PASSWORD=${DB_PASSWORD} \
-                  -e REDIS_HOST=redis \
-                  -e REDIS_PORT=6379 \
-                  -v /opt/docker/eternal/.env:/var/www/html/.env:ro \
-                  -v eternal-storage-private:/var/www/html/storage/app/private \
-                  -v eternal-storage-local:/var/www/html/storage/app/local \
-                  "${PREVIOUS_IMAGE}"
-                sleep 10
-                ROLLBACK_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
-                echo "Rollback HTTP status: ${ROLLBACK_STATUS}"
-                echo "Rolled back to: ${PREVIOUS_IMAGE}"
-              else
-                echo "No previous image to rollback to"
-              fi
+              docker compose down
+              docker compose up -d --force-recreate app queue
+              sleep 10
+              ROLLBACK_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
+              echo "Rollback HTTP status: ${ROLLBACK_STATUS}"
               exit 1
             fi
-
-      - name: Set deploy status
-        if: always()
-        run: |
-          STATUS=$(grep "status=" /tmp/deploy_output 2>/dev/null | cut -d= -f2 || echo "unknown")
-          echo "deploy_status=${STATUS}" >> $GITHUB_OUTPUT
 
   notify:
     name: Discord Notification
