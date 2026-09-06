@@ -1,0 +1,290 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  ci:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.3
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, gd, exif, iconv, intl, mysql
+          coverage: none
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Get Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer install --no-progress --no-interaction --prefer-dist
+
+      - name: Install NPM dependencies
+        run: npm ci
+
+      - name: Build frontend assets
+        run: npm run build
+
+      - name: Copy .env
+        run: cp .env.example .env
+
+      - name: Generate App Key
+        run: php artisan key:generate
+
+      - name: Run Laravel Pint (code style)
+        run: php vendor/bin/pint --test
+
+      - name: Run PHPUnit tests
+        run: php artisan test
+        env:
+          DB_CONNECTION: sqlite
+          DB_DATABASE: ":memory:"
+
+  build-image:
+    name: Build Docker Image
+    needs: ci
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.meta.outputs.version }}
+      image_digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=sha,prefix=
+            type=raw,value=latest
+
+      - name: Build and push Docker image
+        id: build
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          build-args: |
+            APP_ENV=production
+            APP_DEBUG=false
+
+      - name: Save image info
+        run: |
+          echo "### Docker Image Built" >> $GITHUB_STEP_SUMMARY
+          echo "- Tag: \`${{ steps.meta.outputs.version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Digest: \`${{ steps.build.outputs.digest }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Registry: \`${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}\`" >> $GITHUB_STEP_SUMMARY
+
+  deploy:
+    name: Deploy to Server
+    needs: build-image
+    runs-on: ubuntu-latest
+    environment: production
+    outputs:
+      deploy_status: ${{ steps.deploy.outputs.status }}
+      previous_image: ${{ steps.deploy.outputs.previous_image }}
+    steps:
+      - name: Deploy via SSH
+        id: deploy
+        uses: appleboy/ssh-action@v1.2.2
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            set -euo pipefail
+            echo "========================================="
+            echo "  DEPLOY STARTED at $(date)"
+            echo "========================================="
+
+            cd /opt/docker/eternal
+
+            # Save current image tag for rollback
+            PREVIOUS_IMAGE=$(docker inspect --format='{{.Config.Image}}' eternal-app 2>/dev/null || echo "none")
+            echo "previous_image=${PREVIOUS_IMAGE}" > /tmp/deploy_output
+            echo "Previous image: ${PREVIOUS_IMAGE}"
+
+            echo "--- 1/8 Login to GHCR ---"
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
+
+            echo "--- 2/8 Pull latest code ---"
+            git fetch origin main
+            git reset --hard origin/main
+
+            echo "--- 3/8 Setup .env ---"
+            if [ ! -f .env ]; then
+              cp deploy/.env.production .env
+              echo "Created .env from deploy/.env.production template"
+              echo "NOTE: Update .env on server with actual secrets!"
+            fi
+
+            echo "--- 4/8 Running backup ---"
+            bash deploy/backup.sh || echo "Backup failed, continuing..."
+
+            echo "--- 5/8 Pull new Docker image ---"
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
+
+            echo "--- 6/8 Stop old app container ---"
+            docker stop eternal-app 2>/dev/null || true
+            docker rm eternal-app 2>/dev/null || true
+
+            echo "--- 7/8 Start new app container from GHCR image ---"
+            docker run -d \
+              --name eternal-app \
+              --restart unless-stopped \
+              --network eternal_eternal-network \
+              -p 8082:8080 \
+              -e APP_ENV=production \
+              -e APP_DEBUG=false \
+              -e APP_URL=${APP_URL:-https://telkom-magang.nfy.fyi} \
+              -e DB_HOST=mysql \
+              -e DB_PORT=3306 \
+              -e DB_DATABASE=${DB_DATABASE:-magang_telkom} \
+              -e DB_USERNAME=${DB_USERNAME:-root} \
+              -e DB_PASSWORD=${DB_PASSWORD} \
+              -e REDIS_HOST=redis \
+              -e REDIS_PORT=6379 \
+              -v eternal-storage-private:/var/www/html/storage/app/private \
+              -v eternal-storage-local:/var/www/html/storage/app/local \
+              ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
+
+            echo "--- Waiting for container to be ready ---"
+            sleep 15
+
+            echo "--- 8/8 Health check ---"
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
+            echo "App HTTP status: ${HTTP_STATUS}"
+
+            if [ "${HTTP_STATUS}" = "200" ] || [ "${HTTP_STATUS}" = "302" ]; then
+              echo "status=success" >> /tmp/deploy_output
+              echo "========================================="
+              echo "  DEPLOY SUCCESS!"
+              echo "  Time: $(date)"
+              echo "========================================="
+            else
+              echo "status=failed" >> /tmp/deploy_output
+              echo "========================================="
+              echo "  DEPLOY FAILED: HTTP ${HTTP_STATUS}"
+              echo "  Attempting rollback..."
+              echo "========================================="
+
+              # Rollback
+              docker stop eternal-app 2>/dev/null || true
+              docker rm eternal-app 2>/dev/null || true
+
+              if [ "${PREVIOUS_IMAGE}" != "none" ]; then
+                docker run -d \
+                  --name eternal-app \
+                  --restart unless-stopped \
+                  --network eternal_eternal-network \
+                  -p 8082:8080 \
+                  -e APP_ENV=production \
+                  -e APP_DEBUG=false \
+                  -e APP_URL=${APP_URL:-https://telkom-magang.nfy.fyi} \
+                  -e DB_HOST=mysql \
+                  -e DB_PORT=3306 \
+                  -e DB_DATABASE=${DB_DATABASE:-magang_telkom} \
+                  -e DB_USERNAME=${DB_USERNAME:-root} \
+                  -e DB_PASSWORD=${DB_PASSWORD} \
+                  -e REDIS_HOST=redis \
+                  -e REDIS_PORT=6379 \
+                  -v eternal-storage-private:/var/www/html/storage/app/private \
+                  -v eternal-storage-local:/var/www/html/storage/app/local \
+                  "${PREVIOUS_IMAGE}"
+                sleep 10
+                ROLLBACK_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
+                echo "Rollback HTTP status: ${ROLLBACK_STATUS}"
+                echo "Rolled back to: ${PREVIOUS_IMAGE}"
+              else
+                echo "No previous image to rollback to"
+              fi
+              exit 1
+            fi
+
+      - name: Set deploy status
+        if: always()
+        run: |
+          STATUS=$(grep "status=" /tmp/deploy_output 2>/dev/null | cut -d= -f2 || echo "unknown")
+          echo "deploy_status=${STATUS}" >> $GITHUB_OUTPUT
+
+  notify:
+    name: Discord Notification
+    needs: [build-image, deploy]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Determine status
+        id: status
+        run: |
+          if [ "${{ needs.deploy.result }}" = "success" ]; then
+            echo "color=3066993" >> $GITHUB_OUTPUT
+            echo "status=SUCCESS" >> $GITHUB_OUTPUT
+            echo "emoji=✅" >> $GITHUB_OUTPUT
+          elif [ "${{ needs.deploy.result }}" = "skipped" ]; then
+            echo "color=16776960" >> $GITHUB_OUTPUT
+            echo "status=SKIPPED" >> $GITHUB_OUTPUT
+            echo "emoji=⏭️" >> $GITHUB_OUTPUT
+          else
+            echo "color=15158332" >> $GITHUB_OUTPUT
+            echo "status=FAILED" >> $GITHUB_OUTPUT
+            echo "emoji=❌" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send Discord notification
+        uses: appleboy/discord-action@v1.0.0
+        with:
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          color: ${{ steps.status.outputs.color }}
+          title: "${{ steps.status.outputs.emoji }} Deploy ${{ steps.status.outputs.status }}"
+          message: |
+            **Repository:** ${{ github.repository }}
+            **Branch:** ${{ github.ref_name }}
+            **Commit:** [`${{ github.sha }}`](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
+            **Author:** ${{ github.actor }}
+            **Image:** `${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}`
+            **Run:** [View Details](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
