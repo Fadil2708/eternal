@@ -201,6 +201,7 @@ jobs:
               -e DB_PASSWORD=${DB_PASSWORD} \
               -e REDIS_HOST=redis \
               -e REDIS_PORT=6379 \
+              -v /opt/docker/eternal/.env:/var/www/html/.env:ro \
               -v eternal-storage-private:/var/www/html/storage/app/private \
               -v eternal-storage-local:/var/www/html/storage/app/local \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
@@ -233,7 +234,7 @@ jobs:
               docker stop eternal-app 2>/dev/null || true
               docker rm eternal-app 2>/dev/null || true
 
-              if [ "${PREVIOUS_IMAGE}" != "none" ]; then
+              if [ "${PREVIOUS_IMAGE}" != "none" ] && [ -n "${PREVIOUS_IMAGE}" ]; then
                 docker run -d \
                   --name eternal-app \
                   --restart unless-stopped \
@@ -249,6 +250,7 @@ jobs:
                   -e DB_PASSWORD=${DB_PASSWORD} \
                   -e REDIS_HOST=redis \
                   -e REDIS_PORT=6379 \
+                  -v /opt/docker/eternal/.env:/var/www/html/.env:ro \
                   -v eternal-storage-private:/var/www/html/storage/app/private \
                   -v eternal-storage-local:/var/www/html/storage/app/local \
                   "${PREVIOUS_IMAGE}"
