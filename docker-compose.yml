@@ -14,7 +14,7 @@ services:
       - "8082:8080"
 
     volumes:
-      - /opt/docker/eternal/.env:/var/www/html/.env:ro
+      - .:/var/www/html
       - eternal-storage-private:/var/www/html/storage/app/private
       - eternal-storage-local:/var/www/html/storage/app/local
 
