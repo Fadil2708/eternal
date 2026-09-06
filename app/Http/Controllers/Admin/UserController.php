@@ -7,6 +7,7 @@ use App\Http\Requests\User\CreateUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use App\Services\UserService;
 use App\Traits\ApiResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
@@ -16,6 +17,10 @@ use Illuminate\Support\Str;
 class UserController extends Controller
 {
     use ApiResponse;
+
+    public function __construct(
+        private readonly UserService $userService
+    ) {}
 
     public function index(): JsonResponse
     {
@@ -65,6 +70,23 @@ class UserController extends Controller
             ->findOrFail($id);
 
         return $this->success(new UserResource($user), 'Detail pengguna.');
+    }
+
+    public function destroy(string $id): JsonResponse
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return $this->error('Tidak dapat menghapus akun sendiri.', 422);
+        }
+
+        try {
+            $this->userService->delete($user);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 422);
+        }
+
+        return $this->success(message: 'Pengguna berhasil dihapus.');
     }
 
     public function update(UpdateUserRequest $request, string $id): JsonResponse

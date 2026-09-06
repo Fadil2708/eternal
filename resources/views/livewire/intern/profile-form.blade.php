@@ -269,6 +269,28 @@
             box-shadow: 0 0 0 3px rgba(49,85,231,.15);
         }
         .prf-input::placeholder { color: #a8b0c1; }
+
+        /* ═══ DATE INPUT ═══ */
+        .prf-date-wrap {
+            position: relative;
+        }
+        .prf-date-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--prf-muted);
+            font-size: 16px;
+            pointer-events: none;
+            transition: color .2s ease;
+        }
+        .prf-date-wrap:focus-within .prf-date-icon {
+            color: var(--prf-primary);
+        }
+        .prf-date-wrap .prf-input {
+            padding-left: 42px;
+        }
+
         .prf-error { font-size: 12px; color: var(--prf-danger); font-weight: 600; margin-top: 2px; }
         .prf-hint { font-size: 12px; color: var(--prf-muted); margin: 8px 0 0; }
 
@@ -629,6 +651,20 @@
                             <span class="prf-doc-status">Belum diunggah</span>
                         </span>
                     @endif
+
+                    @if($existingTranscript)
+                        <a href="{{ route('profile.file', 'transcript') }}" target="_blank" class="prf-doc done">
+                            <div class="prf-doc-icon"><i class="ti ti-school"></i></div>
+                            <span class="prf-doc-name">Transkrip Nilai</span>
+                            <span class="prf-doc-status"><i class="ti ti-circle-check"></i> Terunggah</span>
+                        </a>
+                    @else
+                        <span class="prf-doc">
+                            <div class="prf-doc-icon"><i class="ti ti-school-off"></i></div>
+                            <span class="prf-doc-name">Transkrip Nilai</span>
+                            <span class="prf-doc-status">Belum diunggah</span>
+                        </span>
+                    @endif
                 </div>
             </div>
 
@@ -682,13 +718,16 @@
                             @error('major') <div class="prf-error">{{ $message }}</div> @enderror
                         </div>
                         <div class="prf-field">
-                            <label>No. Telepon</label>
+                            <label>No. Telepon <span class="prf-req">*</span></label>
                             <input wire:model="phone" type="text" class="prf-input" placeholder="08xxxxxxxxxx">
                             @error('phone') <div class="prf-error">{{ $message }}</div> @enderror
                         </div>
                         <div class="prf-field">
                             <label>Tanggal Lahir</label>
-                            <input wire:model="date_of_birth" type="date" class="prf-input">
+                            <div class="prf-date-wrap">
+                                <i class="ti ti-calendar-heart prf-date-icon"></i>
+                                <input wire:model="date_of_birth" type="date" class="prf-input">
+                            </div>
                             @error('date_of_birth') <div class="prf-error">{{ $message }}</div> @enderror
                         </div>
                         <div class="prf-field prf-field-wide">
@@ -836,6 +875,34 @@
                                 </div>
                             @endif
                             @error('cover_letter') <div class="prf-error">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="prf-field prf-field-wide">
+                            <label>Transkrip Nilai <span class="prf-req">*</span></label>
+                            <div class="prf-upload">
+                                <label class="prf-dropzone">
+                                    <div class="prf-drop-icon"><i class="ti ti-school"></i></div>
+                                    <div>
+                                        <p class="prf-drop-title">Pilih file transkrip nilai</p>
+                                        <p class="prf-drop-sub">PDF, maks 5MB</p>
+                                    </div>
+                                    <input wire:key="profile-transcript-upload" wire:model="transcript" type="file" accept=".pdf" class="prf-file-input">
+                                </label>
+                            </div>
+                            <div wire:loading wire:target="transcript" class="prf-upload-status prf-upload-loading">
+                                <i class="ti ti-loader prf-spin"></i> Mengupload transkrip...
+                            </div>
+                            @if($transcript)
+                                <div class="prf-upload-status prf-upload-ok">
+                                    <i class="ti ti-circle-check"></i> {{ $transcript->getClientOriginalName() }}
+                                </div>
+                            @endif
+                            @if($existingTranscript && !$transcript)
+                                <div class="prf-upload-status prf-upload-ok">
+                                    <i class="ti ti-circle-check"></i> Transkrip Nilai terunggah
+                                </div>
+                            @endif
+                            @error('transcript') <div class="prf-error">{{ $message }}</div> @enderror
                         </div>
                     </div>
                 </div>

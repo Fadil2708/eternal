@@ -14,6 +14,7 @@ use App\Http\Controllers\Supervisor\DashboardController;
 use App\Http\Controllers\Supervisor\InternController;
 use App\Http\Controllers\WelcomeController;
 use App\Livewire\Admin\ApplicationReview;
+use App\Livewire\Admin\ApplicationDetail;
 use App\Livewire\Admin\CertificateList;
 use App\Livewire\Admin\EvaluationList;
 use App\Livewire\Admin\FaqList;
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/vacancies/create', VacancyForm::class)->name('vacancies.create');
         Route::get('/vacancies/{id}/edit', VacancyForm::class)->name('vacancies.edit');
         Route::get('/applications', ApplicationReview::class)->name('applications.index');
+        Route::get('/applications/{id}', ApplicationDetail::class)->name('applications.show');
         Route::get('/applications/{id}/file/{type}', [ApplicationController::class, 'downloadFile'])->name('applications.file');
         Route::get('/supervisors', SupervisorMapping::class)->name('supervisors.index');
         Route::get('/invites', InviteList::class)->name('invites');

@@ -53,7 +53,8 @@ class CertificateServiceTest extends TestCase
         $this->assertEquals($admin->id, $certificate->issued_by);
         $this->assertStringContainsString('CERT/TELKOM-SKB/'.now()->year, $certificate->certificate_number);
         $this->assertEquals(64, strlen($certificate->qr_code_token));
-        $this->assertStringContainsString('/api/v1/verify/', $certificate->qr_code_url);
+        $this->assertStringContainsString('/verify/', $certificate->qr_code_url);
+        $this->assertStringEndsWith($certificate->qr_code_token, $certificate->qr_code_url);
         $this->assertNotNull($certificate->issued_at);
     }
 

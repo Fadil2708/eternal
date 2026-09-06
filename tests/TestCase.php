@@ -15,9 +15,19 @@ abstract class TestCase extends BaseTestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(\Illuminate\Foundation\Http\Middleware\ValidateCsrfToken::class);
+    }
+
     protected function loginAsAdmin(): User
     {
-        $user = User::factory()->create(['role' => 'admin', 'is_active' => true]);
+        $user = User::factory()->create([
+            'role' => 'admin',
+            'is_active' => true,
+        ]);
+
         $this->actingAs($user);
 
         return $user;
@@ -25,8 +35,18 @@ abstract class TestCase extends BaseTestCase
 
     protected function loginAsSupervisor(array $profileData = []): User
     {
-        $user = User::factory()->create(['role' => 'supervisor', 'is_active' => true]);
-        SupervisorProfile::factory()->create(array_merge(['user_id' => $user->id], $profileData));
+        $user = User::factory()->create([
+            'role' => 'supervisor',
+            'is_active' => true,
+        ]);
+
+        SupervisorProfile::factory()->create(
+            array_merge(
+                ['user_id' => $user->id],
+                $profileData
+            )
+        );
+
         $this->actingAs($user);
 
         return $user;
@@ -34,8 +54,15 @@ abstract class TestCase extends BaseTestCase
 
     protected function loginAsIntern(array $profileData = []): User
     {
-        $user = User::factory()->create(['role' => 'intern', 'is_active' => true]);
-        InternProfile::factory()->create(array_merge(['user_id' => $user->id], $profileData));
+        $user = User::factory()->intern()->create();
+
+        InternProfile::factory()->create(
+            array_merge(
+                ['user_id' => $user->id],
+                $profileData
+            )
+        );
+
         $this->actingAs($user);
 
         return $user;
@@ -54,8 +81,11 @@ abstract class TestCase extends BaseTestCase
         ]);
     }
 
-    protected function createCompletedInternship(User $intern, User $supervisor, Vacancy $vacancy): array
-    {
+    protected function createCompletedInternship(
+        User $intern,
+        User $supervisor,
+        Vacancy $vacancy
+    ): array {
         $application = Application::factory()->create([
             'intern_id' => $intern->id,
             'vacancy_id' => $vacancy->id,
@@ -70,6 +100,9 @@ abstract class TestCase extends BaseTestCase
             'status' => 'active',
         ]);
 
-        return ['application' => $application, 'internship' => $internship];
+        return [
+            'application' => $application,
+            'internship' => $internship,
+        ];
     }
 }

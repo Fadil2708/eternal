@@ -86,4 +86,19 @@ class LogbookController extends Controller
             'Logbook berhasil dikirim ke supervisor.'
         );
     }
+
+    public function destroy(string $id): JsonResponse
+    {
+        try {
+            $logbook = Logbook::where('intern_id', auth()->id())->findOrFail($id);
+
+            $this->logbookService->delete($logbook, auth()->user());
+        } catch (ModelNotFoundException $e) {
+            return $this->error('Logbook tidak ditemukan atau bukan milik Anda.', 422);
+        } catch (\Exception $e) {
+            return $this->error($e->getMessage(), 422);
+        }
+
+        return $this->success(message: 'Logbook berhasil dihapus.');
+    }
 }

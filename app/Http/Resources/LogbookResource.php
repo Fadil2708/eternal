@@ -11,6 +11,7 @@ class LogbookResource extends JsonResource
         return [
             'id' => $this->id,
             'activity_date' => $this->activity_date?->format('Y-m-d'),
+            'attendance_type' => $this->attendance_type,
             'activities' => $this->activities,
             'output' => $this->output,
             'validation_status' => $this->validation_status,

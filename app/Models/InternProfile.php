@@ -16,7 +16,7 @@ class InternProfile extends Model
     protected $fillable = [
         'user_id', 'full_name', 'gender', 'phone', 'address', 'date_of_birth',
         'institution_name', 'institution_type', 'major', 'student_id',
-        'photo_url', 'cv_url', 'cover_letter_url',
+        'photo_url', 'cv_url', 'cover_letter_url', 'transcript_url',
     ];
 
     protected $casts = [
@@ -37,7 +37,7 @@ class InternProfile extends Model
 
     public static function requiredFields(): array
     {
-        return ['full_name', 'phone', 'institution_name', 'major', 'student_id', 'cv_url'];
+        return ['full_name', 'phone', 'institution_name', 'major', 'student_id', 'cv_url', 'transcript_url'];
     }
 
     public function isComplete(): bool
@@ -47,6 +47,7 @@ class InternProfile extends Model
             && ! empty($this->student_id)
             && ! empty($this->institution_name)
             && ! empty($this->major)
-            && ! empty($this->cv_url);
+            && ! empty($this->cv_url)
+            && ! empty($this->transcript_url);
     }
 }

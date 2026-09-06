@@ -569,6 +569,15 @@
                             </div>
                         </div>
                         <span class="lgr-date"><i class="ti ti-calendar"></i>{{ $logbook->activity_date?->isoFormat('dddd, D MMMM Y') ?? '—' }}</span>
+                        @if($logbook->attendance_type === 'sakit')
+                            <span class="lgr-badge" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a;">
+                                <i class="ti ti-heart-rate-monitor"></i> Sakit
+                            </span>
+                        @elseif($logbook->attendance_type === 'izin')
+                            <span class="lgr-badge" style="background:#e0e7ff;color:#3730a3;border:1px solid #c7d2fe;">
+                                <i class="ti ti-user-off"></i> Izin
+                            </span>
+                        @endif
                         <span class="lgr-badge is-{{ $logbook->validation_status }}">
                             {{ $logbook->validation_status === 'submitted' ? 'Terkirim' : ($logbook->validation_status === 'approved' ? 'Disetujui' : ($logbook->validation_status === 'revision_requested' ? 'Perlu Revisi' : 'Draft')) }}
                         </span>

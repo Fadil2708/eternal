@@ -36,7 +36,7 @@ class ReportList extends Component
             ->toArray();
         $this->statusCounts['total'] = array_sum($this->statusCounts);
 
-        $reports = FinalReport::with(['intern.internProfile', 'internship.vacancy'])
+        $reports = FinalReport::with(['intern.internProfile', 'internship.vacancy', 'internship.supervisor.supervisorProfile'])
             ->when($this->search, function ($q) {
                 $q->whereHas('intern', function ($q2) {
                     $q2->where('email', 'like', "%{$this->search}%")

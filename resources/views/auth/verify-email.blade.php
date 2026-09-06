@@ -25,7 +25,7 @@
     </div>
 
     <div class="auth-actions">
-        <form method="POST" action="{{ route('verification.send') }}" style="flex:1"
+        <form method="POST" action="{{ route('verification.send', [], false) }}" style="flex:1"
               x-data="{ loading: false }" @submit="loading = true">
             @csrf
             <button type="submit" class="btn-primary btn-full" style="padding:10px;font-size:13px"

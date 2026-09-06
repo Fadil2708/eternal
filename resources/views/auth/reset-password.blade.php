@@ -9,7 +9,7 @@
         <p class="auth-desc">Masukkan password baru Anda</p>
     </div>
 
-    <form method="POST" action="{{ route('password.store') }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
+    <form method="POST" action="{{ route('password.store', [], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
         @csrf
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 

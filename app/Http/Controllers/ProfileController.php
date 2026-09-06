@@ -93,6 +93,7 @@ SVG;
             'photo' => 'photo_url',
             'cv' => 'cv_url',
             'cover-letter' => 'cover_letter_url',
+            'transcript' => 'transcript_url',
             default => null,
         };
 

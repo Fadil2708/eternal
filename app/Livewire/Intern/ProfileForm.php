@@ -40,6 +40,8 @@ class ProfileForm extends Component
 
     public ?TemporaryUploadedFile $cover_letter = null;
 
+    public ?TemporaryUploadedFile $transcript = null;
+
     public $selectedSkills = [];
 
     public $existingPhoto = null;
@@ -47,6 +49,8 @@ class ProfileForm extends Component
     public $existingCv = null;
 
     public $existingCoverLetter = null;
+
+    public $existingTranscript = null;
 
     public $allSkills = [];
 
@@ -77,6 +81,7 @@ class ProfileForm extends Component
             $this->existingPhoto = $profile->photo_url;
             $this->existingCv = $profile->cv_url;
             $this->existingCoverLetter = $profile->cover_letter_url;
+            $this->existingTranscript = $profile->transcript_url;
 
             $this->selectedSkills = $profile->skills
                 ->pluck('id')
@@ -121,6 +126,16 @@ class ProfileForm extends Component
         ]);
     }
 
+    public function updatedTranscript(): void
+    {
+        Log::info('TRANSCRIPT UPLOAD RECEIVED', [
+            'exists' => $this->transcript !== null,
+            'name' => $this->transcript?->getClientOriginalName(),
+            'mime' => $this->transcript?->getMimeType(),
+            'size' => $this->transcript?->getSize(),
+        ]);
+    }
+
     public function save(): void
     {
         Log::info('PROFILE SAVE DEBUG', [
@@ -152,6 +167,9 @@ class ProfileForm extends Component
                 ? 'nullable|file|mimes:pdf|max:5120'
                 : 'required|file|mimes:pdf|max:5120',
             'cover_letter' => 'nullable|file|mimes:pdf|max:5120',
+            'transcript' => $this->existingTranscript
+                ? 'nullable|file|mimes:pdf|max:5120'
+                : 'required|file|mimes:pdf|max:5120',
         ]);
 
         $data = [
@@ -229,6 +247,23 @@ class ProfileForm extends Component
 
         /*
         |--------------------------------------------------------------------------
+        | TRANSCRIPT
+        |--------------------------------------------------------------------------
+        */
+
+        if ($this->transcript instanceof TemporaryUploadedFile) {
+
+            $transcriptPath = $this->transcript->store('transcripts', 'public');
+
+            Log::info('TRANSCRIPT STORED', [
+                'path' => $transcriptPath,
+            ]);
+
+            $data['transcript_url'] = $transcriptPath;
+        }
+
+        /*
+        |--------------------------------------------------------------------------
         | SAVE PROFILE
         |--------------------------------------------------------------------------
         */
@@ -255,6 +290,7 @@ class ProfileForm extends Component
         $this->existingPhoto = $profile->photo_url;
         $this->existingCv = $profile->cv_url;
         $this->existingCoverLetter = $profile->cover_letter_url;
+        $this->existingTranscript = $profile->transcript_url;
 
         $this->skillsList = $profile->skills;
         $this->hasProfile = true;
@@ -262,6 +298,7 @@ class ProfileForm extends Component
         $this->photo = null;
         $this->cv = null;
         $this->cover_letter = null;
+        $this->transcript = null;
 
         $this->isEditing = false;
 
@@ -270,6 +307,7 @@ class ProfileForm extends Component
             'photo_url' => $profile->photo_url,
             'cv_url' => $profile->cv_url,
             'cover_letter_url' => $profile->cover_letter_url,
+            'transcript_url' => $profile->transcript_url,
         ]);
 
         $this->dispatch(
@@ -302,6 +340,7 @@ class ProfileForm extends Component
         $this->existingPhoto = $profile->photo_url;
         $this->existingCv = $profile->cv_url;
         $this->existingCoverLetter = $profile->cover_letter_url;
+        $this->existingTranscript = $profile->transcript_url;
 
         $this->selectedSkills = $profile->skills
             ->pluck('id')
@@ -313,6 +352,7 @@ class ProfileForm extends Component
         $this->photo = null;
         $this->cv = null;
         $this->cover_letter = null;
+        $this->transcript = null;
 
         $this->resetValidation();
 

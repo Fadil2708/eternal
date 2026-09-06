@@ -5,6 +5,7 @@ namespace Tests\Feature\Http;
 use App\Models\Certificate;
 use App\Models\Internship;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class CertificateAccessTest extends TestCase
@@ -70,20 +71,33 @@ class CertificateAccessTest extends TestCase
 
         $response->assertStatus(200);
     }
-
-    public function test_intern_download_own_certificate_not_found(): void
+    public function test_intern_can_download_own_certificate_when_file_is_not_generated(): void
     {
         $intern = User::factory()->intern()->create();
-        $internship = Internship::factory()->completed()->create(['intern_id' => $intern->id]);
+
+        $internship = Internship::factory()->completed()->create([
+            'intern_id' => $intern->id,
+        ]);
+
         $certificate = Certificate::factory()->create([
             'internship_id' => $internship->id,
             'intern_id' => $intern->id,
             'certificate_file_url' => null,
         ]);
 
-        $response = $this->actingAs($intern)->getJson('/api/v1/certificates/'.$certificate->id.'/download');
+        $response = $this->actingAs($intern)->get(
+            '/api/v1/certificates/'.$certificate->id.'/download'
+        );
 
-        $response->assertStatus(404);
+        $response->assertOk();
+
+        $certificate->refresh();
+
+        $this->assertNotNull($certificate->certificate_file_url);
+
+        $this->assertTrue(
+            Storage::disk('private')->exists($certificate->certificate_file_url)
+        );
     }
 
     public function test_intern_cannot_download_others_certificate(): void

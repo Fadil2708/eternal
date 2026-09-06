@@ -41,20 +41,27 @@ body {
 ========================================= */
 
 .navbar {
-    height: 80px;
+    height: 72px;
     display: flex;
     align-items: center;
 
-    border-bottom: 1px solid rgba(230,234,242,.6);
+    background: rgba(255,255,255,.88);
 
-    background: rgba(255,255,255,.82);
-
-    position: sticky;
-    top: 0;
+    position: fixed;
+    top: 16px;
+    left: 16px;
+    right: 16px;
     z-index: 100;
 
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
+
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(49,85,231,.08), 0 1px 3px rgba(0,0,0,.04);
+}
+
+.navbar-spacer {
+    height: calc(72px + 32px);
 }
 
 .navbar-inner {
@@ -1600,8 +1607,16 @@ body {
 @media (max-width: 760px) {
 
     .navbar {
-        height: 64px;
+        height: 60px;
         background: rgba(255,255,255,.96);
+        top: 8px;
+        left: 8px;
+        right: 8px;
+        border-radius: 12px;
+    }
+
+    .navbar-spacer {
+        height: calc(60px + 16px);
     }
 
     .nav-links,

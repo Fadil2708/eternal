@@ -398,7 +398,18 @@
                         <i class="ti ti-calendar-event"></i>
                         {{ $logbook->activity_date?->isoFormat('dddd, D MMMM Y') ?? '—' }}
                     </span>
-                    <x-badge status="{{ $logbook->validation_status }}" />
+                    <div style="display:flex;gap:6px;align-items:center;">
+                        @if($logbook->attendance_type === 'sakit')
+                            <span class="lb-badge lb-badge-sakit" style="background:#fef3c7;color:#92400e;border:1px solid #fde68a;">
+                                <i class="ti ti-heart-rate-monitor"></i> Sakit
+                            </span>
+                        @elseif($logbook->attendance_type === 'izin')
+                            <span class="lb-badge lb-badge-izin" style="background:#e0e7ff;color:#3730a3;border:1px solid #c7d2fe;">
+                                <i class="ti ti-user-off"></i> Izin
+                            </span>
+                        @endif
+                        <x-badge status="{{ $logbook->validation_status }}" />
+                    </div>
                 </div>
 
                 <div class="lb-card-body">

@@ -19,6 +19,8 @@ class UserList extends Component
 
     public ?string $confirmingDeactivateId = null;
 
+    public ?string $confirmingDeleteId = null;
+
     private UserService $userService;
 
     public function boot(UserService $userService): void
@@ -47,6 +49,25 @@ class UserList extends Component
         $active = $this->userService->toggleActive($user);
         $this->dispatch('toast', message: $active ? 'Pengguna diaktifkan.' : 'Pengguna dinonaktifkan.', type: 'success');
         $this->confirmingDeactivateId = null;
+    }
+
+    public function confirmDelete(string $id): void
+    {
+        $this->confirmingDeleteId = $id;
+    }
+
+    public function delete(): void
+    {
+        $user = User::findOrFail($this->confirmingDeleteId);
+
+        try {
+            $this->userService->delete($user);
+            $this->dispatch('toast', message: 'Pengguna berhasil dihapus.', type: 'success');
+        } catch (\Exception $e) {
+            $this->dispatch('toast', message: $e->getMessage(), type: 'error');
+        }
+
+        $this->confirmingDeleteId = null;
     }
 
     public function render()

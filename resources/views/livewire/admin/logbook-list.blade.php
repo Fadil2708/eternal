@@ -53,6 +53,7 @@
                         <th>Peserta</th>
                         <th>Lowongan</th>
                         <th>Tanggal</th>
+                        <th>Jenis</th>
                         <th>Kegiatan</th>
                         <th>Status</th>
                         <th>Catatan</th>
@@ -95,6 +96,15 @@
                             <span class="adx-table-title-cell">{{ $log->internship->vacancy->title ?? '-' }}</span>
                         </td>
                         <td><span class="adx-date">{{ $log->activity_date->format('d M Y') }}</span></td>
+                        <td>
+                            @if($log->attendance_type === 'sakit')
+                                <span class="adx-chip" style="background:#fef3c7;color:#92400e;">Sakit</span>
+                            @elseif($log->attendance_type === 'izin')
+                                <span class="adx-chip" style="background:#e0e7ff;color:#3730a3;">Izin</span>
+                            @else
+                                <span class="adx-chip" style="background:#ecfdf5;color:#065f46;">Hadir</span>
+                            @endif
+                        </td>
                         <td><span style="font-size:13px;color:var(--adx-text)">{{ Str::limit($log->activities, 80) }}</span></td>
                         <td>
                             <span class="adx-chip adx-chip-{{ $log->validation_status }}">

@@ -125,6 +125,80 @@
         }
         .lbf-banner span { font-size: 12px; color: var(--lbf-amber-text); opacity: .9; }
 
+        /* ═══ ATTENDANCE TYPE RADIO ═══ */
+        .lbf-attendance {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .lbf-attendance-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 20px 14px;
+            border: 2px solid #d4d9e3;
+            border-radius: 14px;
+            background: #fff;
+            cursor: pointer;
+            transition: all .2s;
+            text-align: center;
+        }
+        .lbf-attendance-card:hover {
+            border-color: #a5b4fc;
+            background: #fafbff;
+        }
+        .lbf-attendance-card.active {
+            border-color: var(--lbf-primary);
+            background: var(--lbf-primary-light);
+            box-shadow: 0 0 0 3px rgba(49, 85, 231, .12);
+        }
+        .lbf-attendance-card input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .lbf-attendance-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            background: #f1f5f9;
+            color: var(--lbf-muted);
+            transition: all .2s;
+        }
+        .lbf-attendance-card.active .lbf-attendance-icon {
+            background: var(--lbf-primary);
+            color: #fff;
+        }
+        .lbf-attendance-card[data-type="sakit"].active .lbf-attendance-icon {
+            background: #f59e0b;
+        }
+        .lbf-attendance-card[data-type="izin"].active .lbf-attendance-icon {
+            background: #6366f1;
+        }
+        .lbf-attendance-label {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--lbf-text);
+        }
+        .lbf-attendance-desc {
+            font-size: 11px;
+            color: var(--lbf-muted);
+            line-height: 1.4;
+        }
+        .lbf-attendance-card.active .lbf-attendance-desc {
+            color: #475569;
+        }
+        @media (max-width: 560px) {
+            .lbf-attendance { grid-template-columns: 1fr; }
+            .lbf-attendance-card { flex-direction: row; text-align: left; padding: 14px 16px; gap: 12px; }
+        }
+
         /* ═══ BUTTONS ═══ */
         .lbf-btn {
             display: inline-flex;
@@ -267,37 +341,72 @@
                         @error('activity_date') <div class="lbf-error">{{ $message }}</div> @enderror
                     </div>
 
+                    <div class="lbf-field">
+                        <label>Jenis Kehadiran <span class="lbf-req">*</span></label>
+                        <div class="lbf-attendance">
+                            <label class="lbf-attendance-card {{ $attendanceType === 'hadir' ? 'active' : '' }}" data-type="hadir" wire:click="$set('attendanceType', 'hadir')">
+                                <input type="radio" wire:model="attendanceType" value="hadir">
+                                <div class="lbf-attendance-icon"><i class="ti ti-user-check"></i></div>
+                                <div>
+                                    <div class="lbf-attendance-label">Hadir</div>
+                                    <div class="lbf-attendance-desc">Isi kegiatan harian seperti biasa</div>
+                                </div>
+                            </label>
+                            <label class="lbf-attendance-card {{ $attendanceType === 'sakit' ? 'active' : '' }}" data-type="sakit" wire:click="$set('attendanceType', 'sakit')">
+                                <input type="radio" wire:model="attendanceType" value="sakit">
+                                <div class="lbf-attendance-icon"><i class="ti ti-heart-rate-monitor"></i></div>
+                                <div>
+                                    <div class="lbf-attendance-label">Sakit</div>
+                                    <div class="lbf-attendance-desc">Otomatis disetujui</div>
+                                </div>
+                            </label>
+                            <label class="lbf-attendance-card {{ $attendanceType === 'izin' ? 'active' : '' }}" data-type="izin" wire:click="$set('attendanceType', 'izin')">
+                                <input type="radio" wire:model="attendanceType" value="izin">
+                                <div class="lbf-attendance-icon"><i class="ti ti-user-off"></i></div>
+                                <div>
+                                    <div class="lbf-attendance-label">Izin</div>
+                                    <div class="lbf-attendance-desc">Otomatis disetujui</div>
+                                </div>
+                            </label>
+                        </div>
+                        @error('attendanceType') <div class="lbf-error">{{ $message }}</div> @enderror
+                    </div>
+
                     <div class="lbf-field" x-data="{ len: 0 }">
-                        <label>Uraian Kegiatan <span class="lbf-req">*</span></label>
+                        <label>Uraian Kegiatan @if($attendanceType === 'hadir')<span class="lbf-req">*</span>@endif</label>
                         <textarea
                             wire:model="activities"
                             rows="5"
                             class="lbf-input"
-                            placeholder="Jelaskan kegiatan yang dilakukan hari ini..."
+                            placeholder="{{ $attendanceType === 'hadir' ? 'Jelaskan kegiatan yang dilakukan hari ini...' : 'Opsional - jelaskan detail (jika ada)...' }}"
                             x-init="len = $el.value.length"
                             @input="len = $el.value.length"
                         ></textarea>
                         <div class="lbf-counter" :class="len < 20 ? 'lbf-counter-warn' : 'lbf-counter-ok'">
                             <i class="ti ti-edit"></i>
-                            Minimal 20 karakter ·
+                            @if($attendanceType === 'hadir')
+                                Minimal 20 karakter ·
+                            @endif
                             <span x-text="len"></span> karakter
                         </div>
                         @error('activities') <div class="lbf-error">{{ $message }}</div> @enderror
                     </div>
 
                     <div class="lbf-field" x-data="{ len: 0 }">
-                        <label>Hasil / Output <span class="lbf-req">*</span></label>
+                        <label>Hasil / Output @if($attendanceType === 'hadir')<span class="lbf-req">*</span>@endif</label>
                         <textarea
                             wire:model="output"
                             rows="3"
                             class="lbf-input"
-                            placeholder="Apa hasil atau output dari kegiatan hari ini..."
+                            placeholder="{{ $attendanceType === 'hadir' ? 'Apa hasil atau output dari kegiatan hari ini...' : 'Opsional - hasil dari kegiatan (jika ada)...' }}"
                             x-init="len = $el.value.length"
                             @input="len = $el.value.length"
                         ></textarea>
                         <div class="lbf-counter" :class="len < 10 ? 'lbf-counter-warn' : 'lbf-counter-ok'">
                             <i class="ti ti-checkbox"></i>
-                            Minimal 10 karakter ·
+                            @if($attendanceType === 'hadir')
+                                Minimal 10 karakter ·
+                            @endif
                             <span x-text="len"></span> karakter
                         </div>
                         @error('output') <div class="lbf-error">{{ $message }}</div> @enderror
@@ -314,7 +423,13 @@
                         <button type="button" wire:click="submit" class="lbf-btn lbf-btn-primary" wire:loading.attr="disabled">
                             <span wire:loading.remove>
                                 <i class="ti ti-send"></i>
-                                {{ $validationStatus === 'revision_requested' ? 'Kirim Ulang' : 'Simpan & Kirim' }}
+                                @if($attendanceType === 'sakit' || $attendanceType === 'izin')
+                                    Simpan & Kirim (Otomatis Disetujui)
+                                @elseif($validationStatus === 'revision_requested')
+                                    Kirim Ulang
+                                @else
+                                    Simpan & Kirim
+                                @endif
                             </span>
                             <span wire:loading><i class="ti ti-loader lbf-spin"></i> Mengirim...</span>
                         </button>

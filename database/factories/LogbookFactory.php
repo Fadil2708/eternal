@@ -14,6 +14,7 @@ class LogbookFactory extends Factory
             'internship_id' => Internship::factory(),
             'intern_id' => User::factory()->intern(),
             'activity_date' => fake()->date(),
+            'attendance_type' => 'hadir',
             'activities' => fake()->paragraph(),
             'output' => fake()->sentence(),
             'validation_status' => 'draft',

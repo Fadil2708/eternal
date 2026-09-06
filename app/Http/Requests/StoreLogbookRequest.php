@@ -13,11 +13,14 @@ class StoreLogbookRequest extends FormRequest
 
     public function rules(): array
     {
+        $attendanceType = $this->input('attendance_type', 'hadir');
+
         return [
             'internship_id' => ['required', 'string', 'exists:internships,id'],
             'activity_date' => ['required', 'date'],
-            'activities' => ['required', 'string', 'max:5000'],
-            'output' => ['required', 'string', 'max:2000'],
+            'attendance_type' => ['required', 'in:hadir,sakit,izin'],
+            'activities' => $attendanceType === 'hadir' ? ['required', 'string', 'max:5000'] : ['nullable', 'string', 'max:5000'],
+            'output' => $attendanceType === 'hadir' ? ['required', 'string', 'max:2000'] : ['nullable', 'string', 'max:2000'],
         ];
     }
 

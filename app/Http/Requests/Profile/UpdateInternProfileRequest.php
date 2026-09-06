@@ -24,6 +24,7 @@ class UpdateInternProfileRequest extends FormRequest
             'photo_url' => 'nullable|file|mimetypes:image/jpeg,image/png|max:2048',
             'cv_url' => 'nullable|file|mimetypes:application/pdf|max:5120',
             'cover_letter_url' => 'nullable|file|mimetypes:application/pdf|max:5120',
+            'transcript_url' => 'nullable|file|mimetypes:application/pdf|max:5120',
         ];
     }
 }

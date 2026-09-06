@@ -51,7 +51,7 @@
         }
 
         /* =====================================================
-           SIDEBAR
+           SIDEBAR - GLASSMORPHISM
         ====================================================== */
 
         .dash-wrap .sidebar {
@@ -65,7 +65,12 @@
             width: var(--sidebar-width);
             height: 100vh;
 
-            background: #0A1628;
+            background: rgba(15, 15, 35, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
 
             box-sizing: border-box;
 
@@ -73,6 +78,8 @@
 
             overflow-y: auto;
             overflow-x: hidden;
+
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         /* =====================================================

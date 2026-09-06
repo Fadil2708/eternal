@@ -23,6 +23,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use Auditable, HasApiTokens, HasFactory, HasUuid, Notifiable;
     use MustVerifyEmailTrait;
 
+    public $incrementing = false;
+    protected $keyType = 'string';
+
     protected $fillable = [
         'email',
         'password',
@@ -151,7 +154,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return match ($this->role) {
             'intern' => $this->internProfile?->full_name ?? $this->email,
             'supervisor' => $this->supervisorProfile?->full_name ?? $this->email,
-            default => $this->email,
+            default => 'Admin Eternal',
         };
     }
 

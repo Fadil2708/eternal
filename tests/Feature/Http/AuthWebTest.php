@@ -65,13 +65,15 @@ class AuthWebTest extends TestCase
     public function test_users_can_register(): void
     {
         $response = $this->post('/register', [
-            'name' => 'Test User',
             'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
+            'password' => 'Password123!',
+            'password_confirmation' => 'Password123!',
         ]);
 
+        $response->assertSessionHasNoErrors();
+
         $this->assertAuthenticated();
+
         $response->assertRedirect();
     }
 }

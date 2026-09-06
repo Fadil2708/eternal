@@ -1,4 +1,4 @@
-@props(['route' => '', 'icon' => 'ti-circle', 'label' => ''])
+@props(['route' => '', 'icon' => 'ti-circle', 'label' => '', 'animationDelay' => 0])
 
 @php
     $currentRoute = request()->route()?->getName() ?? '';
@@ -26,10 +26,13 @@
             }
         }
     }
+    
+    $delayMs = $animationDelay * 50;
 @endphp
 
 <a href="{{ $href }}"
    class="sb-nav-item {{ $active ? 'active' : '' }}"
+   style="animation-delay: {{ $delayMs }}ms"
    @click="if(window.innerWidth <= 768) sidebarOpen = false"
    {{ $attributes }}>
     @if($active)

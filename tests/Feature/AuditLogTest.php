@@ -48,13 +48,13 @@ class AuditLogTest extends TestCase
 
         $application->update(['status' => 'under_review']);
 
-        $logs = AuditLog::where('auditable_id', $application->id)
-            ->orderBy('created_at')
-            ->get();
+        $logs = AuditLog::where('auditable_id', $application->id)->get();
 
         $this->assertCount(2, $logs);
 
-        $updateLog = $logs->last();
+        $updateLog = $logs->firstWhere('action', 'updated');
+
+        $this->assertNotNull($updateLog);
         $this->assertEquals('updated', $updateLog->action);
         $this->assertEquals(['status' => 'submitted'], $updateLog->old_values);
         $this->assertEquals(['status' => 'under_review'], $updateLog->new_values);

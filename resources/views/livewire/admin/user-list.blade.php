@@ -118,6 +118,12 @@
                                         title="{{ $user->is_active ? 'Nonaktifkan' : 'Aktifkan' }}">
                                     <i class="ti ti-{{ $user->is_active ? 'user-x' : 'user-check' }}"></i>
                                 </button>
+                                <button wire:click="confirmDelete('{{ $user->id }}')"
+                                        wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
+                                        class="adx-action is-danger"
+                                        title="Hapus">
+                                    <i class="ti ti-trash"></i>
+                                </button>
                             </div>
                         </td>
                     </tr>
@@ -155,6 +161,37 @@
                             wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
                             class="adx-btn adx-btn-primary">
                         <span wire:loading.remove>Ya, Lanjutkan</span>
+                        <span wire:loading class="inline-flex items-center gap-1">
+                            <i class="ti ti-loader animate-spin"></i>
+                            Memproses...
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    @if($confirmingDeleteId)
+    <div class="modal-wrap" aria-labelledby="modal-title" role="dialog" aria-modal="true"
+         x-data
+         @keydown.escape.window="$wire.set('confirmingDeleteId', null)">
+        <div class="modal-backdrop" @click="$wire.set('confirmingDeleteId', null)"></div>
+        <div class="modal-center">
+            <div class="modal-card modal-card-md">
+                <div class="modal-header">
+                    <h3 id="modal-title" class="modal-title">Hapus Pengguna</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="adx-modal-icon"><i class="ti ti-alert-triangle"></i></div>
+                    <p class="adx-modal-text">Yakin ingin menghapus pengguna ini? Tindakan ini tidak dapat dibatalkan.</p>
+                </div>
+                <div class="modal-footer">
+                    <button wire:click="$set('confirmingDeleteId', null)" class="btn-secondary">Batal</button>
+                    <button wire:click="delete"
+                            wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait"
+                            class="adx-btn adx-btn-danger">
+                        <span wire:loading.remove>Hapus</span>
                         <span wire:loading class="inline-flex items-center gap-1">
                             <i class="ti ti-loader animate-spin"></i>
                             Memproses...

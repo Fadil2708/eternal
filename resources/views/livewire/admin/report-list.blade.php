@@ -78,7 +78,7 @@
                     <tr>
                         <td>
                             <div class="adx-table-user">
-                                @php $reportName = $report->intern->internProfile->full_name ?? $report->intern->email; @endphp
+                                @php $reportName = $report->intern->internProfile?->full_name ?? $report->intern->email; @endphp
                                 <x-avatar name="{{ $reportName }}" size="36" type="r" />
                                 <div>
                                     <div class="adx-table-name">{{ $reportName }}</div>

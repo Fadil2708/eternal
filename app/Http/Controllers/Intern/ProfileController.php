@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $data = $request->validated();
         $profile = $user->internProfile;
 
-        unset($data['photo_url'], $data['cv_url'], $data['cover_letter_url']);
+        unset($data['photo_url'], $data['cv_url'], $data['cover_letter_url'], $data['transcript_url']);
 
         $toDelete = [];
 
@@ -63,6 +63,19 @@ class ProfileController extends Controller
             $data['cover_letter_url'] = $url;
             if ($profile?->cover_letter_url) {
                 $toDelete[] = $profile->cover_letter_url;
+            }
+        }
+
+        if ($request->hasFile('transcript_url')) {
+            $url = $this->fileUploadService->uploadTranscript(
+                $request->file('transcript_url'), $user->id
+            );
+            if (! $url) {
+                return $this->error('Gagal mengupload transkrip nilai.', 500);
+            }
+            $data['transcript_url'] = $url;
+            if ($profile?->transcript_url) {
+                $toDelete[] = $profile->transcript_url;
             }
         }
 

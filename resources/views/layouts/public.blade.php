@@ -128,6 +128,8 @@
         </div>
     </header>
 
+    <div class="navbar-spacer"></div>
+
     {{-- Mobile slide panel --}}
     <div class="nav-overlay" :class="{ 'is-visible': navOpen }" @click="close" x-cloak></div>
     <div class="nav-panel" :class="{ 'is-open': navOpen }">

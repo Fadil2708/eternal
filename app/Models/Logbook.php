@@ -13,8 +13,18 @@ class Logbook extends Model
 {
     use Auditable, HasFactory, HasUuid;
 
+    public const TYPE_HADIR = 'hadir';
+    public const TYPE_SAKIT = 'sakit';
+    public const TYPE_IZIN = 'izin';
+
+    public const ATTENDANCE_TYPES = [
+        self::TYPE_HADIR => 'Hadir',
+        self::TYPE_SAKIT => 'Sakit',
+        self::TYPE_IZIN => 'Izin',
+    ];
+
     protected $fillable = [
-        'internship_id', 'intern_id', 'activity_date',
+        'internship_id', 'intern_id', 'attendance_type', 'activity_date',
         'activities', 'output', 'supervisor_notes',
         'validation_status', 'reviewed_at',
     ];

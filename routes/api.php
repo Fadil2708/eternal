@@ -71,6 +71,7 @@ Route::prefix('v1')->name('api.')->group(function () {
         Route::get('logbooks/{logbook}', [LogbookController::class, 'show'])->name('logbooks.show');
         Route::put('logbooks/{logbook}', [App\Http\Controllers\Intern\LogbookController::class, 'update'])->middleware('role:intern')->name('logbooks.update');
         Route::patch('logbooks/{logbook}/submit', [App\Http\Controllers\Intern\LogbookController::class, 'submit'])->middleware('role:intern')->name('logbooks.submit');
+        Route::delete('logbooks/{logbook}', [App\Http\Controllers\Intern\LogbookController::class, 'destroy'])->middleware('role:intern')->name('logbooks.destroy');
         Route::patch('logbooks/{logbook}/review', [App\Http\Controllers\Supervisor\LogbookController::class, 'review'])->middleware('role:supervisor')->name('logbooks.review');
 
         // Final Reports

@@ -250,7 +250,13 @@
             width: 100%;
             height: 100%;
             opacity: 0;
+            pointer-events: none;
             cursor: pointer;
+        }
+
+        .fr-drop:hover input,
+        .fr-drop input:focus {
+            pointer-events: auto;
         }
 
         .fr-drop i {
@@ -287,8 +293,11 @@
         .fr-btn-primary {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
             padding: 11px 22px;
+            min-width: 220px;
+            min-height: 42px;
             border-radius: var(--fr-radius-sm);
             background: var(--fr-primary);
             color: #fff;
@@ -298,18 +307,54 @@
             border: none;
             cursor: pointer;
             transition: all .2s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        .fr-btn-primary:hover {
+        .fr-btn-primary:hover:not(:disabled) {
             background: var(--fr-primary-dark);
             transform: translateY(-1px);
             box-shadow: var(--fr-shadow-md);
         }
 
-        .fr-loading {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+        .fr-btn-primary:disabled {
+            opacity: 1;
+            cursor: wait;
+            background: var(--fr-primary);
+        }
+
+        .fr-btn-primary::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+            transform: translateX(-100%);
+            transition: none;
+        }
+
+        .fr-btn-primary:disabled::after {
+            animation: fr-shimmer 1.5s infinite;
+        }
+
+        @keyframes fr-shimmer {
+            0%   { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .fr-icon-spinner, .fr-text-loading { display: none; }
+        .fr-btn-primary.is-loading .fr-icon-upload  { display: none; }
+        .fr-btn-primary.is-loading .fr-icon-spinner { display: inline-block; }
+        .fr-btn-primary.is-loading .fr-text-upload  { display: none; }
+        .fr-btn-primary.is-loading .fr-text-loading { display: inline; }
+
+        .fr-spin {
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to   { transform: rotate(360deg); }
         }
 
         .fr-btn-ghost {
@@ -440,7 +485,7 @@
                     <h3>{{ $existingReport ? 'Unggah Ulang Laporan' : 'Unggah Laporan Akhir' }}</h3>
                 </div>
                 <div class="fr-card-body">
-                    <form wire:submit="upload">
+                    <form>
                         <div class="fr-field">
                             <label>Judul Laporan <span class="fr-req">*</span></label>
                             <input wire:model="title" type="text" class="fr-input" placeholder="Contoh: Laporan Praktik Kerja Lapangan di Eternal Internship">
@@ -449,22 +494,23 @@
                         <div class="fr-field">
                             <label>File Laporan <span class="fr-req">*</span></label>
                             <label class="fr-drop">
-                                <input wire:model="file" type="file" accept=".pdf,.doc,.docx">
+                                <input wire:key="report-file-upload" wire:model.live="file" type="file" accept=".pdf,.doc,.docx">
                                 <i class="ti ti-file-upload"></i>
                                 <span class="fr-drop-title">Klik untuk pilih file</span>
                                 <span class="fr-drop-sub">Format PDF / DOC / DOCX, maksimal 20MB</span>
                             </label>
-                            @error('file') <div class="fr-err">{{ $message }}</div> @enderror
+                            <div wire:loading wire:target="file" class="fr-upload-status" style="margin-top:8px;color:#3155e7;">
+                                <i class="ti ti-loader" style="animation:spin 1s linear infinite;display:inline-block;"></i> Mengupload file sementara...
+                            </div>
+                            @error('file') <div class="fr-err"><i class="ti ti-alert-triangle"></i> {{ $message }}</div> @enderror
                         </div>
 
                         <div class="fr-actions">
-                            <button type="submit" wire:loading.attr="disabled" wire:loading.class="opacity-60 cursor-wait" class="fr-btn-primary">
-                                <i wire:loading.remove class="ti ti-upload"></i>
-                                <span wire:loading.remove>{{ $existingReport ? 'Upload Ulang' : 'Upload Laporan' }}</span>
-                                <span wire:loading class="fr-loading">
-                                    <i class="ti ti-loader animate-spin"></i>
-                                    Mengupload...
-                                </span>
+                            <button type="button" wire:click="submitReport" wire:loading.attr="disabled" wire:loading.class="is-loading" wire:loading.target="submitReport" class="fr-btn-primary">
+                                <i class="ti ti-upload fr-icon-upload"></i>
+                                <i class="ti ti-loader fr-spin fr-icon-spinner"></i>
+                                <span class="fr-text-upload">{{ $existingReport ? 'Upload Ulang' : 'Upload Laporan' }}</span>
+                                <span class="fr-text-loading">Menyimpan...</span>
                             </button>
                             <a href="{{ route('intern.dashboard') }}" wire:navigate class="fr-btn-ghost">Kembali</a>
                         </div>

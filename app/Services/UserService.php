@@ -61,4 +61,37 @@ class UserService
 
         return $user->is_active;
     }
+
+    public function delete(User $user): void
+    {
+        if ($user->role === 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                throw new \Exception('Tidak dapat menghapus admin terakhir.');
+            }
+        }
+
+        if ($user->role === 'intern') {
+            $this->cleanupInternFiles($user);
+        }
+
+        $user->delete();
+    }
+
+    private function cleanupInternFiles(User $user): void
+    {
+        $profile = $user->internProfile;
+
+        if (! $profile) {
+            return;
+        }
+
+        $fileFields = ['photo_url', 'cv_url', 'cover_letter_url', 'transcript_url'];
+
+        foreach ($fileFields as $field) {
+            if ($profile->$field) {
+                \Illuminate\Support\Facades\Storage::disk('private')->delete($profile->$field);
+            }
+        }
+    }
 }

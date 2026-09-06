@@ -67,9 +67,17 @@ class LogbookService
             ->where('status', 'active')
             ->findOrFail($internshipId);
 
+        $attendanceType = $data['attendance_type'] ?? Logbook::TYPE_HADIR;
+
         $data['internship_id'] = $internship->id;
         $data['intern_id'] = $intern->id;
-        $data['validation_status'] ??= 'draft';
+        $data['attendance_type'] = $attendanceType;
+
+        if (in_array($attendanceType, [Logbook::TYPE_SAKIT, Logbook::TYPE_IZIN])) {
+            $data['validation_status'] = 'approved';
+        } else {
+            $data['validation_status'] ??= 'draft';
+        }
 
         return Logbook::create($data);
     }
@@ -88,6 +96,19 @@ class LogbookService
         $logbook->update($data);
     }
 
+    public function delete(Logbook $logbook, User $intern): void
+    {
+        if ($logbook->intern_id !== $intern->id) {
+            throw new \Exception('Unauthorized.');
+        }
+
+        if ($logbook->validation_status !== 'draft') {
+            throw new \Exception('Hanya logbook berstatus draft yang dapat dihapus.');
+        }
+
+        $logbook->delete();
+    }
+
     public function submit(Logbook $logbook, User $intern): void
     {
         if ($logbook->intern_id !== $intern->id) {
@@ -98,7 +119,11 @@ class LogbookService
             throw new \Exception('Logbook sudah tidak bisa dikirim.');
         }
 
-        $logbook->update(['validation_status' => 'submitted']);
+        if (in_array($logbook->attendance_type, [Logbook::TYPE_SAKIT, Logbook::TYPE_IZIN])) {
+            $logbook->update(['validation_status' => 'approved']);
+        } else {
+            $logbook->update(['validation_status' => 'submitted']);
+        }
     }
 
     public function review(Logbook $logbook, User $supervisor, string $action, ?string $notes): Logbook

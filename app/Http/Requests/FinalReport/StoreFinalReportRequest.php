@@ -15,7 +15,13 @@ class StoreFinalReportRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:500',
-            'file_url' => 'required|file|mimetypes:application/pdf|max:20480',
+
+            'file_url' => [
+                'required',
+                'file',
+                'mimes:pdf,doc,docx',
+                'max:20480',
+            ],
         ];
     }
 }

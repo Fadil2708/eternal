@@ -3,6 +3,8 @@
 namespace App\Livewire\Supervisor;
 
 use App\Models\FinalReport;
+use App\Notifications\ReportNotification;
+use Illuminate\Database\Eloquent\Builder;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -17,42 +19,87 @@ class ReportReview extends Component
         $this->resetPage();
     }
 
-    private function baseQuery()
+    private function baseQuery(): Builder
     {
-        return FinalReport::with(['intern.internProfile', 'internship.vacancy'])
-            ->whereHas('internship', fn ($q) => $q->where('supervisor_id', auth()->id()));
+        return FinalReport::with([
+            'intern.internProfile',
+            'internship.vacancy',
+        ])->whereHas(
+            'internship',
+            fn ($q) => $q->where('supervisor_id', auth()->id())
+        );
     }
 
     public function approve(string $id): void
     {
-        $this->baseQuery()
+        $report = $this->baseQuery()
             ->where('supervisor_approval', 'pending')
             ->where('id', $id)
-            ->update([
-                'supervisor_approval' => 'approved',
-                'approved_at' => now(),
-            ]);
+            ->first();
 
-        $this->dispatch('toast', message: 'Laporan disetujui.', type: 'success');
+        if (! $report) {
+            return;
+        }
+
+        $report->update([
+            'supervisor_approval' => 'approved',
+            'approved_at' => now(),
+        ]);
+
+        $report->intern->notify(
+            new ReportNotification($report->fresh(), 'approved')
+        );
+
+        $this->dispatch(
+            'toast',
+            message: 'Laporan disetujui.',
+            type: 'success'
+        );
     }
 
     public function reject(string $id): void
     {
-        $this->baseQuery()
+        $report = $this->baseQuery()
             ->where('supervisor_approval', 'pending')
             ->where('id', $id)
-            ->update(['supervisor_approval' => 'rejected']);
+            ->first();
 
-        $this->dispatch('toast', message: 'Laporan ditolak.', type: 'success');
+        if (! $report) {
+            return;
+        }
+
+        $report->update([
+            'supervisor_approval' => 'rejected',
+            'approved_at' => null,
+        ]);
+
+        $report->intern->notify(
+            new ReportNotification($report->fresh(), 'rejected')
+        );
+
+        $this->dispatch(
+            'toast',
+            message: 'Laporan ditolak.',
+            type: 'success'
+        );
     }
 
     public function render()
     {
         $reports = $this->baseQuery()
-            ->when($this->filterStatus, fn ($q) => $q->where('supervisor_approval', $this->filterStatus))
+            ->when(
+                $this->filterStatus,
+                fn ($q) => $q->where(
+                    'supervisor_approval',
+                    $this->filterStatus
+                )
+            )
             ->latest('submitted_at')
             ->paginate(10);
 
-        return view('livewire.supervisor.report-review', compact('reports'));
+        return view(
+            'livewire.supervisor.report-review',
+            compact('reports')
+        );
     }
 }

@@ -20,6 +20,8 @@ class LogbookForm extends Component
 
     public string $output = '';
 
+    public string $attendanceType = 'hadir';
+
     public bool $hasActiveInternship = false;
 
     public string $validationStatus = 'draft';
@@ -33,8 +35,9 @@ class LogbookForm extends Component
 
     protected $rules = [
         'activity_date' => 'required|date',
-        'activities' => 'required|string',
-        'output' => 'required|string',
+        'attendanceType' => 'required|in:hadir,sakit,izin',
+        'activities' => 'required_if:attendanceType,hadir|nullable|string',
+        'output' => 'required_if:attendanceType,hadir|nullable|string',
     ];
 
     public function mount(?string $id = null): void
@@ -43,6 +46,7 @@ class LogbookForm extends Component
             $this->edit($id);
         } else {
             $this->activity_date = now()->format('Y-m-d');
+            $this->attendanceType = 'hadir';
         }
 
         $this->checkActiveInternship();
@@ -62,8 +66,9 @@ class LogbookForm extends Component
         $logbook = Logbook::where('intern_id', auth()->id())->findOrFail($id);
         $this->logbookId = $logbook->id;
         $this->activity_date = $logbook->activity_date->format('Y-m-d');
-        $this->activities = $logbook->activities;
-        $this->output = $logbook->output;
+        $this->activities = $logbook->activities ?? '';
+        $this->output = $logbook->output ?? '';
+        $this->attendanceType = $logbook->attendance_type ?? 'hadir';
         $this->validationStatus = $logbook->validation_status;
     }
 
@@ -90,6 +95,7 @@ class LogbookForm extends Component
                 'activity_date' => $this->activity_date,
                 'activities' => $this->activities,
                 'output' => $this->output,
+                'attendance_type' => $this->attendanceType,
             ];
 
             if ($this->logbookId) {
@@ -101,7 +107,7 @@ class LogbookForm extends Component
                 $this->dispatch('toast', message: 'Logbook berhasil disimpan.', type: 'success');
             }
 
-            $this->resetForm();
+            $this->redirect(route('intern.logbooks'));
         } catch (\Exception $e) {
             Log::error('Logbook save failed: '.$e->getMessage());
             $this->dispatch('toast', message: 'Gagal menyimpan logbook: '.$e->getMessage(), type: 'error');
@@ -110,8 +116,9 @@ class LogbookForm extends Component
 
     public function resetForm(): void
     {
-        $this->reset(['logbookId', 'activity_date', 'activities', 'output', 'validationStatus']);
+        $this->reset(['logbookId', 'activity_date', 'activities', 'output', 'validationStatus', 'attendanceType']);
         $this->activity_date = now()->format('Y-m-d');
+        $this->attendanceType = 'hadir';
         $this->validationStatus = 'draft';
     }
 

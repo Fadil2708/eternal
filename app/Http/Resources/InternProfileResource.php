@@ -21,6 +21,7 @@ class InternProfileResource extends JsonResource
             'photo_url' => $this->photo_url,
             'cv_url' => $this->cv_url,
             'cover_letter_url' => $this->cover_letter_url,
+            'transcript_url' => $this->transcript_url,
         ];
     }
 }
