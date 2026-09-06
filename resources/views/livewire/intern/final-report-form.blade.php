@@ -276,6 +276,46 @@
             color: var(--fr-text-secondary);
         }
 
+        /* Menonaktifkan area drop saat proses upload */
+        .fr-drop.is-disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* ===== PROGRESS BAR ===== */
+        .fr-progress-container {
+            margin-top: 12px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border: 1px solid var(--fr-border);
+            border-radius: var(--fr-radius-sm);
+        }
+
+        .fr-progress-wrap {
+            background: #e2e8f0;
+            border-radius: 99px;
+            height: 6px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .fr-progress-bar {
+            background: var(--fr-primary);
+            height: 100%;
+            border-radius: 99px;
+            transition: width 0.2s ease-out;
+        }
+
+        .fr-progress-text {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--fr-text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
         .fr-err {
             font-size: 11px;
             color: #dc2626;
@@ -485,36 +525,66 @@
                     <h3>{{ $existingReport ? 'Unggah Ulang Laporan' : 'Unggah Laporan Akhir' }}</h3>
                 </div>
                 <div class="fr-card-body">
-                    <form>
+                    
+                    {{-- FORM DENGAN ALPINE.JS EVENT TRACKING --}}
+                    <form 
+                        x-data="{ isUploading: false, progress: 0 }"
+                        x-on:livewire-upload-start="isUploading = true"
+                        x-on:livewire-upload-finish="isUploading = false; progress = 100"
+                        x-on:livewire-upload-error="isUploading = false; progress = 0"
+                        x-on:livewire-upload-progress="progress = $event.detail.progress">
+                        
                         <div class="fr-field">
                             <label>Judul Laporan <span class="fr-req">*</span></label>
                             <input wire:model="title" type="text" class="fr-input" placeholder="Contoh: Laporan Praktik Kerja Lapangan di Eternal Internship">
                             @error('title') <div class="fr-err">{{ $message }}</div> @enderror
                         </div>
+                        
                         <div class="fr-field">
                             <label>File Laporan <span class="fr-req">*</span></label>
-                            <label class="fr-drop">
-                                <input wire:key="report-file-upload" wire:model.live="file" type="file" accept=".pdf,.doc,.docx">
+                            
+                            {{-- Area Drop File (Disabled otomatis saat isUploading = true) --}}
+                            <label class="fr-drop" :class="{ 'is-disabled': isUploading }">
+                                <input wire:key="report-file-upload" wire:model.live="file" type="file" accept=".pdf,.doc,.docx" :disabled="isUploading">
                                 <i class="ti ti-file-upload"></i>
                                 <span class="fr-drop-title">Klik untuk pilih file</span>
                                 <span class="fr-drop-sub">Format PDF / DOC / DOCX, maksimal 20MB</span>
                             </label>
-                            <div wire:loading wire:target="file" class="fr-upload-status" style="margin-top:8px;color:#3155e7;">
-                                <i class="ti ti-loader" style="animation:spin 1s linear infinite;display:inline-block;"></i> Mengupload file sementara...
+
+                            {{-- Progress Bar Indikator Upload --}}
+                            <div class="fr-progress-container" x-show="isUploading" x-cloak>
+                                <div class="fr-progress-wrap">
+                                    <div class="fr-progress-bar" :style="'width: ' + progress + '%'"></div>
+                                </div>
+                                <div class="fr-progress-text">
+                                    <span><i class="ti ti-loader fr-spin"></i> Memuat dokumen ke server...</span>
+                                    <span x-text="progress + '%'"></span>
+                                </div>
                             </div>
+                            
                             @error('file') <div class="fr-err"><i class="ti ti-alert-triangle"></i> {{ $message }}</div> @enderror
                         </div>
 
                         <div class="fr-actions">
-                            <button type="button" wire:click="submitReport" wire:loading.attr="disabled" wire:loading.class="is-loading" wire:loading.target="submitReport" class="fr-btn-primary">
+                            {{-- BUTTON SUBMIT --}}
+                            <button type="button" 
+                                    wire:click="submitReport" 
+                                    x-bind:disabled="isUploading"
+                                    wire:loading.attr="disabled" 
+                                    wire:loading.class="is-loading" 
+                                    wire:target="submitReport" 
+                                    class="fr-btn-primary">
+                                    
                                 <i class="ti ti-upload fr-icon-upload"></i>
                                 <i class="ti ti-loader fr-spin fr-icon-spinner"></i>
                                 <span class="fr-text-upload">{{ $existingReport ? 'Upload Ulang' : 'Upload Laporan' }}</span>
                                 <span class="fr-text-loading">Menyimpan...</span>
                             </button>
+                            
                             <a href="{{ route('intern.dashboard') }}" wire:navigate class="fr-btn-ghost">Kembali</a>
                         </div>
                     </form>
+                    
                 </div>
             </div>
         @endif
