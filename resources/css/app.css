@@ -3132,20 +3132,31 @@
     .welcome-testi-header .welcome-section-sub { max-width: 260px; }
 
     /* Vacancy page mobile */
-    .vac-hero { padding: 28px 16px; border-radius: 12px; margin-left:-4px;margin-right:-4px; }
-    .vac-hero-title { font-size: 20px; }
-    .vac-hero-sub { font-size: 12px; margin-bottom: 18px; }
-    .vac-search-wrap { flex-wrap:wrap; gap:6px; background:transparent; padding:0 }
-    .vac-search-icon { display:none }
-    .vac-search-input { width:100%;padding:10px 14px;background:#fff;border-radius:8px;font-size:13px }
-    .vac-search-select { width:calc(50% - 59px);max-width:none;padding:9px 10px;font-size:12px }
-    .vac-search-btn { flex:1;padding:9px 12px;font-size:12px;min-width:51px }
-    .vac-search-reset { position:absolute;top:4px;right:4px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.08) }
-    .vac-stats { font-size:12px;margin-bottom:16px }
-    .vac-card-title { font-size:14px }
-    .vac-card-desc { font-size:12px;margin-bottom:10px }
-    .vac-card-meta { flex-direction:column;align-items:flex-start;gap:6px }
-    .vac-card-footer { flex-wrap:wrap;gap:8px }
+    .vac-hero { padding:32px 16px;border-radius:14px }
+    .vac-hero::before { width:120px;height:120px;top:-30px;right:-30px }
+    .vac-hero::after { width:100px;height:100px;bottom:-20px;left:-20px }
+    .vac-hero-badge { font-size:11px;padding:5px 12px;margin-bottom:12px }
+    .vac-hero-title { font-size:24px }
+    .vac-hero-sub { font-size:13px;margin-bottom:20px }
+    .vac-hero-stats { gap:16px }
+    .vac-hero-stat-num { font-size:22px }
+    .vac-hero-stat-lbl { font-size:11px }
+    .vac-hero-stat-divider { height:24px }
+    .vac-search-bar { padding:4px;border-radius:12px }
+    .vac-search-icon { padding:0 0 0 12px;font-size:18px }
+    .vac-search-input { padding:10px 6px;font-size:13px }
+    .vac-search-btn { padding:9px 16px;font-size:13px;border-radius:8px }
+    .vac-filter-pills { gap:6px;margin-top:12px }
+    .vac-pill { padding:6px 12px;font-size:12px }
+    .vac-active-filters { gap:6px;margin-top:10px }
+    .vac-grid { grid-template-columns:1fr;gap:14px }
+    .vac-card { padding:18px;border-radius:14px }
+    .vac-card-title { font-size:16px }
+    .vac-card-desc { font-size:13px;margin-bottom:12px }
+    .vac-card-footer { flex-direction:column;align-items:flex-start;gap:10px }
+    .vac-empty { padding:48px 16px }
+    .vac-empty-icon { width:64px;height:64px }
+    .vac-empty-icon i { font-size:28px }
 }
 
 /* ===== MOBILE STICKY CTA ===== */
@@ -3383,56 +3394,98 @@
 /* Pagination centered */
 .pagination-wrap-center { justify-content:center;margin-top:24px }
 
-/* Vacancy listing cards */
-.vac-card { padding:20px;display:flex;flex-direction:column;border:1px solid #EDEBE6;border-radius:12px;transition:box-shadow .2s,border-color .2s }
-.vac-card:hover { box-shadow:0 4px 16px rgba(0,0,0,.06);border-color:#D0CEC9 }
-.vac-card-header { display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:8px }
-.vac-card-title { font-size:16px;font-weight:700;color:#1E1C1A;margin:4px 0 0;line-height:1.4 }
-.vac-card-desc { font-size:13px;color:#5C5A55;line-height:1.6;flex:1;margin-bottom:14px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
-.vac-card-deadline { font-size:12px;color:#A8A5A0 }
+/* ===== VACANCY PAGE - MODERN DESIGN ===== */
 
-/* Vacancy hero */
-.vac-hero { background:linear-gradient(135deg,#1A0A0A,#2D0F0F);border-radius:16px;padding:40px 32px;margin-bottom:20px;text-align:center }
-.vac-hero-title { font-size:28px;font-weight:700;color:#fff;margin:0 0 6px }
-.vac-hero-sub { font-size:14px;color:rgba(255,255,255,.55);margin:0 0 24px }
+/* Hero Section */
+.vac-hero { background:linear-gradient(135deg,#EFF6FF 0%,#DBEAFE 50%,#E0E7FF 100%);border-radius:20px;padding:48px 32px 40px;margin-bottom:24px;text-align:center;position:relative;overflow:hidden }
+.vac-hero::before { content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:rgba(37,99,235,.08);border-radius:50% }
+.vac-hero::after { content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;background:rgba(99,102,241,.06);border-radius:50% }
+.vac-hero-inner { position:relative;z-index:1 }
+.vac-hero-badge { display:inline-flex;align-items:center;gap:6px;background:#fff;color:#2563EB;font-size:12px;font-weight:600;padding:6px 14px;border-radius:20px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.06) }
+.vac-hero-badge i { font-size:14px }
+.vac-hero-title { font-size:36px;font-weight:800;color:#111827;margin:0 0 8px;line-height:1.2;letter-spacing:-.5px }
+.vac-hero-sub { font-size:16px;color:#6B7280;margin:0 0 24px;max-width:480px;margin-left:auto;margin-right:auto }
+.vac-hero-stats { display:flex;align-items:center;justify-content:center;gap:24px }
+.vac-hero-stat { display:flex;flex-direction:column;align-items:center }
+.vac-hero-stat-num { font-size:28px;font-weight:800;color:#2563EB;line-height:1 }
+.vac-hero-stat-lbl { font-size:12px;color:#6B7280;margin-top:4px }
+.vac-hero-stat-divider { width:1px;height:32px;background:#CBD5E1 }
 
-/* Search form */
-.vac-search-form { max-width:640px;margin:0 auto }
-.vac-search-wrap { display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:4px;position:relative }
-.vac-search-icon { color:#A8A5A0;font-size:18px;padding:0 0 0 12px;flex-shrink:0 }
-.vac-search-input { flex:1;border:none;outline:none;padding:10px 4px;font-size:13px;color:#1E1C1A;background:transparent;min-width:0 }
-.vac-search-input::placeholder { color:#A8A5A0 }
-.vac-search-select { border:1px solid #EDEBE6;border-radius:8px;padding:8px 12px;font-size:12px;color:#52504B;background:#fff;outline:none;cursor:pointer;max-width:160px }
-.vac-search-btn { background:#1E1C1A;color:#fff;border:none;border-radius:8px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s }
-.vac-search-btn:hover { background:#312F2D }
-.vac-search-reset { display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:#A8A5A0;text-decoration:none;flex-shrink:0;transition:background .2s }
-.vac-search-reset:hover { background:#F5F4F2;color:#5C5A55 }
+/* Search & Filter Section */
+.vac-filter-section { max-width:720px;margin:0 auto 28px }
+.vac-search-bar { display:flex;align-items:center;gap:0;background:#fff;border:1px solid #E5E7EB;border-radius:14px;padding:5px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .2s,border-color .2s }
+.vac-search-bar:focus-within { border-color:#93C5FD;box-shadow:0 0 0 3px rgba(59,130,246,.1) }
+.vac-search-icon { color:#9CA3AF;font-size:20px;padding:0 0 0 14px;flex-shrink:0 }
+.vac-search-input { flex:1;border:none;outline:none;padding:12px 8px;font-size:14px;color:#111827;background:transparent;min-width:0 }
+.vac-search-input::placeholder { color:#9CA3AF }
+.vac-search-btn { background:#2563EB;color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;transition:background .2s }
+.vac-search-btn:hover { background:#1D4ED8 }
 
-/* Stats */
-.vac-stats { font-size:13px;color:#5C5A55;margin-bottom:20px;padding:0 4px }
-.vac-stats strong { color:#1E1C1A;font-weight:700 }
+/* Division Filter Pills */
+.vac-filter-pills { display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;justify-content:center }
+.vac-pill { display:inline-flex;align-items:center;padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;color:#6B7280;background:#fff;border:1px solid #E5E7EB;text-decoration:none;transition:all .2s }
+.vac-pill:hover { background:#F9FAFB;border-color:#D1D5DB;color:#374151 }
+.vac-pill-active { background:#2563EB;color:#fff;border-color:#2563EB }
+.vac-pill-active:hover { background:#1D4ED8;border-color:#1D4ED8;color:#fff }
 
-/* Division badge */
-.vac-div-badge { display:inline-block;background:#F5F4F2;color:#52504B;font-size:11px;font-weight:600;padding:3px 10px;border-radius:6px }
+/* Active Filters */
+.vac-active-filters { display:flex;align-items:center;gap:8px;margin-top:14px;flex-wrap:wrap;justify-content:center }
+.vac-active-label { font-size:12px;color:#9CA3AF }
+.vac-chip { display:inline-flex;align-items:center;gap:6px;background:#EFF6FF;color:#1E40AF;font-size:12px;font-weight:500;padding:5px 10px 5px 12px;border-radius:16px }
+.vac-chip-remove { display:flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;color:#93C5FD;text-decoration:none;transition:all .15s }
+.vac-chip-remove:hover { background:#DBEAFE;color:#1E40AF }
+.vac-clear-all { font-size:12px;color:#9CA3AF;text-decoration:none;margin-left:4px }
+.vac-clear-all:hover { color:#EF4444 }
 
-/* Card meta */
-.vac-card-meta { display:flex;align-items:center;gap:16px;margin-bottom:12px;flex-wrap:wrap }
-.vac-meta-item { font-size:12px;color:#5C5A55;display:inline-flex;align-items:center;gap:4px }
-.vac-meta-item i { font-size:14px;color:#A8A5A0 }
-.vac-meta-deadline { color:#D97706 }
-.vac-meta-deadline i { color:#D97706 }
+/* Vacancy Grid */
+.vac-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:20px }
 
-/* Deadline urgency */
-.vac-card-urgent { font-size:11px;font-weight:700;color:#DC2626;display:inline-flex;align-items:center;gap:4px }
-.vac-card-urgent i { font-size:13px }
-.vac-card-normal { font-size:11px;color:#A8A5A0;display:inline-flex;align-items:center;gap:4px }
-.vac-card-normal i { font-size:13px }
-.vac-card-footer { display:flex;align-items:center;justify-content:space-between;border-top:1px solid #EDEBE6;padding-top:12px;margin-top:auto }
+/* Vacancy Card */
+.vac-card { display:flex;flex-direction:column;background:#fff;border:1px solid #E5E7EB;border-radius:16px;padding:24px;text-decoration:none;transition:transform .2s,box-shadow .2s,border-color .2s;position:relative;overflow:hidden }
+.vac-card::before { content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#2563EB,#6366F1);opacity:0;transition:opacity .2s }
+.vac-card:hover { transform:translateY(-4px);box-shadow:0 12px 32px rgba(0,0,0,.08);border-color:#BFDBFE }
+.vac-card:hover::before { opacity:1 }
 
-/* Empty state */
-.vac-empty { text-align:center;padding:60px 16px }
-.vac-empty i { font-size:48px;color:#D0CEC9;display:block;margin-bottom:12px }
-.vac-empty p { font-size:14px;color:#A8A5A0;margin:0 }
+.vac-card-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px }
+.vac-div-badge { display:inline-block;background:#EFF6FF;color:#1E40AF;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px }
+.vac-status-badge { display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px }
+.vac-status-open { background:#ECFDF5;color:#059669 }
+.vac-status-full { background:#FEF2F2;color:#DC2626 }
+.vac-status-urgent { background:#FFFBEB;color:#D97706 }
+
+.vac-card-title { font-size:18px;font-weight:700;color:#111827;margin:0 0 8px;line-height:1.4 }
+.vac-card-desc { font-size:14px;color:#6B7280;line-height:1.6;flex:1;margin-bottom:16px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden }
+
+/* Quota Progress Bar */
+.vac-quota { margin-bottom:16px }
+.vac-quota-header { display:flex;align-items:center;justify-content:space-between;margin-bottom:6px }
+.vac-quota-label { font-size:12px;color:#9CA3AF }
+.vac-quota-count { font-size:12px;font-weight:600;color:#374151 }
+.vac-quota-bar { height:6px;background:#F3F4F6;border-radius:3px;overflow:hidden }
+.vac-quota-fill { height:100%;background:#2563EB;border-radius:3px;transition:width .3s ease }
+.vac-quota-fill.vac-quota-high { background:#F59E0B }
+.vac-quota-fill.vac-quota-full { background:#EF4444 }
+
+/* Card Footer */
+.vac-card-footer { display:flex;align-items:center;justify-content:space-between;border-top:1px solid #F3F4F6;padding-top:14px;margin-top:auto }
+.vac-deadline { display:flex;align-items:center;gap:6px;font-size:13px;color:#9CA3AF }
+.vac-deadline i { font-size:15px }
+.vac-deadline-urgent { color:#EF4444;font-weight:600 }
+.vac-card-link { display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#2563EB;transition:gap .2s }
+.vac-card:hover .vac-card-link { gap:8px }
+
+/* Empty State */
+.vac-empty { text-align:center;padding:80px 24px;max-width:400px;margin:0 auto }
+.vac-empty-icon { width:80px;height:80px;background:#F3F4F6;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px }
+.vac-empty-icon i { font-size:36px;color:#D1D5DB }
+.vac-empty-title { font-size:18px;font-weight:700;color:#111827;margin:0 0 8px }
+.vac-empty-desc { font-size:14px;color:#9CA3AF;margin:0 0 24px;line-height:1.6 }
+.vac-empty-actions { display:flex;justify-content:center }
+
+/* Button Variants */
+.vac-btn { display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;text-decoration:none;transition:all .2s }
+.vac-btn-primary { background:#2563EB;color:#fff }
+.vac-btn-primary:hover { background:#1D4ED8 }
 
 /* Button size variants */
 .btn-sm { padding:6px 16px;font-size:12px }
