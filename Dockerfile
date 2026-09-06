@@ -54,7 +54,8 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader \
     && npm install \
     && npm run build \
-    && npm prune --production
+    && npm prune --production \
+    && php artisan livewire:publish --assets
 
 # Laravel permissions
 RUN chown -R www-data:www-data /var/www/html \
