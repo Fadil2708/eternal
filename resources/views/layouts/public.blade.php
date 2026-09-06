@@ -282,11 +282,7 @@
        class="whatsapp-float"
        aria-label="Hubungi via WhatsApp">
         <i class="ti ti-brand-whatsapp"></i>
-    </a>
-
-    {{-- SCRIPT ALPINE.JS INIT — MENGATASI ERROR UNDEFINED COMPONENTS --}}
-    {{-- SCRIPT ALPINE.JS INIT DENGAN NONCE CSP --}}
-    {{-- SCRIPT ALPINE.JS INIT DENGAN NONCE CSP --}}
+    </a> 
     <script nonce="{{ $cspNonce }}">
         document.addEventListener('alpine:init', () => {
             
@@ -345,16 +341,12 @@
                 }
             }));
 
-            // ==========================================
-            // PERBAIKAN: 5. Komponen Offer Slider
-            // ==========================================
-            // Menerima data slides dari HTML (initialSlides)
+            // 5. Komponen Offer Slider
             Alpine.data('offerSlider', (initialSlides = []) => ({
                 slides: initialSlides,
-                current: 0, // <- Variabel ini yang sebelumnya tidak ada
+                current: 0,
                 
                 init() {
-                    // Opsional: Autoplay slider tiap 5 detik
                     setInterval(() => {
                         this.next();
                     }, 5000);
@@ -370,12 +362,37 @@
                 }
             }));
             
-            // 6. Placeholder Partner Marquee
-            Alpine.data('partnerMarquee', () => ({
-                init() {}
+            // 6. Komponen Partner Marquee (Animasi Logo Berjalan)
+            Alpine.data('partnerMarquee', (speed = 25) => ({
+                init() {
+                    // Gandakan isi HTML di dalamnya agar bisa looping mulus (seamless)
+                    this.$el.innerHTML += this.$el.innerHTML;
+                    
+                    // Paksa gaya CSS agar memanjang ke samping dan teranimasi
+                    this.$el.style.display = 'flex';
+                    this.$el.style.width = 'max-content';
+                    this.$el.style.animation = `marqueeInfinite ${speed}s linear infinite`;
+                    
+                    // Buat dan sisipkan keyframes CSS secara otomatis jika belum ada
+                    if (!document.getElementById('marquee-style')) {
+                        const style = document.createElement('style');
+                        style.id = 'marquee-style';
+                        style.innerHTML = `
+                            @keyframes marqueeInfinite {
+                                0% { transform: translateX(0); }
+                                100% { transform: translateX(-50%); }
+                            }
+                            /* Opsional: Berhenti bergerak saat mouse diarahkan (hover) */
+                            .partners-track:hover {
+                                animation-play-state: paused !important;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                    }
+                }
             }));
             
-            // 7. Placeholder Back To Top
+            // 7. Komponen Back To Top
             Alpine.data('backToTop', () => ({
                 visible: false,
                 init() {
