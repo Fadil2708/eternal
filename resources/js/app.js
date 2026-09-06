@@ -1,7 +1,4 @@
-import Alpine from 'alpinejs';
 import collapse from '@alpinejs/collapse';
-
-Alpine.plugin(collapse);
 
 import registerScrollProgress from './alpine/scroll-progress';
 import registerAlertBar from './alpine/alert-bar';
@@ -16,75 +13,77 @@ import registerOfferSlider from './alpine/offer-slider';
 import registerTestiCarousel from './alpine/testi-carousel';
 import registerConfirmModal from './alpine/confirm-modal';
 
-registerScrollProgress(Alpine);
-registerAlertBar(Alpine);
-registerCookieConsent(Alpine);
-registerPublicNav(Alpine);
-registerHeroParallax(Alpine);
-registerAnimatedCounter(Alpine);
-registerBackToTop(Alpine);
-registerToastStack(Alpine);
-registerPartnerMarquee(Alpine);
-registerOfferSlider(Alpine);
-registerTestiCarousel(Alpine);
-registerConfirmModal(Alpine);
+document.addEventListener('alpine:init', () => {
+    window.Alpine.plugin(collapse);
 
-// Score calculator for evaluation form
-Alpine.data('scoreCalc', () => ({
-    scores: { soft_skill: 75, hard_skill: 75, attendance: 75, attitude: 75 },
-    finalScore: 75,
-    grade: 'B',
-    gradeClass: 'B',
-    calc() {
-        const s = this.scores;
-        this.finalScore = Math.round(
-            (s.soft_skill * 0.25) +
-            (s.hard_skill * 0.35) +
-            (s.attendance * 0.20) +
-            (s.attitude * 0.20)
-        );
-        this.grade = this.finalScore >= 85 ? 'A'
-                   : this.finalScore >= 70 ? 'B'
-                   : this.finalScore >= 55 ? 'C' : 'D';
-        this.gradeClass = this.grade;
-    }
-}));
+    registerScrollProgress(window.Alpine);
+    registerAlertBar(window.Alpine);
+    registerCookieConsent(window.Alpine);
+    registerPublicNav(window.Alpine);
+    registerHeroParallax(window.Alpine);
+    registerAnimatedCounter(window.Alpine);
+    registerBackToTop(window.Alpine);
+    registerToastStack(window.Alpine);
+    registerPartnerMarquee(window.Alpine);
+    registerOfferSlider(window.Alpine);
+    registerTestiCarousel(window.Alpine);
+    registerConfirmModal(window.Alpine);
 
-// Skill picker for intern profile
-// Timed hide for success messages (profile forms)
-Alpine.data('timedHide', () => ({
-    show: true,
-    init() {
-        setTimeout(() => { this.show = false; }, 2000);
-    }
-}));
+    // Score calculator for evaluation form
+    window.Alpine.data('scoreCalc', () => ({
+        scores: { soft_skill: 75, hard_skill: 75, attendance: 75, attitude: 75 },
+        finalScore: 75,
+        grade: 'B',
+        gradeClass: 'B',
+        calc() {
+            const s = this.scores;
+            this.finalScore = Math.round(
+                (s.soft_skill * 0.25) +
+                (s.hard_skill * 0.35) +
+                (s.attendance * 0.20) +
+                (s.attitude * 0.20)
+            );
+            this.grade = this.finalScore >= 85 ? 'A'
+                       : this.finalScore >= 70 ? 'B'
+                       : this.finalScore >= 55 ? 'C' : 'D';
+            this.gradeClass = this.grade;
+        }
+    }));
 
-Alpine.data('skillPicker', () => ({
-    open: false,
-    search: '',
-    selected: [],
-    allSkills: [],
-    init(initialSkills, skillsList) {
-        this.selected = initialSkills || [];
-        this.allSkills = skillsList || [];
-    },
-    getName(id) {
-        const s = this.allSkills.find(s => s.id == id);
-        return s ? s.name : id;
-    },
-    removeSkill(id) {
-        this.selected = this.selected.filter(s => s !== id);
-        this.syncSelected();
-    },
-    sync(event) {
-        this.syncSelected();
-    },
-    syncSelected() {
-        this.$wire.set('selectedSkills', this.selected);
-    }
-}));
+    // Timed hide for success messages (profile forms)
+    window.Alpine.data('timedHide', () => ({
+        show: true,
+        init() {
+            setTimeout(() => { this.show = false; }, 2000);
+        }
+    }));
 
-Alpine.start();
+    // Skill picker for intern profile
+    window.Alpine.data('skillPicker', () => ({
+        open: false,
+        search: '',
+        selected: [],
+        allSkills: [],
+        init(initialSkills, skillsList) {
+            this.selected = initialSkills || [];
+            this.allSkills = skillsList || [];
+        },
+        getName(id) {
+            const s = this.allSkills.find(s => s.id == id);
+            return s ? s.name : id;
+        },
+        removeSkill(id) {
+            this.selected = this.selected.filter(s => s !== id);
+            this.syncSelected();
+        },
+        sync(event) {
+            this.syncSelected();
+        },
+        syncSelected() {
+            this.$wire.set('selectedSkills', this.selected);
+        }
+    }));
+});
 
 // Global toast helper — callable from any JS code
 window.showToast = function (message, type = 'success') {
