@@ -170,6 +170,11 @@ jobs:
               echo "NOTE: Update .env on server with actual secrets!"
             fi
 
+            echo "--- Load .env variables ---"
+            set -a
+            source .env
+            set +a
+
             echo "--- 4/8 Running backup ---"
             sudo bash deploy/backup.sh || echo "Backup failed, continuing..."
 
