@@ -159,8 +159,9 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
             echo "--- 2/8 Pull latest code ---"
-            git fetch origin main
-            git reset --hard origin/main
+            sudo git fetch origin main
+            sudo git reset --hard origin/main
+            sudo chown -R skbprime:skbprime /opt/docker/eternal
 
             echo "--- 3/8 Setup .env ---"
             if [ ! -f .env ]; then
@@ -170,7 +171,7 @@ jobs:
             fi
 
             echo "--- 4/8 Running backup ---"
-            bash deploy/backup.sh || echo "Backup failed, continuing..."
+            sudo bash deploy/backup.sh || echo "Backup failed, continuing..."
 
             echo "--- 5/8 Pull new Docker image ---"
             docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
@@ -198,6 +199,10 @@ jobs:
               -v eternal-storage-private:/var/www/html/storage/app/private \
               -v eternal-storage-local:/var/www/html/storage/app/local \
               ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ needs.build-image.outputs.image_tag }}
+
+            echo "--- Fix ownership back to www-data ---"
+            sudo chown -R www-data:www-data /opt/docker/eternal/storage
+            sudo chown -R www-data:www-data /opt/docker/eternal/bootstrap/cache
 
             echo "--- Waiting for container to be ready ---"
             sleep 15
