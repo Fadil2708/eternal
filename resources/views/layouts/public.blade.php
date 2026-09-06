@@ -286,6 +286,7 @@
 
     {{-- SCRIPT ALPINE.JS INIT — MENGATASI ERROR UNDEFINED COMPONENTS --}}
     {{-- SCRIPT ALPINE.JS INIT DENGAN NONCE CSP --}}
+    {{-- SCRIPT ALPINE.JS INIT DENGAN NONCE CSP --}}
     <script nonce="{{ $cspNonce }}">
         document.addEventListener('alpine:init', () => {
             
@@ -344,20 +345,47 @@
                 }
             }));
 
-            // Placeholder untuk Slider, Marquee, & BackToTop (mencegah error dari halaman konten child)
-            Alpine.data('offerSlider', () => ({
-                slides: [],
-                init() {}
+            // ==========================================
+            // PERBAIKAN: 5. Komponen Offer Slider
+            // ==========================================
+            // Menerima data slides dari HTML (initialSlides)
+            Alpine.data('offerSlider', (initialSlides = []) => ({
+                slides: initialSlides,
+                current: 0, // <- Variabel ini yang sebelumnya tidak ada
+                
+                init() {
+                    // Opsional: Autoplay slider tiap 5 detik
+                    setInterval(() => {
+                        this.next();
+                    }, 5000);
+                },
+                next() {
+                    this.current = (this.current === this.slides.length - 1) ? 0 : this.current + 1;
+                },
+                prev() {
+                    this.current = (this.current === 0) ? this.slides.length - 1 : this.current - 1;
+                },
+                setSlide(index) {
+                    this.current = index;
+                }
             }));
             
+            // 6. Placeholder Partner Marquee
             Alpine.data('partnerMarquee', () => ({
                 init() {}
             }));
             
+            // 7. Placeholder Back To Top
             Alpine.data('backToTop', () => ({
                 visible: false,
-                init() {},
-                scrollToTop() {}
+                init() {
+                    window.addEventListener('scroll', () => {
+                        this.visible = window.scrollY > 300;
+                    });
+                },
+                scrollToTop() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
             }));
         });
     </script>
