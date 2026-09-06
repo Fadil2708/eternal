@@ -284,6 +284,83 @@
         <i class="ti ti-brand-whatsapp"></i>
     </a>
 
+    {{-- SCRIPT ALPINE.JS INIT — MENGATASI ERROR UNDEFINED COMPONENTS --}}
+    <script>
+        document.addEventListener('alpine:init', () => {
+            
+            // 1. Komponen Navbar
+            Alpine.data('publicNav', () => ({
+                navOpen: false,
+                active: 'beranda',
+                init() {
+                    this.updateActive();
+                    window.addEventListener('hashchange', () => this.updateActive());
+                },
+                updateActive() {
+                    const hash = window.location.hash.substring(1);
+                    this.active = hash ? hash : 'beranda';
+                },
+                toggle() {
+                    this.navOpen = !this.navOpen;
+                },
+                close() {
+                    this.navOpen = false;
+                }
+            }));
+
+            // 2. Komponen Scroll Progress
+            Alpine.data('scrollProgress', () => ({
+                style: 'width: 0%',
+                init() {
+                    window.addEventListener('scroll', () => {
+                        let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                        let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                        let scrolled = (winScroll / height) * 100;
+                        this.style = `width: ${scrolled}%`;
+                    });
+                }
+            }));
+
+            // 3. Komponen Alert Bar (Pengumuman)
+            Alpine.data('alertBar', () => ({
+                show: true,
+                dismiss() {
+                    this.show = false;
+                }
+            }));
+
+            // 4. Komponen Cookie Consent
+            Alpine.data('cookieConsent', () => ({
+                show: false,
+                init() {
+                    if (!localStorage.getItem('cookie_accepted')) {
+                        this.show = true;
+                    }
+                },
+                accept() {
+                    localStorage.setItem('cookie_accepted', 'true');
+                    this.show = false;
+                }
+            }));
+
+            // Placeholder untuk Slider, Marquee, & BackToTop (mencegah error dari halaman konten child)
+            Alpine.data('offerSlider', () => ({
+                slides: [],
+                init() {}
+            }));
+            
+            Alpine.data('partnerMarquee', () => ({
+                init() {}
+            }));
+            
+            Alpine.data('backToTop', () => ({
+                visible: false,
+                init() {},
+                scrollToTop() {}
+            }));
+        });
+    </script>
+
     @vite(['resources/js/app.js'])
     @stack('scripts')
 </body>
