@@ -102,7 +102,7 @@
                 </div>
 
                 <h2 class="vac-card-title">{{ $vacancy->title }}</h2>
-                <p class="vac-card-desc">{!! clean($vacancy->description) !!}</p>
+                <p class="vac-card-desc">{!! clean(Str::limit(strip_tags($vacancy->description), 100)) !!}</p>
 
                 {{-- Quota Progress --}}
                 <div class="vac-quota">

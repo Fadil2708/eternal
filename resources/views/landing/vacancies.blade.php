@@ -44,7 +44,7 @@
                     @endif
                 </div>
             </div>
-            <p class="vacancy-card-desc">{!! clean($vacancy->description) !!}</p>
+            <p class="vacancy-card-desc">{!! clean(Str::limit(strip_tags($vacancy->description), 100)) !!}</p>
             <div class="vacancy-card-footer">
                 <span class="vacancy-card-deadline"
                       x-data="{ left: {{ $vacancy->application_deadline ? $vacancy->application_deadline->isPast() ? 0 : $vacancy->application_deadline->diffInDays(now()) : 0 }} }"
