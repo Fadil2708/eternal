@@ -37,8 +37,8 @@
                 </div>
                 <div class="field" x-data="{ description: @entangle('description'), descFocused: false }">
                     <label>Deskripsi</label>
-                    <input type="hidden" id="description-input" value="{{ $description }}">
-                    <trix-editor input="description-input" wire:ignore x-on:trix-change="description = document.getElementById('description-input').value" x-on:focus="descFocused = true" x-on:blur="descFocused = false"></trix-editor>
+                    <input type="hidden" id="description-input" value="{{ $description }}" wire:ignore>
+                    <trix-editor input="description-input" wire:ignore x-on:trix-change="description = $event.target.value" x-on:focus="descFocused = true" x-on:blur="descFocused = false"></trix-editor>
                     <div class="trix-preview-wrap" x-show="descFocused || description.length > 0" x-cloak>
                         <div class="trix-preview-label">Preview</div>
                         <div class="trix-preview" x-html="description"></div>
@@ -47,8 +47,8 @@
                 </div>
                 <div class="field" x-data="{ qualifications: @entangle('qualifications'), qualFocused: false }">
                     <label>Kualifikasi</label>
-                    <input type="hidden" id="qualifications-input" value="{{ $qualifications }}">
-                    <trix-editor input="qualifications-input" wire:ignore x-on:trix-change="qualifications = document.getElementById('qualifications-input').value" x-on:focus="qualFocused = true" x-on:blur="qualFocused = false"></trix-editor>
+                    <input type="hidden" id="qualifications-input" value="{{ $qualifications }}" wire:ignore>
+                    <trix-editor input="qualifications-input" wire:ignore x-on:trix-change="qualifications = $event.target.value" x-on:focus="qualFocused = true" x-on:blur="qualFocused = false"></trix-editor>
                     <div class="trix-preview-wrap" x-show="qualFocused || qualifications.length > 0" x-cloak>
                         <div class="trix-preview-label">Preview</div>
                         <div class="trix-preview" x-html="qualifications"></div>
