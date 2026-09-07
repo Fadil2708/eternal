@@ -103,7 +103,7 @@
                     @endif
                 </div>
 
-                <p class="vc-card-desc vacancy-card-desc">{!! clean($v->description) !!}</p>
+                <p class="vc-card-desc vacancy-card-desc">{!! clean(Str::limit(strip_tags($v->description), 100)) !!}</p>
 
                 <div class="vc-quota">
                     <div class="vc-quota-label">
