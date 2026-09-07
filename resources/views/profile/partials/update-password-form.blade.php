@@ -32,6 +32,7 @@
         <div class="acp-footer">
             <button type="submit"
                     class="acp-submit"
+                    x-cloak
                     x-data="{ loading: false }"
                     x-on:click="loading = true"
                     x-bind:disabled="loading">

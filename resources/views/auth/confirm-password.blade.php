@@ -11,7 +11,7 @@
         </p>
     </div>
 
-    <form method="POST" action="{{ route('password.confirm', [], false) }}" x-data="{ showPassword: false, loading: false }" @submit="loading = true">
+    <form method="POST" action="{{ route('password.confirm', [], false) }}" x-cloak x-data="{ showPassword: false, loading: false }" @submit="loading = true">
         @csrf
 
         <div class="field">

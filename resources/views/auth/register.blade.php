@@ -30,7 +30,7 @@
             <p class="auth-desc">Daftar untuk memulai perjalanan magang Anda</p>
         </div>
 
-        <form method="POST" action="{{ route('register',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
+        <form method="POST" action="{{ route('register',[], false) }}" x-cloak x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
             @csrf
 
             <div class="field">
@@ -97,7 +97,7 @@
             <p class="auth-desc">Gunakan kode undangan dari admin untuk mendaftar</p>
         </div>
 
-        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
+        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-cloak x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
             @csrf
 
             <div class="field">

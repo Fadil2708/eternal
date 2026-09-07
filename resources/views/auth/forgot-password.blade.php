@@ -13,7 +13,7 @@
 
     <x-auth-session-status :status="session('status')" />
 
-    <form method="POST" action="{{ route('password.email',[], false) }}" x-data="{ loading: false }" @submit="loading = true">
+    <form method="POST" action="{{ route('password.email',[], false) }}" x-cloak x-data="{ loading: false }" @submit="loading = true">
         @csrf
 
         <div class="field">
