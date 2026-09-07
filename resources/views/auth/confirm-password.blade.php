@@ -11,7 +11,7 @@
         </p>
     </div>
 
-    <form method="POST" action="{{ route('password.confirm', [], false) }}" x-cloak x-data="{ showPassword: false, loading: false }" @submit="loading = true">
+    <form method="POST" action="{{ route('password.confirm', [], false) }}" x-data="{ showPassword: false, loading: false }" @submit="loading = true">
         @csrf
 
         <div class="field">
@@ -32,10 +32,10 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-show="loading" class="ti ti-loader spin"></i>
-            <i x-show="!loading" class="ti ti-shield-check"></i>
-            <span x-show="!loading">Konfirmasi</span>
-            <span x-show="loading">Memproses...</span>
+            <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
+            <i x-cloak x-show="!loading" class="ti ti-shield-check"></i>
+            <span x-cloak x-show="!loading">Konfirmasi</span>
+            <span x-cloak x-show="loading">Memproses...</span>
         </button>
     </form>
 </x-guest-layout>

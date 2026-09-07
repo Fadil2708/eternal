@@ -30,7 +30,7 @@
             <p class="auth-desc">Daftar untuk memulai perjalanan magang Anda</p>
         </div>
 
-        <form method="POST" action="{{ route('register',[], false) }}" x-cloak x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
+        <form method="POST" action="{{ route('register',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
             @csrf
 
             <div class="field">
@@ -74,10 +74,10 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
-                <i x-show="!loading" class="ti ti-user-check"></i>
-                <i x-show="loading" class="ti ti-loader spin"></i>
-                <span x-show="!loading">Daftar</span>
-                <span x-show="loading">Memproses...</span>
+                <i x-cloak x-show="!loading" class="ti ti-user-check"></i>
+                <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
+                <span x-cloak x-show="!loading">Daftar</span>
+                <span x-cloak x-show="loading">Memproses...</span>
             </button>
 
             <p class="auth-footer">
@@ -97,7 +97,7 @@
             <p class="auth-desc">Gunakan kode undangan dari admin untuk mendaftar</p>
         </div>
 
-        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-cloak x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
+        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false }" @submit="loading = true">
             @csrf
 
             <div class="field">
@@ -150,10 +150,10 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
-                <i x-show="!loading" class="ti ti-user-check"></i>
-                <i x-show="loading" class="ti ti-loader spin"></i>
-                <span x-show="!loading">Daftar</span>
-                <span x-show="loading">Memproses...</span>
+                <i x-cloak x-show="!loading" class="ti ti-user-check"></i>
+                <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
+                <span x-cloak x-show="!loading">Daftar</span>
+                <span x-cloak x-show="loading">Memproses...</span>
             </button>
 
             <p class="auth-footer">

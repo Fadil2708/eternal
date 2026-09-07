@@ -11,7 +11,7 @@
 
     <x-auth-session-status :status="session('status')" />
 
-    <form method="POST" action="{{ route('login',[], false) }}" x-cloak x-data="{ showPassword: false, loading: false }" @submit="loading = true">
+    <form method="POST" action="{{ route('login',[], false) }}" x-data="{ showPassword: false, loading: false }" @submit="loading = true">
         @csrf
 
         <div class="field">
@@ -51,10 +51,10 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-show="!loading" class="ti ti-login-2"></i>
-            <i x-show="loading" class="ti ti-loader spin"></i>
-            <span x-show="!loading">Masuk</span>
-            <span x-show="loading">Memproses...</span>
+            <i x-cloak x-show="!loading" class="ti ti-login-2"></i>
+            <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
+            <span x-cloak x-show="!loading">Masuk</span>
+            <span x-cloak x-show="loading">Memproses...</span>
         </button>
 
         <p class="auth-footer">
