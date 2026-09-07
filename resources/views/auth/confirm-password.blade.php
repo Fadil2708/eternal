@@ -33,8 +33,8 @@
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
             <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-            <i x-cloak x-show="!loading" class="ti ti-shield-check"></i>
-            <span x-cloak x-show="!loading">Konfirmasi</span>
+            <i x-show="!loading" class="ti ti-shield-check"></i>
+            <span x-show="!loading">Konfirmasi</span>
             <span x-cloak x-show="loading">Memproses...</span>
         </button>
     </form>

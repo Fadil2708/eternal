@@ -47,9 +47,9 @@
                     x-data="{ loading: false }"
                     x-on:click="loading = true"
                     x-bind:disabled="loading">
-                <i x-cloak x-show="!loading" class="ti ti-device-floppy"></i>
+                <i x-show="!loading" class="ti ti-device-floppy"></i>
                 <i x-cloak x-show="loading" class="ti ti-loader acp-spin"></i>
-                <span x-cloak x-show="!loading">Simpan</span>
+                <span x-show="!loading">Simpan</span>
                 <span x-cloak x-show="loading">Menyimpan...</span>
             </button>
             @if (session('status') === 'profile-updated')

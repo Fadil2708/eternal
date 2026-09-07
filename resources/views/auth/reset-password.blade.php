@@ -54,9 +54,9 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-cloak x-show="!loading" class="ti ti-shield-check"></i>
+            <i x-show="!loading" class="ti ti-shield-check"></i>
             <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-            <span x-cloak x-show="!loading">Reset Password</span>
+            <span x-show="!loading">Reset Password</span>
             <span x-cloak x-show="loading">Memproses...</span>
         </button>
     </form>

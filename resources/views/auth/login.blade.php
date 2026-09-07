@@ -51,9 +51,9 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-cloak x-show="!loading" class="ti ti-login-2"></i>
+            <i x-show="!loading" class="ti ti-login-2"></i>
             <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-            <span x-cloak x-show="!loading">Masuk</span>
+            <span x-show="!loading">Masuk</span>
             <span x-cloak x-show="loading">Memproses...</span>
         </button>
 

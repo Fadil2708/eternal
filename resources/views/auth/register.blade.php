@@ -74,9 +74,9 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
-                <i x-cloak x-show="!loading" class="ti ti-user-check"></i>
+                <i x-show="!loading" class="ti ti-user-check"></i>
                 <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-                <span x-cloak x-show="!loading">Daftar</span>
+                <span x-show="!loading">Daftar</span>
                 <span x-cloak x-show="loading">Memproses...</span>
             </button>
 
@@ -150,9 +150,9 @@
                     class="btn-primary btn-full mt-20"
                     x-bind:disabled="loading"
                     x-bind:class="loading ? 'btn-loading' : ''">
-                <i x-cloak x-show="!loading" class="ti ti-user-check"></i>
+                <i x-show="!loading" class="ti ti-user-check"></i>
                 <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-                <span x-cloak x-show="!loading">Daftar</span>
+                <span x-show="!loading">Daftar</span>
                 <span x-cloak x-show="loading">Memproses...</span>
             </button>
 

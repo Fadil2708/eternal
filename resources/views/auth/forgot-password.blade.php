@@ -29,9 +29,9 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-cloak x-show="!loading" class="ti ti-send"></i>
+            <i x-show="!loading" class="ti ti-send"></i>
             <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
-            <span x-cloak x-show="!loading">Kirim Tautan Reset</span>
+            <span x-show="!loading">Kirim Tautan Reset</span>
             <span x-cloak x-show="loading">Mengirim...</span>
         </button>
 
