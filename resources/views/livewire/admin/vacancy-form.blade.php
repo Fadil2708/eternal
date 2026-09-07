@@ -35,16 +35,16 @@
                         @error('quota') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                <div class="field">
+                <div class="field" x-data="{ description: @entangle('description') }">
                     <label>Deskripsi</label>
                     <input type="hidden" id="description-input" value="{{ $description }}">
-                    <trix-editor input="description-input" wire:ignore x-data="{ description: @entangle('description') }" x-on:trix-change="description = $event.target.value"></trix-editor>
+                    <trix-editor input="description-input" wire:ignore x-on:trix-change="description = $event.target.value"></trix-editor>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
-                <div class="field">
+                <div class="field" x-data="{ qualifications: @entangle('qualifications') }">
                     <label>Kualifikasi</label>
                     <input type="hidden" id="qualifications-input" value="{{ $qualifications }}">
-                    <trix-editor input="qualifications-input" wire:ignore x-data="{ qualifications: @entangle('qualifications') }" x-on:trix-change="qualifications = $event.target.value"></trix-editor>
+                    <trix-editor input="qualifications-input" wire:ignore x-on:trix-change="qualifications = $event.target.value"></trix-editor>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
