@@ -90,7 +90,7 @@
         </div>
     </form>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.css">
-    <style>
+    <style nonce="{{ $cspNonce }}">
         trix-editor {
             width: 100%; min-height: 160px;
             border: 1.5px solid rgb(var(--panel-border)); border-radius: var(--radius);
@@ -103,5 +103,5 @@
         trix-toolbar { padding: 4px 0; }
         trix-toolbar .trix-button { padding: 6px 8px; }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.umd.min.js" defer></script>
+    <script nonce="{{ $cspNonce }}" src="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.umd.min.js" defer></script>
 </div>
