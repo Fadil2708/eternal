@@ -58,19 +58,16 @@
     <div wire:loading class="vc-grid">
         @for($i = 0; $i < 6; $i++)
         <div class="panel vc-card vc-skeleton">
-            <div class="vc-card-head">
-                <div class="skeleton vc-sk-avatar"></div>
-                <div style="flex:1">
-                    <div class="skeleton-text skeleton-text-lg" style="width:70%;margin-bottom:8px"></div>
-                    <div class="skeleton-text skeleton-text-sm" style="width:40%"></div>
-                </div>
+            <div class="vc-card-top">
+                <div class="skeleton" style="width:80px;height:22px;border-radius:6px"></div>
+                <div class="skeleton" style="width:50px;height:22px;border-radius:6px"></div>
             </div>
+            <div class="skeleton-text skeleton-text-lg" style="width:80%;margin-bottom:8px"></div>
             <div class="skeleton-text" style="width:100%;margin-bottom:4px"></div>
             <div class="skeleton-text" style="width:100%;margin-bottom:4px"></div>
             <div class="skeleton-text" style="width:60%"></div>
             <div class="skeleton" style="width:100%;height:6px;border-radius:6px;margin:16px 0 8px"></div>
-            <div class="skeleton-text skeleton-text-sm" style="width:45%;margin-bottom:16px"></div>
-            <div class="skeleton" style="width:100%;height:36px;border-radius:10px"></div>
+            <div class="skeleton-text skeleton-text-sm" style="width:50%"></div>
         </div>
         @endfor
     </div>
@@ -83,26 +80,20 @@
                 $filled = min($v->accepted_applications_count, $v->quota);
                 $quotaPct = $v->quota > 0 ? round($filled / $v->quota * 100) : 0;
                 $isFull = $v->accepted_applications_count >= $v->quota;
-                $tint = 'vc-tint-' . (($loop->iteration % 4) + 1);
             @endphp
-            <article class="panel vc-card" aria-label="Lowongan {{ $v->title }}">
-                <div class="vc-card-head">
-                    <div class="vc-avatar {{ $tint }}">
-                        <i class="ti ti-building"></i>
-                    </div>
-                    <div class="vc-card-main">
-                        <h3 class="vc-card-title">
-                            <a href="{{ route('intern.vacancies.show', $v->id) }}" class="vc-card-link" wire:navigate>{{ $v->title }}</a>
-                        </h3>
-                        <p class="vc-card-company">{{ $v->division }}</p>
-                    </div>
+            <a href="{{ route('intern.vacancies.show', $v->id) }}" class="panel vc-card" wire:navigate aria-label="Lowongan {{ $v->title }}">
+                <div class="vc-card-top">
+                    <span class="vc-div-badge">{{ $v->division }}</span>
                     @if($isFull)
-                        <span class="badge badge-rejected">Penuh</span>
+                        <span class="vc-status-badge vc-status-full">Penuh</span>
+                    @elseif($daysLeft >= 0 && $daysLeft <= 3)
+                        <span class="vc-status-badge vc-status-urgent">Urgent</span>
                     @else
-                        <span class="badge badge-active">Terbuka</span>
+                        <span class="vc-status-badge vc-status-open">Open</span>
                     @endif
                 </div>
 
+                <h2 class="vc-card-title">{{ $v->title }}</h2>
                 <p class="vc-card-desc vacancy-card-desc">{!! clean(Str::limit(strip_tags($v->description), 100)) !!}</p>
 
                 <div class="vc-quota">
@@ -115,31 +106,22 @@
                     </div>
                 </div>
 
-                <div class="vc-card-meta">
-                    <span class="vc-meta-item" title="Periode magang">
-                        <i class="ti ti-calendar-time"></i>
-                        {{ $v->start_date?->format('d M') }} – {{ $v->end_date?->format('d M Y') }}
-                    </span>
-                    <span class="vc-meta-item" title="Tenggat pendaftaran">
-                        <i class="ti ti-calendar-exclamation"></i>
-                        <span class="vc-deadline {{ $daysLeft <= 2 ? 'vc-deadline-urgent' : ($daysLeft <= 4 ? 'vc-deadline-soon' : '') }}">
-                            @if($daysLeft === 0)
-                                Hari ini
-                            @elseif($daysLeft === 1)
-                                Besok
-                            @else
-                                {{ $daysLeft }} hari lagi
-                            @endif
-                        </span>
-                    </span>
-                </div>
-
                 <div class="vc-card-foot">
-                    <a href="{{ route('intern.vacancies.show', $v->id) }}" class="btn-primary vc-card-btn" wire:navigate>
+                    <div class="vc-deadline">
+                        <i class="ti ti-calendar-event"></i>
+                        @if($daysLeft === 0)
+                            <span class="vc-deadline-urgent">Hari ini hari terakhir!</span>
+                        @elseif($daysLeft <= 3)
+                            <span class="vc-deadline-urgent">{{ $daysLeft }} hari lagi</span>
+                        @else
+                            <span>Deadline: {{ $v->application_deadline?->format('d M Y') }}</span>
+                        @endif
+                    </div>
+                    <span class="vc-card-link-text">
                         Lihat Detail <i class="ti ti-arrow-right"></i>
-                    </a>
+                    </span>
                 </div>
-            </article>
+            </a>
         @empty
             <div class="vc-empty">
                 <div class="vc-empty-icon">
