@@ -1722,8 +1722,8 @@
         line-height: 1.6;
         color: rgb(var(--text-secondary));
     }
-    .trix-preview ol,
-    .trix-preview ul { padding-left: 20px; }
+    .trix-preview ol { padding-left: 20px; list-style-type: decimal; }
+    .trix-preview ul { padding-left: 20px; list-style-type: disc; }
     .trix-preview h1,
     .trix-preview h2,
     .trix-preview h3 {
