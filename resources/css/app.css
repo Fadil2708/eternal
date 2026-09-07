@@ -1701,6 +1701,53 @@
         box-shadow: 0 0 0 3px rgba(220,38,38,0.10);
     }
 
+    /* ===== TRIX PREVIEW ===== */
+    .trix-preview-wrap {
+        margin-top: 8px;
+        border: 1.5px dashed rgb(var(--panel-border));
+        border-radius: var(--radius);
+        padding: 12px 14px;
+        background: rgb(var(--input-bg));
+    }
+    .trix-preview-label {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgb(var(--text-muted));
+        margin-bottom: 6px;
+    }
+    .trix-preview {
+        font-size: 13px;
+        line-height: 1.6;
+        color: rgb(var(--text-secondary));
+    }
+    .trix-preview ol,
+    .trix-preview ul { padding-left: 20px; }
+    .trix-preview h1,
+    .trix-preview h2,
+    .trix-preview h3 {
+        font-weight: 700;
+        margin: 8px 0 4px;
+    }
+    .trix-preview h1 { font-size: 18px; }
+    .trix-preview h2 { font-size: 15px; }
+    .trix-preview h3 { font-size: 13px; }
+    .trix-preview blockquote {
+        border-left: 3px solid rgb(var(--brand));
+        padding-left: 12px;
+        margin: 8px 0;
+        color: rgb(var(--text-muted));
+        font-style: italic;
+    }
+    .trix-preview code {
+        background: rgb(var(--panel-bg));
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-family: monospace;
+    }
+
     .field-input-file {
         width: 100%; padding: 8px 12px;
         border: 1.5px dashed #E8E6E1; border-radius: 10px;

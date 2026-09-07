@@ -39,12 +39,20 @@
                     <label>Deskripsi</label>
                     <input type="hidden" id="description-input" value="{{ $description }}">
                     <trix-editor input="description-input" wire:ignore x-on:trix-change="description = $event.target.value"></trix-editor>
+                    <div class="trix-preview-wrap" x-show="description.length > 0" x-cloak>
+                        <div class="trix-preview-label">Preview</div>
+                        <div class="trix-preview" x-html="description"></div>
+                    </div>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="field" x-data="{ qualifications: @entangle('qualifications') }">
                     <label>Kualifikasi</label>
                     <input type="hidden" id="qualifications-input" value="{{ $qualifications }}">
                     <trix-editor input="qualifications-input" wire:ignore x-on:trix-change="qualifications = $event.target.value"></trix-editor>
+                    <div class="trix-preview-wrap" x-show="qualifications.length > 0" x-cloak>
+                        <div class="trix-preview-label">Preview</div>
+                        <div class="trix-preview" x-html="qualifications"></div>
+                    </div>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
