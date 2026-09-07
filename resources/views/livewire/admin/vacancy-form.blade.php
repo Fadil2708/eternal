@@ -37,14 +37,14 @@
                 </div>
                 <div class="field">
                     <label>Deskripsi</label>
-                    <input type="hidden" id="description-input" value="{{ $description }}" wire:ignore>
-                    <trix-editor input="description-input" wire:ignore.self x-data x-on:trix-change.debounce.1000ms="$wire.set('description', $event.target.value)"></trix-editor>
+                    <input type="hidden" id="description-input" value="{{ $description }}">
+                    <trix-editor input="description-input" wire:ignore x-data="{ description: @entangle('description') }" x-on:trix-change="description = $event.target.value"></trix-editor>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="field">
                     <label>Kualifikasi</label>
-                    <input type="hidden" id="qualifications-input" value="{{ $qualifications }}" wire:ignore>
-                    <trix-editor input="qualifications-input" wire:ignore.self x-data x-on:trix-change.debounce.1000ms="$wire.set('qualifications', $event.target.value)"></trix-editor>
+                    <input type="hidden" id="qualifications-input" value="{{ $qualifications }}">
+                    <trix-editor input="qualifications-input" wire:ignore x-data="{ qualifications: @entangle('qualifications') }" x-on:trix-change="qualifications = $event.target.value"></trix-editor>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
