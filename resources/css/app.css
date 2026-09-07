@@ -5976,156 +5976,19 @@ textarea.input { resize: vertical; line-height: 1.6; }
 }
 .stat-chip-accent i { color: rgb(var(--brand) / 1); }
 
-/* ===== VACANCY TOOLBAR ===== */
+/* ===== VACANCY HERO BREADCRUMB ===== */
+.vc-hero-breadcrumb {
+    margin-bottom: 12px;
+}
+
+/* ===== VACANCY TOOLBAR (kept for my-applications.blade.php) ===== */
 .vc-toolbar {
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
 }
-.vc-toolbar-filters {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-.vc-search { flex: 1; min-width: 200px; }
-.vc-search input { width: 240px; }
-.search-clear {
-    border: none;
-    background: transparent;
-    color: rgb(var(--text-light));
-    cursor: pointer;
-    padding: 2px;
-    display: inline-flex;
-    align-items: center;
-    transition: color var(--transition-fast);
-}
-.search-clear:hover { color: rgb(var(--text-muted)); }
-.vc-select-wrap {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-}
-.vc-select {
-    appearance: none;
-    -webkit-appearance: none;
-    border: 1px solid rgb(var(--panel-border));
-    background: rgb(var(--input-bg));
-    border-radius: var(--radius-sm);
-    padding: 8px 30px 8px 32px;
-    font-size: 12px;
-    font-family: inherit;
-    color: rgb(var(--text-secondary));
-    cursor: pointer;
-    outline: none;
-    transition: all var(--transition-fast);
-}
-.vc-select:hover { border-color: rgb(var(--text-light)); }
-.vc-select:focus { border-color: rgb(var(--brand) / 1); background: rgb(var(--panel-bg)); }
-.vc-select-icon {
-    position: absolute;
-    left: 10px;
-    font-size: 13px;
-    color: rgb(var(--text-light));
-    pointer-events: none;
-}
-.vc-select-caret {
-    position: absolute;
-    right: 10px;
-    font-size: 12px;
-    color: rgb(var(--text-light));
-    pointer-events: none;
-}
-.result-count {
-    font-size: 11px;
-    color: rgb(var(--text-muted));
-    white-space: nowrap;
-}
 
-/* ===== VACANCY GRID (intern) ===== */
-.vc-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-@media (max-width: 900px) {
-    .vc-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-    .vc-grid { grid-template-columns: 1fr; }
-}
-.vc-card {
-    display: flex;
-    flex-direction: column;
-    padding: 18px;
-    text-decoration: none;
-    transition: box-shadow var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
-}
-.vc-card:hover {
-    box-shadow: var(--shadow-md);
-    border-color: rgb(var(--brand) / 0.35);
-    transform: translateY(-2px);
-}
-.vc-card:focus-within {
-    box-shadow: var(--shadow-md);
-    border-color: rgb(var(--brand) / 0.35);
-}
-.vc-card-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:12px }
-.vc-div-badge { display:inline-block;background:#EFF6FF;color:#1E40AF;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px }
-.vc-status-badge { display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px }
-.vc-status-open { background:#ECFDF5;color:#059669 }
-.vc-status-full { background:#FEF2F2;color:#DC2626 }
-.vc-status-urgent { background:#FFFBEB;color:#D97706 }
-.vc-card-title {
-    font-size: 15px;
-    font-weight: 700;
-    color: rgb(var(--text-primary));
-    line-height: 1.35;
-    margin: 0 0 2px;
-}
-.vc-card-desc {
-    font-size: 12px;
-    color: rgb(var(--text-secondary));
-    line-height: 1.55;
-    flex: 1;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-.vc-card-foot { display:flex;align-items:center;justify-content:space-between;border-top:1px solid #F3F4F6;padding-top:14px;margin-top:auto }
-.vc-deadline { display:flex;align-items:center;gap:6px;font-size:13px;color:#9CA3AF }
-.vc-deadline i { font-size:15px }
-.vc-deadline-urgent { color:#EF4444;font-weight:600 }
-.vc-card-link-text { display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:rgb(var(--brand) / 1);transition:gap .2s }
-.vc-card:hover .vc-card-link-text { gap:8px }
-.vc-quota { margin-bottom: 12px; }
-.vc-quota-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: rgb(var(--text-muted));
-    margin-bottom: 5px;
-}
-.vc-quota-full { color: #DC2626; font-weight: 700; }
-.vc-quota-bar {
-    height: 6px;
-    background: rgb(var(--input-bg));
-    border-radius: 999px;
-    overflow: hidden;
-}
-.vc-quota-fill {
-    height: 100%;
-    background: #10B981;
-    border-radius: 999px;
-    transition: width 0.3s ease;
-}
-.vc-quota-fill-full { background: #DC2626; }
-/* ===== VACANCY SKELETON ===== */
-.vc-skeleton { gap: 12px; }
-
-/* ===== VACANCY EMPTY STATE ===== */
+/* ===== VACANCY EMPTY STATE (intern, still used by my-applications) ===== */
 .vc-empty {
     grid-column: 1 / -1;
     text-align: center;
@@ -6158,27 +6021,9 @@ textarea.input { resize: vertical; line-height: 1.6; }
 }
 .vc-empty-btn { display: inline-flex; }
 
-/* ===== VACANCY RESPONSIVE ===== */
+/* ===== VACANCY RESPONSIVE (intern, kept for vc-hero used by other pages) ===== */
 @media (max-width: 768px) {
     .vc-hero { flex-direction: column; align-items: flex-start; }
-    .vc-toolbar-filters {
-        flex-direction: column;
-        width: 100%;
-    }
-    .vc-search {
-        width: 100%;
-        min-width: 0;
-    }
-    .vc-search input {
-        width: 100%;
-    }
-    .vc-select-wrap {
-        width: 100%;
-    }
-    .vc-select {
-        width: 100%;
-    }
-    .vc-toolbar { align-items: stretch; }
 }
 
 /* ===== MY APPLICATIONS (intern) — redesigned ===== */

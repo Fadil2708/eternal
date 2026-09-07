@@ -1,64 +1,83 @@
 <div>
-    {{-- ===== HERO RINGAN ===== --}}
-    <div class="vc-hero">
-        <div class="vc-hero-main">
-            <div class="breadcrumb">
-                <a href="{{ route('intern.dashboard') }}">Dashboard</a>
-                <i class="ti ti-chevron-right"></i>
-                <span>Lowongan</span>
-            </div>
-            <h1 class="vc-hero-title">Daftar Lowongan</h1>
-            <p class="vc-hero-sub">Cari dan daftar lowongan magang yang tersedia untukmu</p>
-        </div>
-        <div class="vc-hero-stats">
-            <span class="stat-chip">
-                <i class="ti ti-briefcase"></i>
-                <strong>{{ $totalCount }}</strong> lowongan terbuka
-            </span>
-            <span class="stat-chip">
-                <i class="ti ti-building"></i>
-                <strong>{{ $divisionCount }}</strong> divisi
-            </span>
-            @if($nearestDeadline)
-                <span class="stat-chip stat-chip-accent">
-                    <i class="ti ti-calendar-due"></i>
-                    Tenggat terdekat: {{ \Illuminate\Support\Carbon::parse($nearestDeadline)->format('d M Y') }}
-                </span>
-            @endif
+    {{-- ===== BREADCRUMB ===== --}}
+    <div class="vc-hero-breadcrumb">
+        <div class="breadcrumb">
+            <a href="{{ route('intern.dashboard') }}">Dashboard</a>
+            <i class="ti ti-chevron-right"></i>
+            <span>Lowongan</span>
         </div>
     </div>
 
-    {{-- ===== FILTER BAR ===== --}}
-    <div class="filter-bar vc-toolbar">
-        <div class="vc-toolbar-filters">
-            <div class="search-box vc-search">
-                <i class="ti ti-search"></i>
-                <input wire:model.live.debounce.300ms="search" type="text" placeholder="Cari lowongan atau divisi...">
-                @if($search)
-                    <button type="button" class="search-clear" wire:click="$set('search', '')" aria-label="Hapus pencarian">
-                        <i class="ti ti-x"></i>
-                    </button>
-                @endif
-            </div>
-            <div class="vc-select-wrap">
-                <i class="ti ti-filter vc-select-icon"></i>
-                <select wire:model.live="filterDivision" class="vc-select" aria-label="Filter divisi">
-                    <option value="">Semua Divisi</option>
-                    @foreach($divisions as $div)
-                        <option value="{{ $div }}">{{ $div }}</option>
-                    @endforeach
-                </select>
-                <i class="ti ti-chevron-down vc-select-caret"></i>
+    {{-- ===== HERO (sama seperti public) ===== --}}
+    <div class="vac-hero">
+        <div class="vac-hero-inner">
+            <span class="vac-hero-badge"><i class="ti ti-briefcase"></i> Magang & PKL</span>
+            <h1 class="vac-hero-title">Temukan Magang<br>Impianmu</h1>
+            <p class="vac-hero-sub">Jelajahi lowongan magang & PKL dari berbagai divisi di Eternal Internship</p>
+            <div class="vac-hero-stats">
+                <div class="vac-hero-stat">
+                    <span class="vac-hero-stat-num">{{ $totalCount }}</span>
+                    <span class="vac-hero-stat-lbl">Lowongan Aktif</span>
+                </div>
+                <div class="vac-hero-stat-divider"></div>
+                <div class="vac-hero-stat">
+                    <span class="vac-hero-stat-num">{{ $divisionCount }}</span>
+                    <span class="vac-hero-stat-lbl">Divisi</span>
+                </div>
             </div>
         </div>
-        <span class="result-count">Menampilkan {{ $totalCount }} lowongan</span>
+    </div>
+
+    {{-- ===== SEARCH & FILTER (sama seperti public) ===== --}}
+    <div class="vac-filter-section">
+        <div class="vac-search-bar">
+            <i class="ti ti-search vac-search-icon"></i>
+            <input wire:model.live.debounce.300ms="search" type="text" class="vac-search-input"
+                   placeholder="Cari lowongan berdasarkan judul atau divisi...">
+        </div>
+
+        @if(count($divisions) > 0)
+        <div class="vac-filter-pills">
+            <button type="button" wire:click="$set('filterDivision', '')" class="vac-pill {{ !$filterDivision ? 'vac-pill-active' : '' }}">
+                Semua
+            </button>
+            @foreach($divisions as $div)
+                <button type="button" wire:click="$set('filterDivision', '{{ $div }}')" class="vac-pill {{ $filterDivision === $div ? 'vac-pill-active' : '' }}">
+                    {{ $div }}
+                </button>
+            @endforeach
+        </div>
+        @endif
+
+        @if($search || $filterDivision)
+        <div class="vac-active-filters">
+            <span class="vac-active-label">Filter aktif:</span>
+            @if($search)
+                <span class="vac-chip">
+                    "{{ $search }}"
+                    <button type="button" wire:click="$set('search', '')" class="vac-chip-remove">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </span>
+            @endif
+            @if($filterDivision)
+                <span class="vac-chip">
+                    {{ $filterDivision }}
+                    <button type="button" wire:click="$set('filterDivision', '')" class="vac-chip-remove">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </span>
+            @endif
+            <button type="button" wire:click="resetFilters" class="vac-clear-all">Hapus semua</button>
+        </div>
+        @endif
     </div>
 
     {{-- ===== SKELETON ===== --}}
-    <div wire:loading class="vc-grid">
+    <div wire:loading class="vac-grid">
         @for($i = 0; $i < 6; $i++)
-        <div class="panel vc-card vc-skeleton">
-            <div class="vc-card-top">
+        <div class="vac-card">
+            <div class="vac-card-top">
                 <div class="skeleton" style="width:80px;height:22px;border-radius:6px"></div>
                 <div class="skeleton" style="width:50px;height:22px;border-radius:6px"></div>
             </div>
@@ -72,79 +91,78 @@
         @endfor
     </div>
 
-    {{-- ===== GRID LOWONGAN ===== --}}
-    <div wire:loading.remove class="vc-grid">
-        @forelse($vacancies as $v)
-            @php
-                $daysLeft = (int) now()->startOfDay()->diffInDays($v->application_deadline);
-                $filled = min($v->accepted_applications_count, $v->quota);
-                $quotaPct = $v->quota > 0 ? round($filled / $v->quota * 100) : 0;
-                $isFull = $v->accepted_applications_count >= $v->quota;
-            @endphp
-            <a href="{{ route('intern.vacancies.show', $v->id) }}" class="panel vc-card" wire:navigate aria-label="Lowongan {{ $v->title }}">
-                <div class="vc-card-top">
-                    <span class="vc-div-badge">{{ $v->division }}</span>
-                    @if($isFull)
-                        <span class="vc-status-badge vc-status-full">Penuh</span>
-                    @elseif($daysLeft >= 0 && $daysLeft <= 3)
-                        <span class="vc-status-badge vc-status-urgent">Urgent</span>
-                    @else
-                        <span class="vc-status-badge vc-status-open">Open</span>
-                    @endif
-                </div>
-
-                <h2 class="vc-card-title">{{ $v->title }}</h2>
-                <p class="vc-card-desc vacancy-card-desc">{!! clean(Str::limit(strip_tags($v->description), 100)) !!}</p>
-
-                <div class="vc-quota">
-                    <div class="vc-quota-label">
-                        <span>Kuota terisi</span>
-                        <span class="{{ $isFull ? 'vc-quota-full' : '' }}">{{ $filled }}/{{ $v->quota }}</span>
-                    </div>
-                    <div class="vc-quota-bar">
-                        <div class="vc-quota-fill {{ $isFull ? 'vc-quota-fill-full' : '' }}" style="width:{{ $quotaPct }}%"></div>
-                    </div>
-                </div>
-
-                <div class="vc-card-foot">
-                    <div class="vc-deadline">
-                        <i class="ti ti-calendar-event"></i>
-                        @if($daysLeft === 0)
-                            <span class="vc-deadline-urgent">Hari ini hari terakhir!</span>
-                        @elseif($daysLeft <= 3)
-                            <span class="vc-deadline-urgent">{{ $daysLeft }} hari lagi</span>
+    {{-- ===== GRID LOWONGAN (sama seperti public) ===== --}}
+    <div wire:loading.remove>
+        @if(count($vacancies) > 0)
+            <div class="vac-grid">
+                @foreach($vacancies as $vacancy)
+                @php
+                    $daysLeft = (int) now()->startOfDay()->diffInDays($vacancy->application_deadline);
+                    $filled = min($vacancy->accepted_applications_count, $vacancy->quota);
+                    $quotaPct = $vacancy->quota > 0 ? round($filled / $vacancy->quota * 100) : 0;
+                    $isFull = $vacancy->accepted_applications_count >= $vacancy->quota;
+                @endphp
+                <a href="{{ route('intern.vacancies.show', $vacancy->id) }}" class="vac-card" wire:navigate x-data>
+                    <div class="vac-card-top">
+                        <span class="vac-div-badge">{{ $vacancy->division }}</span>
+                        @if($isFull)
+                            <span class="vac-status-badge vac-status-full">Penuh</span>
+                        @elseif($daysLeft >= 0 && $daysLeft <= 3)
+                            <span class="vac-status-badge vac-status-urgent">Urgent</span>
                         @else
-                            <span>Deadline: {{ $v->application_deadline?->format('d M Y') }}</span>
+                            <span class="vac-status-badge vac-status-open">Open</span>
                         @endif
                     </div>
-                    <span class="vc-card-link-text">
-                        Lihat Detail <i class="ti ti-arrow-right"></i>
-                    </span>
-                </div>
-            </a>
-        @empty
-            <div class="vc-empty">
-                <div class="vc-empty-icon">
-                    <i class="ti ti-building-off"></i>
-                </div>
-                <h3 class="vc-empty-title">Belum ada lowongan tersedia</h3>
-                <p class="vc-empty-sub">
-                    @if($search || $filterDivision)
-                        Tidak ada lowongan yang cocok dengan pencarianmu. Coba ubah kata kunci atau divisi.
-                    @else
-                        Cek kembali nanti, lowongan baru akan segera hadir.
-                    @endif
-                </p>
-                @if($search || $filterDivision)
-                    <button wire:click="resetFilters" class="btn-primary vc-empty-btn">
-                        <i class="ti ti-refresh"></i> Reset Filter
-                    </button>
-                @endif
-            </div>
-        @endforelse
-    </div>
 
-    <div class="pagination-wrap">
-        {{ $vacancies->links('components.pagination', ['paginator' => $vacancies]) }}
+                    <h2 class="vac-card-title">{{ $vacancy->title }}</h2>
+                    <p class="vac-card-desc">{!! clean(Str::limit(strip_tags($vacancy->description), 100)) !!}</p>
+
+                    <div class="vac-quota">
+                        <div class="vac-quota-header">
+                            <span class="vac-quota-label">Kuota</span>
+                            <span class="vac-quota-count">{{ $filled }} / {{ $vacancy->quota }}</span>
+                        </div>
+                        <div class="vac-quota-bar">
+                            <div class="vac-quota-fill {{ $isFull ? 'vac-quota-full' : ($quotaPct > 70 ? 'vac-quota-high' : '') }}"
+                                 style="width: {{ min($quotaPct, 100) }}%"></div>
+                        </div>
+                    </div>
+
+                    <div class="vac-card-footer">
+                        <div class="vac-deadline">
+                            <i class="ti ti-calendar-event"></i>
+                            @if($daysLeft >= 0 && $daysLeft <= 7)
+                                <span class="vac-deadline-urgent">{{ $daysLeft == 0 ? 'Hari ini hari terakhir!' : $daysLeft . ' hari lagi' }}</span>
+                            @else
+                                <span>Deadline: {{ $vacancy->application_deadline?->format('d M Y') }}</span>
+                            @endif
+                        </div>
+                        <span class="vac-card-link">
+                            Lihat Detail <i class="ti ti-arrow-right"></i>
+                        </span>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+
+            @if(method_exists($vacancies, 'links'))
+            <div class="pagination-wrap pagination-wrap-center">
+                {{ $vacancies->links('components.pagination', ['paginator' => $vacancies]) }}
+            </div>
+            @endif
+        @else
+            <div class="vac-empty">
+                <div class="vac-empty-icon">
+                    <i class="ti ti-search-off"></i>
+                </div>
+                <h3 class="vac-empty-title">Tidak ada lowongan ditemukan</h3>
+                <p class="vac-empty-desc">Coba kata kunci lain atau lihat semua lowongan yang tersedia.</p>
+                <div class="vac-empty-actions">
+                    <button wire:click="resetFilters" class="vac-btn vac-btn-primary">
+                        <i class="ti ti-refresh"></i> Tampilkan Semua
+                    </button>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
