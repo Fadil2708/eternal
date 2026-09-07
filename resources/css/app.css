@@ -6205,9 +6205,24 @@ textarea.input { resize: vertical; line-height: 1.6; }
 /* ===== VACANCY RESPONSIVE ===== */
 @media (max-width: 768px) {
     .vc-hero { flex-direction: column; align-items: flex-start; }
-    .vc-search { width: 100%; min-width: 0; }
-    .vc-search input { width: 100%; }
-    .vc-toolbar { align-items: flex-start; }
+    .vc-toolbar-filters {
+        flex-direction: column;
+        width: 100%;
+    }
+    .vc-search {
+        width: 100%;
+        min-width: 0;
+    }
+    .vc-search input {
+        width: 100%;
+    }
+    .vc-select-wrap {
+        width: 100%;
+    }
+    .vc-select {
+        width: 100%;
+    }
+    .vc-toolbar { align-items: stretch; }
 }
 
 /* ===== MY APPLICATIONS (intern) — redesigned ===== */
