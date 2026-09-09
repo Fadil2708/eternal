@@ -147,54 +147,56 @@ jobs:
 
             cd /opt/docker/eternal
 
-            echo "--- 1/6 Login to GHCR ---"
+            echo "--- 1/8 Login to GHCR ---"
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
-            echo "--- 2/6 Pull latest code ---"
-            sudo git fetch origin main
-            sudo git reset --hard origin/main
-            sudo chown -R skbprime:skbprime /opt/docker/eternal
+            echo "--- 2/8 Pull latest code ---"
+            git fetch origin main
+            git reset --hard origin/main
 
-            echo "--- 3/6 Load .env ---"
+            echo "--- 3/8 Load .env ---"
             set -a
             source .env
             set +a
 
             echo "--- 4/8 Running backup ---"
-            sudo bash deploy/backup.sh || echo "Backup failed, continuing..."
+            bash deploy/backup.sh || echo "Backup failed, continuing..."
 
             echo "--- 5/8 Pull new Docker image & restart ---"
             docker compose pull app
-            docker compose up -d --force-recreate app queue
+            docker compose stop app queue 2>/dev/null || true
+            docker compose rm -f app queue 2>/dev/null || true
+            docker compose up -d app queue
 
-            echo "--- Waiting for container to be ready ---"
+            echo "--- Waiting for containers to be ready ---"
             sleep 15
 
-            echo "--- 6/8 Post-deploy setup ---"
+            echo "--- 6/8 Running migrations ---"
+            docker compose exec -T app php artisan migrate --force
+
+            echo "--- 7/8 Post-deploy setup ---"
             docker compose exec -T app php artisan livewire:publish --assets
             docker compose exec -T app php artisan view:clear
             docker compose exec -T app php artisan config:cache
             docker compose exec -T app php artisan route:cache
 
-            echo "--- 7/8 Health check ---"
+            echo "--- 8/8 Health check ---"
             HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
             echo "App HTTP status: ${HTTP_STATUS}"
 
             if [ "${HTTP_STATUS}" = "200" ] || [ "${HTTP_STATUS}" = "302" ]; then
-              echo "status=success" > /tmp/deploy_output
               echo "========================================="
               echo "  DEPLOY SUCCESS!"
               echo "  Time: $(date)"
               echo "========================================="
             else
-              echo "status=failed" > /tmp/deploy_output
               echo "========================================="
               echo "  DEPLOY FAILED: HTTP ${HTTP_STATUS}"
               echo "  Attempting rollback..."
               echo "========================================="
 
-              docker compose down
-              docker compose up -d --force-recreate app queue
+              docker compose down app queue
+              docker compose up -d app queue
               sleep 10
               ROLLBACK_STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8082 || echo "000")
               echo "Rollback HTTP status: ${ROLLBACK_STATUS}"

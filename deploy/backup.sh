@@ -22,7 +22,9 @@ fi
 
 MYSQL_CONTAINER="eternal-mysql"
 MYSQL_USER="root"
-MYSQL_PASSWORD="rootpassword2026"
+
+: "${MYSQL_ROOT_PASSWORD:?ERROR: MYSQL_ROOT_PASSWORD not set. Source .env first.}"
+MYSQL_PASSWORD="${MYSQL_ROOT_PASSWORD}"
 
 # Cek container MySQL berjalan
 if ! docker ps --format '{{.Names}}' | grep -qx "${MYSQL_CONTAINER}"; then
