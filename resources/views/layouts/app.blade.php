@@ -26,7 +26,8 @@
         href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.33.0/dist/tabler-icons.min.css"
     >
 
-    {{-- CDN ALPINE DIHAPUS DARI SINI KARENA SUDAH DIBAWA OLEH @livewireScripts --}}
+    <!-- Alpine.js CDN -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @vite(['resources/css/app.css'])
     @stack('styles')
