@@ -151,8 +151,9 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ${{ env.REGISTRY }} -u ${{ github.actor }} --password-stdin
 
             echo "--- 2/8 Pull latest code ---"
-            git fetch origin main
-            git reset --hard origin/main
+            sudo git fetch origin main
+            sudo git reset --hard origin/main
+            sudo chown -R $(whoami):$(whoami) /opt/docker/eternal
 
             echo "--- 3/8 Load .env ---"
             set -a
