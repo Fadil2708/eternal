@@ -1169,11 +1169,11 @@
     .auth-tab:hover { background: rgba(255,255,255,0.5); }
     .auth-tab.active {
         background: #fff;
-        color: #C0392B;
+        color: #0369a1;
         box-shadow: 0 1px 3px rgba(0,0,0,0.08);
     }
     .auth-tab i { font-size: 16px; transition: color 0.2s ease; }
-    .auth-tab.active i { color: #C0392B; }
+    .auth-tab.active i { color: #0369a1; }
 
     .auth-title {
         font-size: 20px;
@@ -1194,7 +1194,7 @@
     }
     .auth-brand {
         flex: 0 0 45%;
-        background: linear-gradient(135deg, #1A0A0A 0%, #2D0F0F 100%);
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -1207,7 +1207,7 @@
         content: '';
         position: absolute;
         inset: 0;
-        background: radial-gradient(ellipse at center, rgba(192,57,43,0.08) 0%, transparent 70%);
+        background: radial-gradient(ellipse at center, rgba(3, 105, 161, 0.08) 0%, transparent 70%);
     }
     .auth-brand-content {
         position: relative;
