@@ -33,6 +33,7 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'full_name' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Password::min(8)->mixedCase()->numbers()->symbols()],
         ]);
 
@@ -44,7 +45,7 @@ class RegisteredUserController extends Controller
 
         InternProfile::create([
             'user_id' => $user->id,
-            'full_name' => explode('@', $request->email)[0],
+            'full_name' => $request->full_name,
         ]);
 
         event(new Registered($user));

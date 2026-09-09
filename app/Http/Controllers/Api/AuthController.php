@@ -34,7 +34,7 @@ class AuthController extends Controller
 
             $user->internProfile()->create([
                 'id' => (string) Str::uuid(),
-                'full_name' => explode('@', $request->email)[0],
+                'full_name' => $request->full_name,
             ]);
 
             return $user->load('internProfile', 'supervisorProfile');

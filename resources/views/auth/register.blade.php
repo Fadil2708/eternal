@@ -6,7 +6,7 @@
         $activeRole = in_array(request()->query('role', 'intern'), $validRoles)
             ? request()->query('role', 'intern')
             : 'intern';
-        $code = request()->query('code', old('code', ''));
+        $code = old('code', request()->query('code', ''));
     @endphp
 
     @section('auth-init', $activeRole)
@@ -43,9 +43,18 @@
             </div>
 
             <div class="field field-group">
+                <label for="full_name">Nama Lengkap</label>
+                <div class="input-wrap">
+                    <input id="full_name" type="text" name="full_name" value="{{ old('full_name') }}" required autocomplete="name" placeholder="Masukkan nama lengkap" class="input">
+                    <i class="ti ti-user input-icon"></i>
+                </div>
+                <x-input-error :messages="$errors->get('full_name')" />
+            </div>
+
+            <div class="field field-group">
                 <label for="password">Password</label>
                 <div class="input-wrap">
-                    <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="Minimal 8 karakter" class="input"
+                    <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="Min. 8 karakter, huruf besar, angka & simbol" class="input"
                            x-bind:type="showPassword ? 'text' : 'password'">
                     <i class="ti ti-lock input-icon"></i>
                     <button type="button" @click="showPassword = !showPassword" class="password-toggle">
@@ -103,7 +112,7 @@
             <div class="field">
                 <label for="code">Kode Undangan</label>
                 <div class="input-wrap">
-                    <input id="code" type="text" name="code" value="{{ old('code', $code) }}" required class="input input-code" placeholder="Contoh: A1B2C3D4">
+                    <input id="code" type="text" name="code" value="{{ $code }}" required class="input input-code" placeholder="Contoh: A1B2C3D4">
                     <i class="ti ti-ticket input-icon"></i>
                 </div>
                 <x-input-error :messages="$errors->get('code')" />
@@ -121,7 +130,7 @@
             <div class="field field-group">
                 <label for="supervisor_password">Password</label>
                 <div class="input-wrap">
-                    <input id="supervisor_password" type="password" name="password" required autocomplete="new-password" placeholder="Minimal 8 karakter" class="input"
+                    <input id="supervisor_password" type="password" name="password" required autocomplete="new-password" placeholder="Min. 8 karakter, huruf besar, angka & simbol" class="input"
                            x-bind:type="showPassword ? 'text' : 'password'">
                     <i class="ti ti-lock input-icon"></i>
                     <button type="button" @click="showPassword = !showPassword" class="password-toggle">
