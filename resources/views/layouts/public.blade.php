@@ -166,6 +166,13 @@
     <div id="main-content"></div>
     {{ $slot ?? '' }}
 
+    <style>
+        .footer-brand .logo { gap: 8px; }
+        .footer-brand .logo-mark { width: 28px; height: 28px; flex-shrink: 0; }
+        .footer-brand .logo-mark img { width: 100%; height: 100%; object-fit: contain; }
+        .footer-brand .logo-text strong { font-size: 14px; line-height: 1; letter-spacing: -0.3px; }
+        .footer-brand .logo-text span { font-size: 9px; }
+    </style>
     <footer class="public-footer">
         <div class="container">
             <div class="footer-grid">
