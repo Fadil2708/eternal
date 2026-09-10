@@ -169,10 +169,9 @@
     <footer class="public-footer">
         <div class="container">
             <div class="footer-grid">
-
                 <div class="footer-brand">
                     <a href="{{ url('/') }}" class="logo">
-                        <div class="logo-mark"><img src="{{ asset('images/LogoEternalFavIcon.webp') }}" alt=""></div>
+                        <div class="logo-mark"><img src="{{ asset('images/LogoEternalFavIcon.webp') }}" alt="Logo Eternal"></div>
                         <div class="logo-text">
                             <strong>Eternal</strong>
                             <span>Internship Management System</span>
@@ -180,21 +179,20 @@
                     </a>
                     <p class="footer-description">Sistem internal perusahaan untuk mengelola program magang secara terstruktur, terintegrasi, dan aman.</p>
                     <div class="footer-social">
-                        <a href="https://www.instagram.com/telkomsukabumi" target="_blank" rel="noopener noreferrer" aria-label="Instagram Eternal Internship">
+                        <a href="https://www.instagram.com/telkomsukabumi" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                             <i class="ti ti-brand-instagram"></i>
                         </a>
-                        <a href="https://www.linkedin.com/company/telkom-indonesia" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Eternal Internship">
+                        <a href="https://www.linkedin.com/company/telkom-indonesia" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                             <i class="ti ti-brand-linkedin"></i>
                         </a>
-                        <a href="https://www.youtube.com/@TelkomIndonesia" target="_blank" rel="noopener noreferrer" aria-label="YouTube Eternal Internship">
+                        <a href="https://www.youtube.com/@TelkomIndonesia" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                             <i class="ti ti-brand-youtube"></i>
                         </a>
-                        <a href="https://wa.me/6285881683025" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Eternal Internship">
+                        <a href="https://wa.me/6285881683025" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
                             <i class="ti ti-brand-whatsapp"></i>
                         </a>
                     </div>
                 </div>
-
                 <div>
                     <div class="footer-title">Navigasi</div>
                     <div class="footer-links">
@@ -205,7 +203,6 @@
                         <a href="{{ url('/#faq') }}">FAQ</a>
                     </div>
                 </div>
-
                 <div>
                     <div class="footer-title">Fitur</div>
                     <div class="footer-links">
@@ -216,30 +213,31 @@
                         <a href="{{ route('public.privacy') }}">Kebijakan Privasi</a>
                     </div>
                 </div>
-
                 <div>
                     <div class="footer-title">Kontak</div>
-                    <a class="footer-map" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener" aria-label="Buka peta Eternal Internship di Google Maps">
-                        <iframe
-                            src="https://www.openstreetmap.org/export/embed.html?bbox=106.9152%2C-6.9257%2C106.9353%2C-6.9157&layer=mapnik&marker=-6.9206966%2C106.9252477"
-                            title="Peta Eternal Internship"
-                            loading="lazy"
-                            allowfullscreen
-                            tabindex="-1"></iframe>
+                    <a class="footer-map" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener" aria-label="Buka peta di Google Maps">
+                        <iframe src="https://www.openstreetmap.org/export/embed.html?bbox=106.9152%2C-6.9257%2C106.9353%2C-6.9157&layer=mapnik&marker=-6.9206966%2C106.9252477" title="Peta Eternal Internship" loading="lazy" allowfullscreen tabindex="-1"></iframe>
                         <span class="footer-map-overlay">
-                            <span class="footer-map-badge">
-                                <i class="ti ti-map-pin"></i> Buka di Google Maps
-                            </span>
+                            <span class="footer-map-badge"><i class="ti ti-map-pin"></i> Buka di Google Maps</span>
                         </span>
                     </a>
                     <div class="footer-contact">
-                        <div><i class="ti ti-map-pin"></i><a class="footer-map-link" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener">Eternal Internship, Jl. Masjid No.1, Gunungparang, Kec. Cikole, Kota Sukabumi, Jawa Barat 43111</a></div>
-                        <div><i class="ti ti-mail"></i><span>magang@telkomsukabumi.co.id</span></div>
-                        <div><i class="ti ti-phone"></i><span>+62 858-8168-3025</span></div>
+                        <div>
+                            <i class="ti ti-map-pin"></i>
+                            <a class="footer-map-link" href="https://maps.app.goo.gl/MmTVo2JSAdbPbznK9" target="_blank" rel="noopener">Jl. Masjid No.1, Gunungparang, Kec. Cikole, Kota Sukabumi, Jawa Barat 43111</a>
+                        </div>
+                        <div>
+                            <i class="ti ti-mail"></i>
+                            <span>magang@telkomsukabumi.co.id</span>
+                        </div>
+                        <div>
+                            <i class="ti ti-phone"></i>
+                            <span>+62 858-8168-3025</span>
+                        </div>
                     </div>
                 </div>
-
             </div>
+            <hr class="public-footer-divider">
             <div class="footer-bottom">
                 &copy; {{ date('Y') }} Eternal Internship Management System. All rights reserved.
             </div>
