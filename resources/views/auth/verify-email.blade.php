@@ -34,7 +34,7 @@
                 <template x-if="loading"><span><i class="ti ti-loader" style="animation:spin 1s linear infinite"></i> Mengirim...</span></template>
             </button>
         </form>
-        <form method="POST" action="{{ route('logout') }}"
+        <form method="POST" action="{{ route('logout', [], false) }}"
               x-data="{ loading: false }" @submit="loading = true">
             @csrf
             <button type="submit" class="btn-secondary" style="padding:10px 16px;font-size:13px"
