@@ -30,7 +30,7 @@
             <p class="auth-desc">Daftar untuk memulai perjalanan magang Anda</p>
         </div>
 
-        <form method="POST" action="{{ route('register',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false, password: '', get hasMinLength() { return this.password.length >= 8 }, get hasUppercase() { return /[A-Z]/.test(this.password) }, get hasLowercase() { return /[a-z]/.test(this.password) }, get hasNumber() { return /[0-9]/.test(this.password) }, get hasSymbol() { return /[^A-Za-z0-9]/.test(this.password) } }" @submit="loading = true">
+        <form method="POST" action="{{ route('register',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false, password: '' }" @submit="loading = true">
             @csrf
 
             <div class="field">
@@ -64,24 +64,24 @@
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
                 <div class="pw-requirements">
-                    <div class="pw-req" :class="hasMinLength ? 'pw-req-ok' : ''">
-                        <i :class="hasMinLength ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="password.length >= 8 ? 'pw-req-ok' : ''">
+                        <i :class="password.length >= 8 ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Minimal 8 karakter
                     </div>
-                    <div class="pw-req" :class="hasUppercase ? 'pw-req-ok' : ''">
-                        <i :class="hasUppercase ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[A-Z]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[A-Z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf besar (A-Z)
                     </div>
-                    <div class="pw-req" :class="hasLowercase ? 'pw-req-ok' : ''">
-                        <i :class="hasLowercase ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[a-z]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[a-z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf kecil (a-z)
                     </div>
-                    <div class="pw-req" :class="hasNumber ? 'pw-req-ok' : ''">
-                        <i :class="hasNumber ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[0-9]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Angka (0-9)
                     </div>
-                    <div class="pw-req" :class="hasSymbol ? 'pw-req-ok' : ''">
-                        <i :class="hasSymbol ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[^A-Za-z0-9]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[^A-Za-z0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Simbol (!@#$...)
                     </div>
                 </div>
@@ -128,7 +128,7 @@
             <p class="auth-desc">Gunakan kode undangan dari admin untuk mendaftar</p>
         </div>
 
-        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false, password: '', get hasMinLength() { return this.password.length >= 8 }, get hasUppercase() { return /[A-Z]/.test(this.password) }, get hasLowercase() { return /[a-z]/.test(this.password) }, get hasNumber() { return /[0-9]/.test(this.password) }, get hasSymbol() { return /[^A-Za-z0-9]/.test(this.password) } }" @submit="loading = true">
+        <form method="POST" action="{{ route('register.supervisor',[], false) }}" x-data="{ showPassword: false, showConfirm: false, loading: false, password: '' }" @submit="loading = true">
             @csrf
 
             <div class="field">
@@ -162,24 +162,25 @@
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
                 <div class="pw-requirements">
-                    <div class="pw-req" :class="hasMinLength ? 'pw-req-ok' : ''">
-                        <i :class="hasMinLength ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="password.length >= 8 ? 'pw-req-ok' : ''">
+                        <i :class="password.length >= 8 ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Minimal 8 karakter
                     </div>
-                    <div class="pw-req" :class="hasUppercase ? 'pw-req-ok' : ''">
-                        <i :class="hasUppercase ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[A-Z]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[A-Z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf besar (A-Z)
                     </div>
-                    <div class="pw-req" :class="hasLowercase ? 'pw-req-ok' : ''">
-                        <i :class="hasLowercase ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[a-z]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[a-z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf kecil (a-z)
                     </div>
-                    <div class="pw-req" :class="hasNumber ? 'pw-req-ok' : ''">
-                        <i :class="hasNumber ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[0-9]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Angka (0-9)
                     </div>
-                    <div class="pw-req" :class="hasSymbol ? 'pw-req-ok' : ''">
-                        <i :class="hasSymbol ? 'ti ti-check' : 'ti ti-circle'"></i>
+                    <div class="pw-req" :class="/[^A-Za-z0-9]/.test(password) ? 'pw-req-ok' : ''">
+                        <i :class="/[^A-Za-z0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
+                        Simbol (!@#$...)
                         Simbol (!@#$...)
                     </div>
                 </div>
