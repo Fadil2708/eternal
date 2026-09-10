@@ -2,7 +2,7 @@
     @section('title', 'Reset Password')
 
     <div class="text-center auth-form-header">
-        <div class="icon-circle-brand">
+        <div class="icon-circle-brand-lg">
             <i class="ti ti-shield-check"></i>
         </div>
         <h2 class="auth-title">Reset Password</h2>
@@ -25,12 +25,12 @@
         <div class="field field-group">
             <label for="password">Password Baru</label>
             <div class="input-wrap">
-                <input id="password" type="password" name="password" required autocomplete="new-password" class="input" placeholder="Minimal 8 karakter"
+                <input id="password" type="password" name="password" required autocomplete="new-password" class="input" placeholder="Masukkan password"
                        x-bind:type="showPassword ? 'text' : 'password'">
                 <i class="ti ti-lock input-icon"></i>
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                    <i x-show="!showPassword" class="ti ti-eye"></i>
-                    <i x-show="showPassword" class="ti ti-eye-off"></i>
+                    <i x-show="!showPassword" x-cloak class="ti ti-eye"></i>
+                    <i x-show="showPassword" x-cloak class="ti ti-eye-off"></i>
                 </button>
             </div>
             <x-input-error :messages="$errors->get('password')" />

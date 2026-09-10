@@ -2,7 +2,7 @@
     @section('title', 'Konfirmasi Password')
 
     <div class="text-center auth-form-header">
-        <div class="icon-circle-brand">
+        <div class="icon-circle-brand-lg">
             <i class="ti ti-shield-lock"></i>
         </div>
         <h2 class="auth-title">Konfirmasi Password</h2>
@@ -17,12 +17,12 @@
         <div class="field">
             <label for="password">Password</label>
             <div class="input-wrap">
-                <input id="password" type="password" name="password" required autocomplete="current-password" class="input"
+                <input id="password" type="password" name="password" required autocomplete="current-password" class="input" placeholder="Masukkan password"
                        x-bind:type="showPassword ? 'text' : 'password'">
                 <i class="ti ti-lock input-icon"></i>
                 <button type="button" @click="showPassword = !showPassword" class="password-toggle">
-                    <i x-show="!showPassword" class="ti ti-eye"></i>
-                    <i x-show="showPassword" class="ti ti-eye-off"></i>
+                    <i x-show="!showPassword" x-cloak class="ti ti-eye"></i>
+                    <i x-show="showPassword" x-cloak class="ti ti-eye-off"></i>
                 </button>
             </div>
             <x-input-error :messages="$errors->get('password')" />
@@ -32,8 +32,8 @@
                 class="btn-primary btn-full mt-20"
                 x-bind:disabled="loading"
                 x-bind:class="loading ? 'btn-loading' : ''">
-            <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
             <i x-show="!loading" class="ti ti-shield-check"></i>
+            <i x-cloak x-show="loading" class="ti ti-loader spin"></i>
             <span x-show="!loading">Konfirmasi</span>
             <span x-cloak x-show="loading">Memproses...</span>
         </button>

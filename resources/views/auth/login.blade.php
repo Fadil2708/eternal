@@ -27,7 +27,7 @@
             <div class="label-row">
                 <label for="password">Password</label>
                 @if (Route::has('password.request'))
-                <a href="{{ route('password.request') }}">Lupa password?</a>
+                <a href="{{ route('password.request') }}" class="link-brand">Lupa password?</a>
                 @endif
             </div>
             <div class="input-wrap">
