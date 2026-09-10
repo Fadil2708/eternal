@@ -64,23 +64,23 @@
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
                 <div class="pw-requirements">
-                    <div class="pw-req" :class="password.length >= 8 ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="password.length >= 8 ? 'color:#16A34A' : ''">
                         <i :class="password.length >= 8 ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Minimal 8 karakter
                     </div>
-                    <div class="pw-req" :class="/[A-Z]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[A-Z]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[A-Z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf besar (A-Z)
                     </div>
-                    <div class="pw-req" :class="/[a-z]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[a-z]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[a-z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf kecil (a-z)
                     </div>
-                    <div class="pw-req" :class="/[0-9]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[0-9]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Angka (0-9)
                     </div>
-                    <div class="pw-req" :class="/[^A-Za-z0-9]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[^A-Za-z0-9]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[^A-Za-z0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Simbol (!@#$...)
                     </div>
@@ -162,23 +162,23 @@
                 </div>
                 <x-input-error :messages="$errors->get('password')" />
                 <div class="pw-requirements">
-                    <div class="pw-req" :class="password.length >= 8 ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="password.length >= 8 ? 'color:#16A34A' : ''">
                         <i :class="password.length >= 8 ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Minimal 8 karakter
                     </div>
-                    <div class="pw-req" :class="/[A-Z]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[A-Z]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[A-Z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf besar (A-Z)
                     </div>
-                    <div class="pw-req" :class="/[a-z]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[a-z]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[a-z]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Huruf kecil (a-z)
                     </div>
-                    <div class="pw-req" :class="/[0-9]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[0-9]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Angka (0-9)
                     </div>
-                    <div class="pw-req" :class="/[^A-Za-z0-9]/.test(password) ? 'pw-req-ok' : ''">
+                    <div class="pw-req" :style="/[^A-Za-z0-9]/.test(password) ? 'color:#16A34A' : ''">
                         <i :class="/[^A-Za-z0-9]/.test(password) ? 'ti ti-check' : 'ti ti-circle'"></i>
                         Simbol (!@#$...)
                         Simbol (!@#$...)
