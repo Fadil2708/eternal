@@ -18,7 +18,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->trustProxies(at: '*', headers: \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR | \Illuminate\Http\Request::HEADER_X_FORWARDED_PORT | \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO);
 
         $middleware->web(append: [
-            // ContentSecurityPolicy::class,  // Sementara dinonaktifkan untuk debug register form
+            ContentSecurityPolicy::class,
         ]);
 
         $middleware->alias([
