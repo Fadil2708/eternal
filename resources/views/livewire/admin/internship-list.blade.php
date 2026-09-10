@@ -260,12 +260,18 @@
                 <div class="modal-body">
                     <div class="field" style="margin-bottom:16px">
                         <label>Tanggal Mulai Aktual</label>
-                        <input wire:model="actual_start_date" type="date" class="input">
+                        <div class="adx-date-wrap">
+                            <i class="ti ti-calendar adx-date-icon"></i>
+                            <input wire:model="actual_start_date" type="date" class="input">
+                        </div>
                         @error('actual_start_date') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                     <div class="field">
                         <label>Tanggal Selesai Aktual</label>
-                        <input wire:model="actual_end_date" type="date" class="input">
+                        <div class="adx-date-wrap">
+                            <i class="ti ti-calendar adx-date-icon"></i>
+                            <input wire:model="actual_end_date" type="date" class="input">
+                        </div>
                         @error('actual_end_date') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
@@ -285,4 +291,17 @@
         </div>
     </div>
     @endif
+
+    <style>
+        .adx-date-wrap { position: relative; }
+        .adx-date-icon {
+            position: absolute;
+            left: 14px; top: 50%; transform: translateY(-50%);
+            color: var(--muted, #6b7280);
+            font-size: 16px; pointer-events: none;
+            transition: color .2s ease;
+        }
+        .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
+        .adx-date-wrap .input { padding-left: 42px; }
+    </style>
 </div>

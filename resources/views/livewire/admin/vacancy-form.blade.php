@@ -67,17 +67,26 @@
                     </div>
                     <div class="field">
                         <label>Tgl Mulai</label>
-                        <input wire:model="start_date" type="date" class="input">
+                        <div class="adx-date-wrap">
+                            <i class="ti ti-calendar adx-date-icon"></i>
+                            <input wire:model="start_date" type="date" class="input">
+                        </div>
                         @error('start_date') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                     <div class="field">
                         <label>Tgl Selesai</label>
-                        <input wire:model="end_date" type="date" class="input">
+                        <div class="adx-date-wrap">
+                            <i class="ti ti-calendar adx-date-icon"></i>
+                            <input wire:model="end_date" type="date" class="input">
+                        </div>
                         @error('end_date') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                     <div class="field">
                         <label>Batas Pendaftaran</label>
-                        <input wire:model="application_deadline" type="date" class="input">
+                        <div class="adx-date-wrap">
+                            <i class="ti ti-calendar adx-date-icon"></i>
+                            <input wire:model="application_deadline" type="date" class="input">
+                        </div>
                         @error('application_deadline') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
@@ -99,6 +108,17 @@
     </form>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/trix@2.1.19/dist/trix.css">
     <style nonce="{{ $cspNonce }}">
+        .adx-date-wrap { position: relative; }
+        .adx-date-icon {
+            position: absolute;
+            left: 14px; top: 50%; transform: translateY(-50%);
+            color: var(--muted, #6b7280);
+            font-size: 16px; pointer-events: none;
+            transition: color .2s ease;
+        }
+        .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
+        .adx-date-wrap .input { padding-left: 42px; }
+
         trix-editor {
             width: 100%; min-height: 160px;
             border: 1.5px solid rgb(var(--panel-border)); border-radius: var(--radius);
