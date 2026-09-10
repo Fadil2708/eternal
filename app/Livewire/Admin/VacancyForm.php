@@ -88,7 +88,7 @@ class VacancyForm extends Component
         } else {
             $this->vacancyService->create($data, auth()->id());
             $this->dispatch('toast', message: 'Lowongan berhasil dibuat.', type: 'success');
-            $this->resetForm();
+            $this->redirect(route('admin.vacancies.index'));
         }
     }
 
