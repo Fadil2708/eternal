@@ -41,7 +41,7 @@ return [
             'https://cdn.jsdelivr.net',
             'https://unpkg.com',
         ],
-        'form-action' => ["'self'", config('app.url')],
+
         'base-uri' => ["'self'"],
         'frame-src' => [
             "'self'",
