@@ -172,7 +172,7 @@
 
                 <div class="footer-brand">
                     <a href="{{ url('/') }}" class="logo">
-                        <div class="logo-mark">E</div>
+                        <div class="logo-mark"><img src="{{ asset('images/LogoEternalFavIcon.webp') }}" alt=""></div>
                         <div class="logo-text">
                             <strong>Eternal</strong>
                             <span>Internship Management System</span>
