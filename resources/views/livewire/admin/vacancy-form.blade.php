@@ -35,32 +35,20 @@
                         @error('quota') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                <div class="field" x-data="{ description: @entangle('description') }" x-init="
-                    let readInput = () => {
-                        let el = document.getElementById('description-input');
-                        if (el && el.value !== description) description = el.value;
-                    };
-                    setInterval(readInput, 300);
-                ">
+                <div class="field" x-data="{ description: @entangle('description') }">
                     <label>Deskripsi</label>
                     <input type="hidden" id="description-input" value="{{ $description }}" wire:ignore>
-                    <trix-editor input="description-input" wire:ignore></trix-editor>
+                    <trix-editor input="description-input" wire:ignore x-on:trix-change="description = document.getElementById('description-input').value"></trix-editor>
                     <div class="trix-preview-wrap">
                         <div class="trix-preview-label">Preview</div>
                         <div class="trix-preview" x-html="description"></div>
                     </div>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
-                <div class="field" x-data="{ qualifications: @entangle('qualifications') }" x-init="
-                    let readInput = () => {
-                        let el = document.getElementById('qualifications-input');
-                        if (el && el.value !== qualifications) qualifications = el.value;
-                    };
-                    setInterval(readInput, 300);
-                ">
+                <div class="field" x-data="{ qualifications: @entangle('qualifications') }">
                     <label>Kualifikasi</label>
                     <input type="hidden" id="qualifications-input" value="{{ $qualifications }}" wire:ignore>
-                    <trix-editor input="qualifications-input" wire:ignore></trix-editor>
+                    <trix-editor input="qualifications-input" wire:ignore x-on:trix-change="qualifications = document.getElementById('qualifications-input').value"></trix-editor>
                     <div class="trix-preview-wrap">
                         <div class="trix-preview-label">Preview</div>
                         <div class="trix-preview" x-html="qualifications"></div>
