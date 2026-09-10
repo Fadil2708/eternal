@@ -25,6 +25,7 @@
 
     @vite(['resources/js/app.js', 'resources/css/app.css', 'resources/css/landing.css'])
     <style>[x-cloak] { display: none !important; }</style>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </head>
 <body>
     <div class="auth-split" x-data="{ role: '@yield('auth-init', 'intern')' }">
