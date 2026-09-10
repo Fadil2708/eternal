@@ -1,6 +1,12 @@
 <x-guest-layout>
     @section('title', 'Daftar')
 
+    <style>
+        .pw-requirements { display: flex; flex-direction: column; gap: 3px; margin-top: 6px; }
+        .pw-req { display: flex; align-items: center; gap: 5px; font-size: 11px; line-height: 1.4; color: #9CA3AF; transition: color 0.2s; }
+        .pw-req i { font-size: 11px; }
+    </style>
+
     @php
         $validRoles = ['intern', 'supervisor'];
         $activeRole = in_array(request()->query('role', 'intern'), $validRoles)
