@@ -41,7 +41,7 @@ return [
             'https://cdn.jsdelivr.net',
             'https://unpkg.com',
         ],
-        'form-action' => ["'self'", 'https://eternal.skb-prime.web.id'],
+        'form-action' => ["'self'"],
         'base-uri' => ["'self'"],
         'frame-src' => [
             "'self'",
