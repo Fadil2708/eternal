@@ -10,8 +10,9 @@ mkdir -p /var/www/html/storage/app/private/reports
 mkdir -p /var/www/html/storage/app/local/livewire-tmp
 mkdir -p /var/www/html/storage/app/public
 
-npm install --production
+npm ci
 npm run build
+npm prune --production
 
 php artisan livewire:publish --assets
 php artisan config:cache
