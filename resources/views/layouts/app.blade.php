@@ -60,10 +60,10 @@
             flex-direction: column;
             width: var(--sidebar-width);
             height: 100vh;
-            background: rgba(15, 15, 35, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(10, 15, 25, 0.85);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3);
             box-sizing: border-box;
             z-index: 1100;
