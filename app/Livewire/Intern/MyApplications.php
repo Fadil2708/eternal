@@ -3,6 +3,8 @@
 namespace App\Livewire\Intern;
 
 use App\Models\Application;
+use App\Notifications\TelegramCancelledApplicationNotification;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -41,6 +43,10 @@ class MyApplications extends Component
         }
 
         $application->update(['status' => 'cancelled']);
+
+        Notification::route('telegram', config('services.telegram.notification_group_id'))
+            ->notify(new TelegramCancelledApplicationNotification($application));
+
         $this->confirmingCancelId = null;
         $this->dispatch('toast', message: 'Lamaran dibatalkan.', type: 'success');
     }
