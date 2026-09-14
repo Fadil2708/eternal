@@ -8,6 +8,7 @@
     "require": {
         "php": "^8.2",
         "barryvdh/laravel-dompdf": "^3.1",
+        "laravel-notification-channels/telegram": "^6.0",
         "laravel/framework": "^11.31",
         "laravel/horizon": "^5.48",
         "laravel/sanctum": "^4.3",
