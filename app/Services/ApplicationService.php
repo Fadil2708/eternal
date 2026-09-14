@@ -133,6 +133,7 @@ class ApplicationService
     {
         $exists = Application::where('intern_id', $intern->id)
             ->where('vacancy_id', $vacancy->id)
+            ->where('status', '!=', 'cancelled')
             ->exists();
 
         if ($exists) {

@@ -23,6 +23,7 @@ class VacancyDetail extends Component
 
         $existing = Application::where('intern_id', auth()->id())
             ->where('vacancy_id', $this->vacancy->id)
+            ->where('status', '!=', 'cancelled')
             ->first();
 
         if ($existing) {

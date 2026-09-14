@@ -5,7 +5,9 @@ namespace App\Livewire\Intern;
 use App\Models\Application;
 use App\Models\Vacancy;
 use App\Notifications\ApplicationNotification;
+use App\Notifications\TelegramNewApplicationNotification;
 use App\Services\ApplicationService;
+use Illuminate\Support\Facades\Notification;
 use Livewire\Component;
 
 class ApplicationForm extends Component
@@ -43,6 +45,7 @@ class ApplicationForm extends Component
 
         $existing = Application::where('intern_id', $user->id)
             ->where('vacancy_id', $this->vacancy->id)
+            ->where('status', '!=', 'cancelled')
             ->first();
 
         if ($existing) {
@@ -69,6 +72,9 @@ class ApplicationForm extends Component
             $this->applicationStatus = $application->status;
 
             auth()->user()->notify(new ApplicationNotification($application, 'submitted'));
+
+            Notification::route('telegram', config('services.telegram.notification_group_id'))
+                ->notify(new TelegramNewApplicationNotification($application));
 
             $this->dispatch('toast', message: 'Lamaran berhasil dikirim!', type: 'success');
         } catch (\Exception $e) {

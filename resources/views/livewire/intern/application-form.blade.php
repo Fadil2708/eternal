@@ -40,19 +40,6 @@
                     <i class="ti ti-arrow-left"></i> Cari Lowongan Lain
                 </a>
             </div>
-        @elseif($applicationStatus === 'cancelled')
-            <div class="banner banner-muted">
-                <div class="banner-flex">
-                    <i class="ti ti-circle-minus banner-icon-sm" style="color:#5C5A55"></i>
-                    <div>
-                        <h3 class="banner-title" style="color:#5C5A55">Lamaran Dibatalkan</h3>
-                        <p class="banner-desc" style="color:#5C5A55">Lamaran Anda untuk lowongan ini telah dibatalkan.</p>
-                    </div>
-                </div>
-                <a href="{{ route('intern.vacancies') }}" class="banner-action" style="color:#5C5A55">
-                    <i class="ti ti-arrow-left"></i> Cari Lowongan Lain
-                </a>
-            </div>
         @elseif($hasApplied)
             <div class="banner banner-info">
                 <i class="ti ti-circle-check banner-icon-sm"></i>
