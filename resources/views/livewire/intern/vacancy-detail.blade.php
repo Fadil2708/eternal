@@ -35,7 +35,8 @@
         .vd-rich{font-size:14px;line-height:1.75;color:#374151}
         .vd-rich p{margin:0 0 12px}
         .vd-rich p:last-child{margin-bottom:0}
-        .vd-rich ul,.vd-rich ol{margin:0 0 12px;padding-left:20px}
+        .vd-rich ul{list-style-type:disc;margin:0 0 12px;padding-left:20px}
+        .vd-rich ol{list-style-type:decimal;margin:0 0 12px;padding-left:20px}
         .vd-rich li{margin-bottom:6px}
         .vd-rich h1,.vd-rich h2,.vd-rich h3,.vd-rich h4{color:var(--vd-text);margin:0 0 8px}
         .vd-summary-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px dashed var(--vd-border);font-size:13px}
