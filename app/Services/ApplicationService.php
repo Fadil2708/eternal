@@ -34,6 +34,22 @@ class ApplicationService
         return DB::transaction(function () use ($intern, $vacancy) {
             $this->ensureQuotaAvailable($vacancy, lock: true);
 
+            $cancelled = Application::where('intern_id', $intern->id)
+                ->where('vacancy_id', $vacancy->id)
+                ->where('status', 'cancelled')
+                ->first();
+
+            if ($cancelled) {
+                $cancelled->update([
+                    'status' => 'submitted',
+                    'applied_at' => now(),
+                    'rejection_reason' => null,
+                    'admin_notes' => null,
+                ]);
+
+                return $cancelled;
+            }
+
             return Application::create([
                 'intern_id' => $intern->id,
                 'vacancy_id' => $vacancy->id,
