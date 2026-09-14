@@ -35,8 +35,12 @@ return [
         ],
     ],
 
+    'telegram-bot-api' => [
+        'token' => env('TELEGRAM_BOT_TOKEN'),
+        'base_uri' => 'https://api.telegram.org',
+    ],
+
     'telegram' => [
-        'bot_token' => env('TELEGRAM_BOT_TOKEN'),
         'notification_group_id' => env('TELEGRAM_NOTIFICATION_GROUP_ID'),
     ],
 

@@ -19,7 +19,7 @@ class TelegramNewApplicationNotification extends Notification implements ShouldQ
 
     public function via(object $notifiable): array
     {
-        return [TelegramChannel::class];
+        return ['telegram'];
     }
 
     public function toTelegram(object $notifiable): TelegramMessage
