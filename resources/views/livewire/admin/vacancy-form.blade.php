@@ -120,7 +120,7 @@
         function initEditor(selector, inputName) {
             var el = document.querySelector(selector);
             if (!el || el.dataset.ckeditorInit) return;
-            CKEDITOR.ClassicEditor.create(el, {
+            window.CKEDITOR.ClassicEditor.create(el, {
                 toolbar: [
                     'bold', 'italic', 'underline', '|',
                     'heading', '|',
@@ -140,20 +140,8 @@
                 });
             });
         }
-
-        if (window.CKEDITOR) {
-            initEditor('#description-editor', 'description');
-            initEditor('#qualifications-editor', 'qualifications');
-        } else {
-            var s = document.createElement('script');
-            s.src = 'https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js';
-            s.setAttribute('nonce', '{{ $cspNonce }}');
-            s.onload = function() {
-                initEditor('#description-editor', 'description');
-                initEditor('#qualifications-editor', 'qualifications');
-            };
-            document.head.appendChild(s);
-        }
+        initEditor('#description-editor', 'description');
+        initEditor('#qualifications-editor', 'qualifications');
     })();
     </script>
     @endscript

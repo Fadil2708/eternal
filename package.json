@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "@alpinejs/collapse": "^3.15.12",
-        "@alpinejs/csp": "^3.15.12"
+        "@alpinejs/csp": "^3.15.12",
+        "ckeditor5": "^48.5.0"
     }
 }
