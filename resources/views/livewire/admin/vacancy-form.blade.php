@@ -140,8 +140,17 @@
                 });
             });
         }
-        initEditor('#description-editor', 'description');
-        initEditor('#qualifications-editor', 'qualifications');
+
+        function boot() {
+            initEditor('#description-editor', 'description');
+            initEditor('#qualifications-editor', 'qualifications');
+        }
+
+        if (window.CKEDITOR) {
+            boot();
+        } else {
+            window.loadCKEditor().then(boot);
+        }
     })();
     </script>
     @endscript

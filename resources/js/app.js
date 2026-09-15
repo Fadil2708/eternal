@@ -106,3 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '[data-reveal], [data-reveal-left], [data-reveal-right], [data-reveal-stagger]'
     ).forEach(el => observer.observe(el));
 });
+
+window.loadCKEditor = function() {
+    return import('./ckeditor.js');
+};
