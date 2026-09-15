@@ -114,12 +114,12 @@
         .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
         .adx-date-wrap .input { padding-left: 42px; position: relative; z-index: 2; }
     </style>
-    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js" nonce="{{ $cspNonce }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js" nonce="{{ $cspNonce }}" id="ckeditor-cdn"></script>
     <script nonce="{{ $cspNonce }}">
-    document.addEventListener('DOMContentLoaded', function() {
+    function initCKEditors() {
         function initCKEditor(selector, inputName) {
             var el = document.querySelector(selector);
-            if (!el) return;
+            if (!el || el.dataset.ckeditorInit) return;
             ClassicEditor.create(el, {
                 toolbar: [
                     'bold', 'italic', 'underline', '|',
@@ -130,6 +130,7 @@
                     'undo', 'redo'
                 ]
             }).then(function(editor) {
+                el.dataset.ckeditorInit = '1';
                 editor.model.document.on('change:data', function() {
                     var input = document.querySelector('input[name="' + inputName + '"]');
                     if (input) {
@@ -141,6 +142,12 @@
         }
         initCKEditor('#description-editor', 'description');
         initCKEditor('#qualifications-editor', 'qualifications');
-    });
+    }
+    document.getElementById('ckeditor-cdn').onload = function() {
+        initCKEditors();
+    };
+    if (window.ClassicEditor) {
+        initCKEditors();
+    }
     </script>
 </div>

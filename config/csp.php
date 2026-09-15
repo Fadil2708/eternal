@@ -41,6 +41,7 @@ return [
             "'self'",
             'https://cdn.jsdelivr.net',
             'https://unpkg.com',
+            'https://cdn.ckeditor.com',
         ],
 
         'base-uri' => ["'self'"],
