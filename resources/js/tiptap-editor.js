@@ -6,24 +6,25 @@ import Link from '@tiptap/extension-link'
 import HorizontalRule from '@tiptap/extension-horizontal-rule'
 import Placeholder from '@tiptap/extension-placeholder'
 
-const extensions = [
-    StarterKit.configure({ heading: { levels: [2, 3] } }),
-    Underline,
-    TextAlign.configure({ types: ['heading', 'paragraph'] }),
-    Link.configure({ openOnClick: false, HTMLAttributes: { class: 'tiptap-link' } }),
-    HorizontalRule,
-    Placeholder.configure({ placeholder: 'Tulis konten di sini...' }),
-]
-
 window.createTipTapEditor = (element, content, onUpdate) => {
     if (!element) return null
-    return new Editor({
+    element.innerHTML = ''
+    const editor = new Editor({
         element,
         content: content || '',
-        extensions,
+        extensions: [
+            StarterKit.configure({ heading: { levels: [2, 3] } }),
+            Underline,
+            TextAlign.configure({ types: ['heading', 'paragraph'] }),
+            Link.configure({ openOnClick: false, HTMLAttributes: { class: 'tiptap-link' } }),
+            HorizontalRule,
+            Placeholder.configure({ placeholder: 'Tulis konten di sini...' }),
+        ],
         onUpdate: ({ editor }) => onUpdate(editor.getHTML()),
         editorProps: { attributes: { class: 'tiptap-content' } },
     })
+    element.__tiptapEditor = editor
+    return editor
 }
 
 window.tiptapField = (fieldKey) => ({
@@ -31,6 +32,10 @@ window.tiptapField = (fieldKey) => ({
 
     init() {
         this.$nextTick(() => {
+            if (this.ed) {
+                this.ed.destroy()
+                this.ed = null
+            }
             const initial = this[fieldKey] || ''
             this.ed = window.createTipTapEditor(
                 this.$refs.editor,
@@ -40,7 +45,12 @@ window.tiptapField = (fieldKey) => ({
         })
     },
 
-    destroy() { this.ed?.destroy() },
+    destroy() {
+        if (this.ed) {
+            this.ed.destroy()
+            this.ed = null
+        }
+    },
 
     focus() { this.ed?.chain().focus().run() },
 
