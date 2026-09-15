@@ -98,7 +98,7 @@ return [
     'seeder_token' => env('SEEDER_TOKEN'),
 
     'application' => [
-        'max_active' => env('MAX_ACTIVE_APPLICATIONS', 2),
+        'max_active' => env('MAX_ACTIVE_APPLICATIONS', 1),
         'active_statuses' => ['submitted', 'under_review', 'interview_scheduled'],
     ],
 

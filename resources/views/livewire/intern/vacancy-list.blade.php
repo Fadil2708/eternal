@@ -73,6 +73,17 @@
         @endif
     </div>
 
+    {{-- ===== INFO: LAMARAN AKTIF ===== --}}
+    @if($hasActiveApplication)
+    <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 18px;margin-bottom:24px;display:flex;align-items:center;gap:12px">
+        <i class="ti ti-info-circle" style="font-size:20px;color:#3b82f6;flex-shrink:0"></i>
+        <div>
+            <strong style="color:#1e40af;font-size:13px">Kamu sedang dalam proses lamaran</strong>
+            <p style="color:#3b82f6;font-size:12px;margin:2px 0 0">Tunggu hingga lamaranmu selesai diproses sebelum melamar ke lowongan lain.</p>
+        </div>
+    </div>
+    @endif
+
     {{-- ===== SKELETON ===== --}}
     <div wire:loading class="vac-grid">
         @for($i = 0; $i < 6; $i++)

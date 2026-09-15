@@ -185,6 +185,17 @@
                         <a href="{{ route('intern.applications') }}" class="vd-btn-primary">
                             <i class="ti ti-check"></i> Lihat Lamaran Saya
                         </a>
+                    @elseif($hasActiveApplication)
+                        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 14px;margin-bottom:4px">
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+                                <i class="ti ti-info-circle" style="font-size:16px;color:#3b82f6"></i>
+                                <strong style="color:#1e40af;font-size:13px">Sedang Proses Lamaran</strong>
+                            </div>
+                            <p style="color:#3b82f6;font-size:12px;margin:0">Tunggu hingga lamaranmu selesai diproses.</p>
+                        </div>
+                        <button class="vd-btn-primary" disabled style="cursor:not-allowed;opacity:.6;margin-top:8px">
+                            <i class="ti ti-lock"></i> Tidak Bisa Melamar
+                        </button>
                     @elseif(!$isOpen || $isFull)
                         <button class="vd-btn-primary" disabled style="cursor:not-allowed">
                             <i class="ti ti-x-circle"></i> Kuota Penuh

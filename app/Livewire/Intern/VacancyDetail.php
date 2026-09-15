@@ -14,6 +14,8 @@ class VacancyDetail extends Component
 
     public bool $hasApplied = false;
 
+    public bool $hasActiveApplication = false;
+
     public ?string $applicationStatus = null;
 
     public function mount(string $vacancyId): void
@@ -29,6 +31,12 @@ class VacancyDetail extends Component
         if ($existing) {
             $this->hasApplied = true;
             $this->applicationStatus = $existing->status;
+        }
+
+        if (! $this->hasApplied) {
+            $this->hasActiveApplication = Application::where('intern_id', auth()->id())
+                ->whereIn('status', config('app.application.active_statuses'))
+                ->exists();
         }
     }
 

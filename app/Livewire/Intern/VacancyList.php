@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Intern;
 
+use App\Models\Application;
 use App\Models\Vacancy;
 use App\Services\VacancyService;
 use Livewire\Component;
@@ -17,6 +18,8 @@ class VacancyList extends Component
 
     public $divisions = [];
 
+    public bool $hasActiveApplication = false;
+
     private VacancyService $vacancyService;
 
     public function boot(VacancyService $vacancyService): void
@@ -27,6 +30,9 @@ class VacancyList extends Component
     public function mount(): void
     {
         $this->divisions = Vacancy::where('status', 'open')->distinct()->pluck('division')->toArray();
+        $this->hasActiveApplication = Application::where('intern_id', auth()->id())
+            ->whereIn('status', config('app.application.active_statuses'))
+            ->exists();
     }
 
     public function updatingSearch(): void
