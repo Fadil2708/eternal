@@ -120,7 +120,7 @@
         function initCKEditor(selector, inputName) {
             var el = document.querySelector(selector);
             if (!el || el.dataset.ckeditorInit) return;
-            ClassicEditor.create(el, {
+            CKEDITOR.ClassicEditor.create(el, {
                 toolbar: [
                     'bold', 'italic', 'underline', '|',
                     'heading', '|',
