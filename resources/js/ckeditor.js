@@ -1,23 +1,3 @@
-import {
-    ClassicEditor,
-    Bold,
-    Italic,
-    Underline,
-    Heading,
-    List,
-    Link,
-    Alignment,
-    BlockQuote,
-    HorizontalRule,
-    Paragraph,
-    Undo,
-    Clipboard,
-    Enter,
-    Typing,
-    Delete,
-    SelectAll,
-    SourceEditing
-} from 'ckeditor5';
-import 'ckeditor5/ckeditor5.css';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 
 window.CKEDITOR = { ClassicEditor };
