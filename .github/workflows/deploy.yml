@@ -210,31 +210,60 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     steps:
-      - name: Send Discord notification
+      - name: Check webhook URL
+        id: check-webhook
         if: always()
         run: |
+          if [ -z "${{ secrets.DISCORD_WEBHOOK_URL }}" ]; then
+            echo "status=missing" >> $GITHUB_OUTPUT
+            echo "::warning::DISCORD_WEBHOOK_URL secret is not set! Discord notification will be skipped."
+          else
+            echo "status=present" >> $GITHUB_OUTPUT
+            echo "Discord webhook URL is configured (masked: $(echo '${{ secrets.DISCORD_WEBHOOK_URL }}' | sed 's/\(.\{8\}\).*/\1.../'))"
+          fi
+
+      - name: Send Discord notification
+        if: steps.check-webhook.outputs.status == 'present'
+        run: |
           DEPLOY_RESULT="${{ needs.deploy.result }}"
+          BUILD_RESULT="${{ needs.build-image.result }}"
+
+          echo "Deploy result: ${DEPLOY_RESULT}"
+          echo "Build result: ${BUILD_RESULT}"
+
           if [ "$DEPLOY_RESULT" = "success" ]; then
             COLOR=3066993
-            EMOJI=":white_check_mark:"
             TITLE="Deploy SUCCESS"
+            DESCRIPTION="Deployment to production completed successfully."
+          elif [ "$BUILD_RESULT" = "failure" ]; then
+            COLOR=15158332
+            TITLE="Deploy FAILED (Build)"
+            DESCRIPTION="Docker image build failed."
           else
             COLOR=15158332
-            EMOJI=":x:"
             TITLE="Deploy FAILED"
+            DESCRIPTION="Deployment to production failed."
           fi
 
           RUN_URL="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          COMMIT_MSG=$(echo '${{ github.event.head_commit.message }}' | head -1 | sed 's/"/\\"/g' | cut -c1-200)
 
-          curl -s -H "Content-Type: application/json" \
+          echo "Sending Discord notification..."
+          echo "Title: ${TITLE}"
+          echo "Color: ${COLOR}"
+
+          RESPONSE=$(curl -s -w "\nHTTP_CODE:%{http_code}" \
+            -H "Content-Type: application/json" \
             -d "{
               \"embeds\": [{
-                \"title\": \"${EMOJI} ${TITLE}\",
+                \"title\": \"${TITLE}\",
                 \"color\": ${COLOR},
+                \"description\": \"${DESCRIPTION}\",
                 \"fields\": [
                   {\"name\": \"Repository\", \"value\": \"${{ github.repository }}\", \"inline\": true},
                   {\"name\": \"Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
                   {\"name\": \"Author\", \"value\": \"${{ github.actor }}\", \"inline\": true},
+                  {\"name\": \"Commit\", \"value\": \"${COMMIT_MSG:-No commit message}\", \"inline\": false},
                   {\"name\": \"Image\", \"value\": \"\\\`ghcr.io/${{ github.repository }}:${{ needs.build-image.outputs.image_tag }}\\\`\", \"inline\": false},
                   {\"name\": \"Run\", \"value\": \"[View Details](${RUN_URL})\", \"inline\": false}
                 ],
@@ -242,4 +271,17 @@ jobs:
                 \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
               }]
             }" \
-            "${{ secrets.DISCORD_WEBHOOK_URL }}"
+            "${{ secrets.DISCORD_WEBHOOK_URL }}" 2>&1)
+
+          HTTP_CODE=$(echo "$RESPONSE" | grep -o 'HTTP_CODE:[0-9]*' | cut -d: -f2)
+          BODY=$(echo "$RESPONSE" | sed 's/HTTP_CODE:[0-9]*//')
+
+          echo "Discord API response code: ${HTTP_CODE}"
+          echo "Discord API response body: ${BODY}"
+
+          if [ "$HTTP_CODE" = "204" ] || [ "$HTTP_CODE" = "200" ]; then
+            echo "Discord notification sent successfully!"
+          else
+            echo "::error::Discord notification failed with HTTP ${HTTP_CODE}"
+            echo "Response: ${BODY}"
+          fi
