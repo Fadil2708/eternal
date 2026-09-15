@@ -20,6 +20,7 @@ return [
             "'nonce-{nonce}'",
             'https://cdn.jsdelivr.net',
             'https://unpkg.com',
+            'https://cdn.ckeditor.com',
         ],
         'style-src' => [
             "'self'",

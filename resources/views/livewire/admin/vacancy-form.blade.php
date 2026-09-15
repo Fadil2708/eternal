@@ -114,7 +114,6 @@
         .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
         .adx-date-wrap .input { padding-left: 42px; position: relative; z-index: 2; }
     </style>
-    @push('scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/super-build/ckeditor.js" nonce="{{ $cspNonce }}"></script>
     <script nonce="{{ $cspNonce }}">
     document.addEventListener('DOMContentLoaded', function() {
@@ -144,5 +143,4 @@
         initCKEditor('#qualifications-editor', 'qualifications');
     });
     </script>
-    @endpush
 </div>
