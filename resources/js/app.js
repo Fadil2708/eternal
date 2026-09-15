@@ -1,4 +1,5 @@
 import collapse from '@alpinejs/collapse';
+import './tiptap-editor';
 
 import registerScrollProgress from './alpine/scroll-progress';
 import registerAlertBar from './alpine/alert-bar';
