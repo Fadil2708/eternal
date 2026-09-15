@@ -117,7 +117,7 @@
             transition: color .2s ease;
         }
         .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
-        .adx-date-wrap .input { padding-left: 42px; }
+        .adx-date-wrap .input { padding-left: 42px; position: relative; z-index: 2; }
 
         trix-editor {
             width: 100%; min-height: 160px;
