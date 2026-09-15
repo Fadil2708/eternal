@@ -35,7 +35,7 @@
                         @error('quota') <div class="field-error">{{ $message }}</div> @enderror
                     </div>
                 </div>
-                <div class="field" x-data="{ ...tiptapEditor(), description: @entangle('description') }">
+                <div class="field" wire:ignore.self x-data="{ ...tiptapField('description'), description: @entangle('description') }">
                     <label>Deskripsi</label>
                     <div class="tiptap-toolbar">
                         <button type="button" @click="toggleBold()" :class="{ 'is-active': isActive('bold') }" title="Bold (Ctrl+B)"><i class="ti ti-bold"></i></button>
@@ -56,10 +56,10 @@
                         <button type="button" @click="setTextAlign('center')" :class="{ 'is-active': isActive({textAlign: 'center'}) }" title="Align Center"><i class="ti ti-align-center"></i></button>
                         <button type="button" @click="setTextAlign('right')" :class="{ 'is-active': isActive({textAlign: 'right'}) }" title="Align Right"><i class="ti ti-align-right"></i></button>
                     </div>
-                    <div wire:ignore x-ref="editor" class="tiptap-editor"></div>
+                    <div x-ref="editor" class="tiptap-editor"></div>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
-                <div class="field" x-data="{ ...tiptapEditor(), qualifications: @entangle('qualifications') }">
+                <div class="field" wire:ignore.self x-data="{ ...tiptapField('qualifications'), qualifications: @entangle('qualifications') }">
                     <label>Kualifikasi</label>
                     <div class="tiptap-toolbar">
                         <button type="button" @click="toggleBold()" :class="{ 'is-active': isActive('bold') }" title="Bold (Ctrl+B)"><i class="ti ti-bold"></i></button>
@@ -80,7 +80,7 @@
                         <button type="button" @click="setTextAlign('center')" :class="{ 'is-active': isActive({textAlign: 'center'}) }" title="Align Center"><i class="ti ti-align-center"></i></button>
                         <button type="button" @click="setTextAlign('right')" :class="{ 'is-active': isActive({textAlign: 'right'}) }" title="Align Right"><i class="ti ti-align-right"></i></button>
                     </div>
-                    <div wire:ignore x-ref="editor" class="tiptap-editor"></div>
+                    <div x-ref="editor" class="tiptap-editor"></div>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
