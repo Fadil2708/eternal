@@ -143,11 +143,6 @@
         initCKEditor('#description-editor', 'description');
         initCKEditor('#qualifications-editor', 'qualifications');
     }
-    document.getElementById('ckeditor-cdn').onload = function() {
-        initCKEditors();
-    };
-    if (window.ClassicEditor) {
-        initCKEditors();
-    }
+    initCKEditors();
     </script>
 </div>
