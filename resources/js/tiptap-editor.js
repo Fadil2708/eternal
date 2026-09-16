@@ -6,6 +6,7 @@ import Link from '@tiptap/extension-link'
 window.setupEditor = function (content) {
     let editor
     return {
+        editor: null,
         content: content,
         init(element) {
             const initialContent = this.content || element.innerHTML || ''
