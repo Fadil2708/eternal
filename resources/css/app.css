@@ -3408,6 +3408,12 @@
 .vac-text ul,.vacancy-card-desc ul,.vac-card-desc ul,.vacancy-grid .text-body ul { list-style-type:disc;padding-left:20px;margin:4px 0 }
 .vac-text ol,.vacancy-card-desc ol,.vac-card-desc ol,.vacancy-grid .text-body ol { list-style-type:decimal;padding-left:20px;margin:4px 0 }
 .vac-text li,.vacancy-card-desc li,.vac-card-desc li,.vacancy-grid .text-body li { margin:2px 0 }
+.tiptap-toolbar{display:flex;flex-wrap:wrap;gap:2px;padding:6px 8px;border:1px solid #d1d5db;border-bottom:none;border-radius:8px 8px 0 0;background:#f9fafb}
+.tiptap-toolbar button{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border:none;border-radius:4px;background:transparent;cursor:pointer;color:#374151;font-size:16px}
+.tiptap-toolbar button:hover{background:#e5e7eb}
+.tiptap-toolbar button.active{background:#dbeafe;color:#2563eb}
+.tiptap-separator{width:1px;margin:4px 4px;background:#d1d5db}
+.tiptap-editor{border:1px solid #d1d5db;border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
 .tiptap-content { outline:none;min-height:180px;padding:12px 14px;font-size:14px;line-height:1.65 }
 .tiptap-content:focus { box-shadow:0 0 0 2px var(--adx-primary,#3155e7) }
 .tiptap-content p { margin:0 0 8px }
