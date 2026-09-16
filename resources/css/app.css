@@ -3408,9 +3408,19 @@
 .vac-text ul,.vacancy-card-desc ul,.vac-card-desc ul,.vacancy-grid .text-body ul { list-style-type:disc;padding-left:20px;margin:4px 0 }
 .vac-text ol,.vacancy-card-desc ol,.vac-card-desc ol,.vacancy-grid .text-body ol { list-style-type:decimal;padding-left:20px;margin:4px 0 }
 .vac-text li,.vacancy-card-desc li,.vac-card-desc li,.vacancy-grid .text-body li { margin:2px 0 }
-.ck-content ol { list-style-type:decimal;padding-left:1.5em;margin:4px 0 }
-.ck-content ul { list-style-type:disc;padding-left:1.5em;margin:4px 0 }
-.ck-content li { display:list-item;margin:2px 0 }
+.tiptap-content { outline:none;min-height:180px;padding:12px 14px;font-size:14px;line-height:1.65 }
+.tiptap-content:focus { box-shadow:0 0 0 2px var(--adx-primary,#3155e7) }
+.tiptap-content p { margin:0 0 8px }
+.tiptap-content ul,.tiptap-content ol { padding-left:1.5em;margin:4px 0 }
+.tiptap-content ul { list-style-type:disc }
+.tiptap-content ol { list-style-type:decimal }
+.tiptap-content li { margin:2px 0 }
+.tiptap-content blockquote { border-left:3px solid #d1d5db;padding-left:12px;margin:8px 0;color:#6b7280;font-style:italic }
+.tiptap-content a { color:#3155e7;text-decoration:underline }
+.tiptap-content h1 { font-size:24px;font-weight:700;margin:12px 0 8px }
+.tiptap-content h2 { font-size:20px;font-weight:700;margin:10px 0 6px }
+.tiptap-content h3 { font-size:16px;font-weight:600;margin:8px 0 4px }
+.tiptap-content hr { border:none;border-top:1px solid #d1d5db;margin:12px 0 }
 .vac-text p,.vacancy-card-desc p,.vac-card-desc p,.vacancy-grid .text-body p { margin:0 0 4px }
 .vac-text img,.vacancy-card-desc img,.vac-card-desc img,.vacancy-grid .text-body img { display:none }
 .vacancy-card-desc h2,.vacancy-card-desc h3,.vacancy-card-desc h4,.vac-card-desc h2,.vac-card-desc h3,.vac-card-desc h4,.vacancy-grid .text-body h2,.vacancy-grid .text-body h3,.vacancy-grid .text-body h4 { font-size:12px;margin:2px 0 }
