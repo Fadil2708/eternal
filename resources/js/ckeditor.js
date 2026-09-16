@@ -2,7 +2,7 @@ import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { Bold, Italic, Underline } from '@ckeditor/ckeditor5-basic-styles';
 import { Heading } from '@ckeditor/ckeditor5-heading';
 import { Link } from '@ckeditor/ckeditor5-link';
-import { List } from '@ckeditor/ckeditor5-list';
+import { List, ListProperties } from '@ckeditor/ckeditor5-list';
 import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
 import { Undo } from '@ckeditor/ckeditor5-undo';
@@ -17,20 +17,24 @@ CustomEditor.builtinPlugins = [
     Heading,
     Link,
     List,
+    ListProperties,
     BlockQuote,
     Alignment,
     Undo
 ];
 
 CustomEditor.defaultConfig = {
-    toolbar: [
-        'bold', 'italic', 'underline', '|',
-        'heading', '|',
-        'numberedList', 'bulletedList', '|',
-        'blockQuote', 'link', '|',
-        'alignment:left', 'alignment:center', 'alignment:right', '|',
-        'undo', 'redo'
-    ],
+    licenseKey: 'GPL',
+    toolbar: {
+        items: [
+            'bold', 'italic', 'underline', '|',
+            'heading', '|',
+            'numberedList', 'bulletedList', '|',
+            'blockQuote', 'link', '|',
+            'alignment:left', 'alignment:center', 'alignment:right', '|',
+            'undo', 'redo'
+        ]
+    },
     heading: {
         options: [
             { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -38,6 +42,13 @@ CustomEditor.defaultConfig = {
             { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
         ]
+    },
+    list: {
+        properties: {
+            styles: true,
+            startIndex: true,
+            reversed: true
+        }
     },
     language: 'id',
 };
