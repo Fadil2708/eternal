@@ -12,13 +12,15 @@
             const self = this;
             const el = this.$refs.editor;
             function boot() {
-                if (typeof window.setupEditor !== 'function') {
+                if (typeof window.createTiptapEditor !== 'function') {
                     requestAnimationFrame(boot);
                     return;
                 }
-                const data = window.setupEditor(self.content);
-                self.editor = data.editor;
-                if (data.init) data.init.call(self, el);
+                self.editor = window.createTiptapEditor(
+                    el,
+                    self.content || el.innerHTML,
+                    (html) => { self.content = html; }
+                );
             }
             boot();
         },
@@ -31,6 +33,7 @@
         }
     }"
     wire:ignore
+    x-ignore
     {{ $attributes->whereDoesntStartWith('wire:model') }}
 >
     <div class="tiptap-toolbar">

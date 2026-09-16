@@ -3,42 +3,29 @@ import StarterKit from '@tiptap/starter-kit'
 import TextAlign from '@tiptap/extension-text-align'
 import Link from '@tiptap/extension-link'
 
-window.setupEditor = function (content) {
-    let editor
-    return {
-        editor: null,
-        content: content,
-        init(element) {
-            const initialContent = this.content || element.innerHTML || ''
-            editor = new Editor({
-                element: element,
-                extensions: [
-                    StarterKit.configure({
-                        heading: { levels: [1, 2, 3] },
-                    }),
-                    TextAlign.configure({
-                        types: ['heading', 'paragraph'],
-                    }),
-                    Link.configure({
-                        openOnClick: false,
-                        HTMLAttributes: { class: 'tiptap-link' },
-                    }),
-                ],
-                content: initialContent,
-                editorProps: {
-                    attributes: {
-                        class: 'tiptap-content',
-                    },
-                },
-                onUpdate: ({ editor: e }) => {
-                    this.content = e.getHTML()
-                },
-            })
-
-            this.$watch('content', (val) => {
-                if (!val || val === editor.getHTML()) return
-                editor.commands.setContent(val, false)
-            })
+window.createTiptapEditor = function (element, content, onUpdate) {
+    return new Editor({
+        element,
+        extensions: [
+            StarterKit.configure({
+                heading: { levels: [1, 2, 3] },
+            }),
+            TextAlign.configure({
+                types: ['heading', 'paragraph'],
+            }),
+            Link.configure({
+                openOnClick: false,
+                HTMLAttributes: { class: 'tiptap-link' },
+            }),
+        ],
+        content: content || '',
+        editorProps: {
+            attributes: {
+                class: 'tiptap-content',
+            },
         },
-    }
+        onUpdate: ({ editor }) => {
+            if (onUpdate) onUpdate(editor.getHTML())
+        },
+    })
 }
