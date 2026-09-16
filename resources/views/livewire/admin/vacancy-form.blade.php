@@ -37,12 +37,12 @@
                 </div>
                 <div class="field">
                     <label>Deskripsi</label>
-                    <x-editor wire:model.live="description" />
+                    <x-editor wire:model.live="description">{!! $description !!}</x-editor>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="field">
                     <label>Kualifikasi</label>
-                    <x-editor wire:model.live="qualifications" />
+                    <x-editor wire:model.live="qualifications">{!! $qualifications !!}</x-editor>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">

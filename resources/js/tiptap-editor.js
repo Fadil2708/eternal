@@ -8,6 +8,7 @@ window.setupEditor = function (content) {
     return {
         content: content,
         init(element) {
+            const initialContent = this.content || element.innerHTML || ''
             editor = new Editor({
                 element: element,
                 extensions: [
@@ -22,7 +23,7 @@ window.setupEditor = function (content) {
                         HTMLAttributes: { class: 'tiptap-link' },
                     }),
                 ],
-                content: this.content,
+                content: initialContent,
                 editorProps: {
                     attributes: {
                         class: 'tiptap-content',
@@ -34,7 +35,7 @@ window.setupEditor = function (content) {
             })
 
             this.$watch('content', (val) => {
-                if (val === editor.getHTML()) return
+                if (!val || val === editor.getHTML()) return
                 editor.commands.setContent(val, false)
             })
         },

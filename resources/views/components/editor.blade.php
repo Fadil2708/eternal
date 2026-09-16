@@ -10,5 +10,5 @@
     wire:ignore
     {{ $attributes->whereDoesntStartWith('wire:model') }}
 >
-    <div x-ref="editor" class="tiptap-editor"></div>
+    <div x-ref="editor" class="tiptap-editor">{!! $slot !!}</div>
 </div>
