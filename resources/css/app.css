@@ -7406,3 +7406,38 @@ textarea.input { resize: vertical; line-height: 1.6; }
     .adx-select-sm { width: 100%; min-width: 0; }
 }
 
+/* ── CKEditor 5 v48 overrides (after Tailwind) ──────────────── */
+.ck.ck-editor {
+    --ck-icon-size: 20px;
+}
+.ck .ck-editor__top .ck-toolbar {
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #E8E4DF;
+    border-bottom: none;
+    background: #F9FAFB;
+}
+.ck .ck-editor__inner {
+    border: 1px solid #E8E4DF;
+    border-radius: 0 0 8px 8px;
+}
+.ck .ck-editor__editable {
+    min-height: 200px;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.ck .ck-editor__editable:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+.ck .ck-toolbar .ck-toolbar__items {
+    flex-wrap: nowrap;
+    gap: 2px;
+}
+.ck .ck-toolbar__separator {
+    width: 1px;
+    height: 20px;
+    background: #D6D3CE;
+    margin: 0 4px;
+}
+
