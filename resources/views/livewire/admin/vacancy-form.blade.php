@@ -125,7 +125,7 @@
                     'bold', 'italic', 'underline', '|',
                     'heading', '|',
                     'numberedList', 'bulletedList', '|',
-                    'blockQuote', 'horizontalRule', 'link', '|',
+                    'blockQuote', 'link', '|',
                     'alignment:left', 'alignment:center', 'alignment:right', '|',
                     'undo', 'redo'
                 ]
