@@ -18,7 +18,5 @@
         </p>
     </div>
 
-    <script nonce="{{ $cspNonce }}">
-        setTimeout(() => window.location.href = '{{ route('login') }}', 2000);
-    </script>
+    <meta http-equiv="refresh" content="2;url={{ route('login') }}">
 </x-guest-layout>

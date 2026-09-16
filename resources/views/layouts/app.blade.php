@@ -239,60 +239,6 @@
 
 @vite(['resources/js/auth.js'])
 
-{{-- INISIALISASI LOGIKA ALPINE UNTUK TOAST & MODAL --}}
-<script nonce="{{ $cspNonce }}">
-    document.addEventListener('alpine:init', () => {
-        
-        // 1. Komponen Toast Stack
-        Alpine.data('toastStack', (initialToasts = []) => ({
-            toasts: initialToasts,
-            add(event) {
-                // Menangkap event dari @toast.window
-                const toastId = Date.now();
-                const detail = event.detail || {};
-                
-                this.toasts.push({
-                    id: toastId,
-                    message: detail.message || 'Berhasil',
-                    type: detail.type || 'success'
-                });
-
-                // Hapus otomatis setelah 3 detik
-                setTimeout(() => {
-                    this.remove(toastId);
-                }, 3000);
-            },
-            remove(id) {
-                this.toasts = this.toasts.filter(toast => toast.id !== id);
-            }
-        }));
-
-        // 2. Komponen Confirm Modal
-        Alpine.data('confirmModal', () => ({
-            open: false,
-            message: '',
-            callbackEvent: null,
-
-            show(message, callback) {
-                this.message = message;
-                this.callbackEvent = callback;
-                this.open = true;
-            },
-            confirm() {
-                if (this.callbackEvent) {
-                    // Triggers the Livewire action/event if passed
-                    window.Livewire?.dispatch(this.callbackEvent); 
-                }
-                this.open = false;
-            },
-            cancel() {
-                this.open = false;
-            }
-        }));
-
-    });
-</script>
-
 @stack('scripts')
 @livewireScripts
 
