@@ -7,6 +7,7 @@ import { BlockQuote } from '@ckeditor/ckeditor5-block-quote';
 import { Alignment } from '@ckeditor/ckeditor5-alignment';
 import { Undo } from '@ckeditor/ckeditor5-undo';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+import 'ckeditor5/ckeditor5.css';
 
 class CustomEditor extends ClassicEditor {}
 CustomEditor.builtinPlugins = [
