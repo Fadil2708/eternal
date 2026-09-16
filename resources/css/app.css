@@ -7407,8 +7407,12 @@ textarea.input { resize: vertical; line-height: 1.6; }
 }
 
 /* ── CKEditor 5 v48 overrides (after Tailwind) ──────────────── */
+.ck svg {
+    display: inline !important;
+    vertical-align: middle !important;
+}
 .ck.ck-editor {
-    --ck-icon-size: 20px;
+    --ck-icon-size: 20px !important;
 }
 .ck .ck-editor__top .ck-toolbar {
     border-radius: 8px 8px 0 0;

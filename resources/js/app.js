@@ -1,3 +1,4 @@
+import 'ckeditor5/ckeditor5.css';
 import collapse from '@alpinejs/collapse';
 
 import registerScrollProgress from './alpine/scroll-progress';
