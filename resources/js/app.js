@@ -107,4 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
     ).forEach(el => observer.observe(el));
 });
 
-import './tiptap-editor.js';
+window.loadCKEditor = function() {
+    return import('./ckeditor.js');
+};

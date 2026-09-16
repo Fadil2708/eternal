@@ -37,12 +37,18 @@
                 </div>
                 <div class="field">
                     <label>Deskripsi</label>
-                    <x-editor wire:model.live="description">{!! $description !!}</x-editor>
+                    <input type="hidden" wire:model.live="description" name="description">
+                    <div wire:ignore>
+                        <textarea id="description-editor">{{ $description }}</textarea>
+                    </div>
                     @error('description') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="field">
                     <label>Kualifikasi</label>
-                    <x-editor wire:model.live="qualifications">{!! $qualifications !!}</x-editor>
+                    <input type="hidden" wire:model.live="qualifications" name="qualifications">
+                    <div wire:ignore>
+                        <textarea id="qualifications-editor">{{ $qualifications }}</textarea>
+                    </div>
                     @error('qualifications') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-row-3">
@@ -108,4 +114,44 @@
         .adx-date-wrap:focus-within .adx-date-icon { color: var(--primary, #3b82f6); }
         .adx-date-wrap .input { padding-left: 42px; position: relative; z-index: 2; }
     </style>
+    @script
+    <script nonce="{{ $cspNonce }}">
+    (function() {
+        function initEditor(selector, inputName) {
+            var el = document.querySelector(selector);
+            if (!el || el.dataset.ckeditorInit) return;
+            window.CKEDITOR.ClassicEditor.create(el, {
+                toolbar: [
+                    'bold', 'italic', 'underline', '|',
+                    'heading', '|',
+                    'numberedList', 'bulletedList', '|',
+                    'blockQuote', 'link', '|',
+                    'alignment:left', 'alignment:center', 'alignment:right', '|',
+                    'undo', 'redo'
+                ]
+            }).then(function(editor) {
+                el.dataset.ckeditorInit = '1';
+                editor.model.document.on('change:data', function() {
+                    var input = document.querySelector('input[name="' + inputName + '"]');
+                    if (input) {
+                        input.value = editor.getData();
+                        input.dispatchEvent(new Event('input', { bubbles: true }));
+                    }
+                });
+            });
+        }
+
+        function boot() {
+            initEditor('#description-editor', 'description');
+            initEditor('#qualifications-editor', 'qualifications');
+        }
+
+        if (window.CKEDITOR) {
+            boot();
+        } else {
+            window.loadCKEditor().then(boot);
+        }
+    })();
+    </script>
+    @endscript
 </div>
