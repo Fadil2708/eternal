@@ -5,6 +5,7 @@ namespace App\Livewire\Admin;
 use App\Models\Application;
 use App\Models\Vacancy;
 use App\Services\ApplicationService;
+use Livewire\Attributes\Url;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -14,6 +15,7 @@ class ApplicationReview extends Component
 
     public string $filterStatus = '';
 
+    #[Url]
     public string $filterVacancy = '';
 
     public array $statusCounts = [];
