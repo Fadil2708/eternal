@@ -27,6 +27,7 @@ use App\Livewire\Admin\SupervisorMapping;
 use App\Livewire\Admin\TestimonialList;
 use App\Livewire\Admin\UserForm;
 use App\Livewire\Admin\UserList;
+use App\Livewire\Admin\VacancyDetail as AdminVacancyDetail;
 use App\Livewire\Admin\VacancyForm;
 use App\Livewire\Admin\VacancyList;
 use App\Livewire\Intern\ApplicationForm;
@@ -64,6 +65,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/vacancies', VacancyList::class)->name('vacancies.index');
         Route::get('/vacancies/create', VacancyForm::class)->name('vacancies.create');
         Route::get('/vacancies/{id}/edit', VacancyForm::class)->name('vacancies.edit');
+        Route::get('/vacancies/{vacancyId}', AdminVacancyDetail::class)->name('vacancies.show');
         Route::get('/applications', ApplicationReview::class)->name('applications.index');
         Route::get('/applications/{id}', ApplicationDetail::class)->name('applications.show');
         Route::get('/applications/{id}/file/{type}', [ApplicationController::class, 'downloadFile'])->name('applications.file');

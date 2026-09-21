@@ -118,6 +118,9 @@
                         </td>
                         <td class="text-right">
                             <div class="adx-actions">
+                                <a href="{{ route('admin.vacancies.show', $v->id) }}" wire:navigate class="adx-action" title="Lihat Detail">
+                                    <i class="ti ti-eye"></i>
+                                </a>
                                 <a href="{{ route('admin.vacancies.edit', $v->id) }}" wire:navigate class="adx-action" title="Edit">
                                     <i class="ti ti-pencil"></i>
                                 </a>
